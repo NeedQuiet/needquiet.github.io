@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://daning.netlify.app</id>
     <title>鼓捣猫宁</title>
-    <updated>2020-09-07T10:36:07.818Z</updated>
+    <updated>2020-09-07T10:42:48.416Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://daning.netlify.app"/>
     <link rel="self" href="https://daning.netlify.app/atom.xml"/>
@@ -21,26 +21,29 @@
         <content type="html"><![CDATA[<p>Gridea 是一个静态博客写作客户端，它对比Jekyll、Hexo搭建博客的优势就在于拥有一个独有的客户端，不需要把注意力放在UI的配置上，只需要进行简单的配置即可迅速上手搭建个人博客！</p>
 <!-- more -->
 <h2 id="github-pages简介">Github Pages简介</h2>
-<p><a href="#https://pages.github.com/">Github Pages官网</a></p>
+<p><a href="https://pages.github.com/">Github Pages官网</a></p>
 <p>Github Pages是一个静态站点托管服务，也就是说你完全可以随便做一个静态网页，来展示你要的东西，最重要的一点，它是免费的！😏</p>
 <p>Github Pages也有自己的主题，如果不依赖其他工具去搭建blog也是可以的，<a href="#https://sspai.com/post/54608">GitHub Pages 搭建教程</a>，没尝试过，不做评价；</p>
 <h2 id="gridea">Gridea</h2>
-<p>官网：<a href="#https://gridea.dev/">Gridea官网</a></p>
-<p>主题：<a href="#https://gridea.dev/themes/">Gridea主题</a></p>
+<p>官网：<a href="https://gridea.dev/">Gridea官网</a></p>
+<p>主题：<a href="https://gridea.dev/themes/">Gridea主题</a></p>
 <h2 id="步骤">步骤</h2>
 <ul>
 <li>
-<p>详细过程：<a href="#https://gridea.dev/#started">官方教程</a></p>
+<p>详细过程：<a href="https://gridea.dev/#started">官方教程</a></p>
 </li>
 <li>
 <p>大体过程：</p>
 <ol>
-<li>下载<a href="#https://gridea.dev/#started">Gridea客户端</a></li>
+<li>下载<a href="https://gridea.dev/#started">Gridea客户端</a></li>
 <li>创建Github Token，路径：Setting -&gt; Developer settings -&gt; Personal access tokens -&gt; Generate new token; 创建完成后记得保存，如果推出当前页面，token就再也看不到了！</li>
 <li>在客户端里配置Github信息；</li>
 </ol>
 </li>
 </ul>
+<h2 id="netlify加速">Netlify加速</h2>
+<p>如果需要使用Netlify的CDN加速，并免费自定义域名<br>
+可以参考：<a href="https://daning.netlify.app/post/howtousenetlify/">使用Netlify加速Github Pages访问速度(Jekyll)</a></p>
 ]]></content>
     </entry>
     <entry>
