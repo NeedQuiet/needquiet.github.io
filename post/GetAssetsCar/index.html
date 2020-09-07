@@ -4,7 +4,7 @@
 <meta name="description" content=""/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 
-<title>喜欢 | 鼓捣猫宁</title>
+<title>获取APP图片资源(破解Assets.car) | 鼓捣猫宁</title>
 
 <link rel="shortcut icon" href="https://needquiet.github.io/favicon.ico?v=1599470610681">
 
@@ -25,11 +25,11 @@
 
 
 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.css">
 </head>
 <body>
 <div class="main gt-bg-theme-color-first">
-    <div class="main-content">
-        <nav class="navbar navbar-expand-lg">
+    <nav class="navbar navbar-expand-lg">
     <div class="navbar-brand">
         <img class="user-avatar" src="/images/avatar.png" alt="头像">
         <div class="site-name gt-c-content-color-first">
@@ -85,50 +85,89 @@
     </div>
 </nav>
 
-        <div class="current-tag-container">
-            <h2 class="title gt-c-content-color-first">
-                #喜欢
-            </h2>
-        </div>
-        <div class="post-list-container">
-    <div class="post-inner">
-        
-            <div class="post gt-bg-theme-color-second">
-                <div class="post-left">
-                    <div>
-                        
-                        <a href="https://needquiet.github.io/post/GoodSentences/">
-                            <span class="post-title gt-c-content-color-first">喜欢的文案</span>
+    <div class="post-container">
+        <div class="post-detail gt-bg-theme-color-second">
+            <article class="gt-post-content">
+                <h2 class="post-title">
+                    获取APP图片资源(破解Assets.car)
+                </h2>
+                <div class="post-info">
+                    <time class="post-time gt-c-content-color-first">
+                        · 2020-07-03 ·
+                    </time>
+                    
+                        <a href="https://needquiet.github.io/tag/VYkxi25Yw/" class="post-tags">
+                            # Tool
                         </a>
-                    </div>
-                    <div class="gt-post-content post-abstract gt-c-content-color-second">
-                        <p>记录一些平时看到的，喜欢的或者有意义的句子。可能来自各种小说、知乎、逗图、抖音等等。</p>
-
-                    </div>
-                    <div class="post-info">
-                        <time class="post-time gt-c-content-color-first">
-                            发布于 · 2020-01-13 ·
-                        </time>
-                        
-                            <a href="https://needquiet.github.io/tag/xvUj8X0B4/" class="post-tag">
-                                # 喜欢
-                            </a>
-                        
-                    </div>
+                    
                 </div>
-                
-                    <a href="https://needquiet.github.io/post/GoodSentences/" class="post-feature-image"
-                       style="background-image: url('https://needquiet.github.io/post-images/GoodSentences.jpg')">
-                    </a>
-                
+                <div class="post-content">
+                    <p>在借鉴(抄袭)或学习一个APP的时候，总是情不自禁的想直接使用人家的图片资源，在拿到iPA或者在MAC下的应用程序里，图片资源一般是<code>Assets.car</code>，这里我们介绍下如何打开这个文件</p>
+<!-- more -->
+<h2 id="工具">工具</h2>
+<p>cartool：<a href="https://github.com/steventroughtonsmith/cartool">Github地址</a></p>
+<h2 id="使用方式">使用方式</h2>
+<p>很简单，download到本地后，按照以下步骤，即可直接运行程序获取图片资源:</p>
+<ol>
+<li>找到 cartool -&gt; Edit Scheme -&gt; Run -&gt; Arguments</li>
+<li>在 Ayguments Passed On Launch 配置如下参数：<br>
+<img src="https://s1.ax1x.com/2020/09/07/wuyu8A.png" alt="拖拽" loading="lazy"><br>
+<em><code>第一个是Assets.car文件路径，第二个是图片文件输出的文件夹路径</code></em><br>
+<img src="https://s1.ax1x.com/2020/09/07/wuyMvt.png" alt="参数" loading="lazy"></li>
+<li>运行程序，完成破解</li>
+</ol>
+<h2 id="运行报错">运行报错</h2>
+<p><strong>在macOS系统上，有时可能会报错</strong></p>
+<figure data-type="image" tabindex="1"><img src="https://s1.ax1x.com/2020/09/07/wuylKP.png" alt="报错" loading="lazy"></figure>
+<p><strong>按照以下方式修改即可</strong></p>
+<ol>
+<li>添加初始化方法<br>
+<img src="https://s1.ax1x.com/2020/09/07/wuydvq.png" alt="示例" loading="lazy"></li>
+</ol>
+<pre><code class="language-objectivec">-(id)initWithURL:(NSURL *)URL error:(NSError **)error;
+</code></pre>
+<ol start="2">
+<li>修改代码<br>
+<img src="../images/AssetsCar/fixError2.png" alt="示例" loading="lazy"></li>
+</ol>
+<pre><code class="language-objc">//	CUIThemeFacet *facet = [CUIThemeFacet themeWithContentsOfURL:[NSURL fileURLWithPath:carPath] error:&amp;error];
+//
+//	CUICatalog *catalog = [[CUICatalog alloc] init];
+//
+//	/* Override CUICatalog to point to a file rather than a bundle */
+//	[catalog setValue:facet forKey:@&quot;_storageRef&quot;];
+	
+    CUICatalog *catalog = nil;
+    if ([CUICatalog instancesRespondToSelector:@selector(initWithURL:error:)]) {
+        /* If CUICatalog has the URL API (Mojave), use it. */
+        catalog = [[CUICatalog alloc] initWithURL:[NSURL fileURLWithPath:carPath] error:&amp;error];
+    } else {
+        CUIThemeFacet *facet = [CUIThemeFacet themeWithContentsOfURL:[NSURL fileURLWithPath:carPath] error:&amp;error];
+        catalog = [[CUICatalog alloc] init];
+        /* Override CUICatalog to point to a file rather than a bundle */
+        [catalog setValue:facet forKey:@&quot;_storageRef&quot;];
+    }
+    NSCAssert(!error, @&quot;Error attempting to open asset catalog (%@): %@&quot;, carPath, error);
+</code></pre>
+
+                </div>
+            </article>
+        </div>
+
+        
+            <div class="next-post">
+                <div class="next gt-c-content-color-first">下一篇</div>
+                <a href="https://needquiet.github.io/post/HowToUseCharles/" class="post-title gt-a-link">
+                    Charles抓包工具介绍
+                </a>
             </div>
         
-    </div>
-</div>
-        <div class="pagination-container">
-    
-    
-</div>
+
+        
+
+        
+
+        
 
         <div class="site-footer gt-c-content-color-first">
     <div class="slogan gt-c-content-color-first">梧高凤必至，花香蝶自来</div>

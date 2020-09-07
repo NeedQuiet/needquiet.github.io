@@ -4,7 +4,7 @@
 <meta name="description" content=""/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 
-<title>Xcode利用shell更改build号 | 鼓捣猫宁</title>
+<title>Charles抓包工具介绍 | 鼓捣猫宁</title>
 
 <link rel="shortcut icon" href="https://needquiet.github.io/favicon.ico?v=1599470610681">
 
@@ -89,33 +89,78 @@
         <div class="post-detail gt-bg-theme-color-second">
             <article class="gt-post-content">
                 <h2 class="post-title">
-                    Xcode利用shell更改build号
+                    Charles抓包工具介绍
                 </h2>
                 <div class="post-info">
                     <time class="post-time gt-c-content-color-first">
-                        · 2020-03-19 ·
+                        · 2020-05-18 ·
                     </time>
                     
-                        <a href="https://needquiet.github.io/tag/nKfqlyX-m/" class="post-tags">
-                            # shell
-                        </a>
-                    
-                        <a href="https://needquiet.github.io/tag/ld35A2DOVM/" class="post-tags">
-                            # Xcode
+                        <a href="https://needquiet.github.io/tag/VYkxi25Yw/" class="post-tags">
+                            # Tool
                         </a>
                     
                 </div>
                 <div class="post-content">
-                    <p>编译iOS项目时，也许会遇到自动更改build号这样的需求，用来上架或其他用途。</p>
+                    <p>Charles(青花瓷)是HTTP的抓包工具，可以有效地获取HTTP通信信息；此文章使用的是Charles V4.5.6版本</p>
 <!-- more -->
+<p>首先展示一下Charles的页面<br>
+<img src="https://s1.ax1x.com/2020/09/07/wur5S1.png" alt="示例" loading="lazy"></p>
+<h1 id="安装">安装</h1>
+<p>安装教程可参考：<a href="http://www.pc6.com/mac/137987.html">链接</a></p>
+<p>Charles下载：</p>
+<ul>
+<li><a href="http://m6.pc6.com/xuh6/Charles456.zip">原下载地址</a></li>
+<li><a href="https://pan.baidu.com/s/14yPJssKhyEh2F44BogkxZA">百度云</a> 密码:a999</li>
+</ul>
+<h2 id="安装步骤">安装步骤</h2>
+<ol>
+<li>按照上述安装包下载后，即可获取破解版的dmg文件</li>
+<li>安装完成后打开Charles，在上方菜单栏的“Help”选择“Register Charles”，会弹出一个Charles for Mac注册界面。<br>
+<img src="https://s1.ax1x.com/2020/09/07/wuroy6.png" alt="示例" loading="lazy"></li>
+<li>打开解压文件夹中的“keygen.jar”</li>
+<li>在运行后的“keygen.jar”上输入“orsoon”然后点击“Generate”生成Charles注册码</li>
+<li>然后将生成的charles注册码复制到注册界面的对应位置上，再点击“Register”。<br>
+<img src="https://s1.ax1x.com/2020/09/07/wurHeO.png" alt="示例" loading="lazy"></li>
+<li>之后会提示注册完成，到这里就可以开始免费使用Charles了。</li>
+</ol>
 <blockquote>
-<p>利用python或者shell脚本都可以做到这点，这里简述shell脚本使用方式</p>
+<p>注意！：在第3步时，可能会提示<code>您需要安装JDK才能使用“java”命令行工具</code>，最简单的安装方式如下：</p>
 </blockquote>
-<p><code>使用方法：</code> Build Phases里增加一个Run Script即可</p>
-<pre><code class="language-shell">plist=${INFOPLIST_FILE}
-buildNumber=$(date +%Y%m%d%H%M)
-/usr/libexec/PlistBuddy -c &quot;Set :CFBundleVersion $buildNumber&quot; &quot;$INFOPLIST_FILE&quot;
+<pre><code class="language-shell">brew cask install oracle-jdk
 </code></pre>
+<p>当然也可以去<a href="https://www.oracle.com/java/technologies/javase-downloads.html">官网</a>下载JDK</p>
+<h1 id="使用方式">使用方式</h1>
+<p>在此介绍一下如何用Charles抓取手机上的https请求; 参考：<a href="https://www.jianshu.com/p/71dcc417c95a">链接</a></p>
+<h2 id="第一步安装charles证书到mac">第一步：安装Charles证书到Mac</h2>
+<ol>
+<li>启动Charles，选择Help--&gt;SSL Proxying→Install Charles Root Certificate，此时会自动在钥匙串里安装证书</li>
+<li>在钥匙串中找到证书Charles Proxy CA，然后双击或者右键显示简介，点开<code>信任</code>选项，选择<code>始终信任</code><br>
+<img src="https://s1.ax1x.com/2020/09/07/wurqTe.png" alt="示例" loading="lazy"></li>
+<li>移动复制该证书到“系统”里面。此时电脑端的证书就配置完毕了！</li>
+</ol>
+<h2 id="第二步设置https端口抓包">第二步：设置HTTPS端口抓包</h2>
+<ol>
+<li>点击Charles--&gt;Proxy--&gt;SSL Proxying Settings，点击&quot;Enable SSL Proxying&quot;,点击“Add”</li>
+<li>Host填通配符 <code>*</code> ，Port填通用端口 <code>443</code><br>
+<img src="https://s1.ax1x.com/2020/09/07/wurXYd.png" alt="示例" loading="lazy"></li>
+</ol>
+<h2 id="第三步安装charles证书到手机">第三步：安装Charles证书到手机</h2>
+<ol>
+<li>首先查看电脑IP地址，点击Charles--&gt;Help→Local IP Address；<br>也可以在网络偏好设置里看；<br>也可以命令行 <code>fconfig en0</code>查看;</li>
+<li>手机必须和电脑在同一个Wi-Fi下，然后到wifi详情里，选择配置代理</li>
+<li>将代理模式改为<code>手动</code>，填入对应<code>ip</code>，端口号默认<code>8888</code><br>
+<img src="https://s1.ax1x.com/2020/09/07/wurzlt.png" alt="示例" loading="lazy"></li>
+<li>此时会弹出提示，点击<code>Allow</code><br>
+<img src="https://s1.ax1x.com/2020/09/07/wusS6P.png" alt="示例" loading="lazy"></li>
+<li>然后打开Safari浏览器，访问：chls.pro/ssl，下载证书<br>
+<img src="https://s1.ax1x.com/2020/09/07/wusEfs.png" alt="示例" loading="lazy"></li>
+<li>然后再设置--&gt;通用→描述文件，安装刚下载好的文件<br>
+<img src="https://s1.ax1x.com/2020/09/07/wus3tJ.png" alt="示例" loading="lazy"></li>
+<li>安装完成后，点击 设置--&gt;通用→关于本机，下拉到底部，点击证书 信任设置，把刚信任开关打开。<br>
+<img src="https://s1.ax1x.com/2020/09/07/wus8h9.png" alt="示例" loading="lazy"></li>
+<li>大功告成，此时你就可以愉快的抓HTTPS的包了。</li>
+</ol>
 
                 </div>
             </article>
@@ -124,8 +169,8 @@ buildNumber=$(date +%Y%m%d%H%M)
         
             <div class="next-post">
                 <div class="next gt-c-content-color-first">下一篇</div>
-                <a href="https://needquiet.github.io/post/XcodeRunScriptShell/" class="post-title gt-a-link">
-                    Xcode利用shell编译sdk
+                <a href="https://needquiet.github.io/post/GitBookPlugin/" class="post-title gt-a-link">
+                    GitBook常用插件
                 </a>
             </div>
         
