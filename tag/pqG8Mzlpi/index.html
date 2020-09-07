@@ -4,7 +4,7 @@
 <meta name="description" content=""/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 
-<title>Xcode | 鼓捣猫宁</title>
+<title>MacOS | 鼓捣猫宁</title>
 
 <link rel="shortcut icon" href="https://needquiet.github.io/favicon.ico?v=1599471170444">
 
@@ -87,7 +87,7 @@
 
         <div class="current-tag-container">
             <h2 class="title gt-c-content-color-first">
-                #Xcode
+                #MacOS
             </h2>
         </div>
         <div class="post-list-container">
@@ -97,21 +97,21 @@
                 <div class="post-left">
                     <div>
                         
-                        <a href="https://needquiet.github.io/post/XcodeLocalizaions/">
-                            <span class="post-title gt-c-content-color-first">iOS给项目添加多语种</span>
+                        <a href="https://needquiet.github.io/post/ListenKeyboardEvent/">
+                            <span class="post-title gt-c-content-color-first">Mac监听键盘点击</span>
                         </a>
                     </div>
                     <div class="gt-post-content post-abstract gt-c-content-color-second">
-                        <p>给项目添加多语种时，如果嫌手动添加麻烦，可以尝试此文章方法</p>
+                        <p>总结了Swift中，暂时发现的3种键盘(鼠标)点击的监听方式</p>
 
                     </div>
                     <div class="post-info">
                         <time class="post-time gt-c-content-color-first">
-                            发布于 · 2020-05-14 ·
+                            发布于 · 2020-08-28 ·
                         </time>
                         
-                            <a href="https://needquiet.github.io/tag/ld35A2DOVM/" class="post-tag">
-                                # Xcode
+                            <a href="https://needquiet.github.io/tag/pqG8Mzlpi/" class="post-tag">
+                                # MacOS
                             </a>
                         
                     </div>
@@ -123,25 +123,23 @@
                 <div class="post-left">
                     <div>
                         
-                        <a href="https://needquiet.github.io/post/UseShChangeVersion/">
-                            <span class="post-title gt-c-content-color-first">Xcode利用shell更改build号</span>
+                        <a href="https://needquiet.github.io/post/TableViewMenuRightClick/">
+                            <span class="post-title gt-c-content-color-first">NSMenu右键后，或者拖入文件时，cell的边框和下划线处理</span>
                         </a>
                     </div>
                     <div class="gt-post-content post-abstract gt-c-content-color-second">
-                        <p>编译iOS项目时，也许会遇到自动更改build号这样的需求，用来上架或其他用途。</p>
+                        <p>我们在配合使用 NSTableView/NSOutlineView 和 NSmenu 的时候，会发现右键cell时，会多出一个蓝色的边框;<br><br>
+拖入文件到tableview里时，cell上也会多出一个下划线;<br><br>
+这里介绍如何拦截并修改它们</p>
 
                     </div>
                     <div class="post-info">
                         <time class="post-time gt-c-content-color-first">
-                            发布于 · 2020-03-19 ·
+                            发布于 · 2020-07-24 ·
                         </time>
                         
-                            <a href="https://needquiet.github.io/tag/nKfqlyX-m/" class="post-tag">
-                                # shell
-                            </a>
-                        
-                            <a href="https://needquiet.github.io/tag/ld35A2DOVM/" class="post-tag">
-                                # Xcode
+                            <a href="https://needquiet.github.io/tag/pqG8Mzlpi/" class="post-tag">
+                                # MacOS
                             </a>
                         
                     </div>
@@ -153,25 +151,73 @@
                 <div class="post-left">
                     <div>
                         
-                        <a href="https://needquiet.github.io/post/XcodeRunScriptShell/">
-                            <span class="post-title gt-c-content-color-first">Xcode利用shell编译sdk</span>
+                        <a href="https://needquiet.github.io/post/CustomNSSlider/">
+                            <span class="post-title gt-c-content-color-first">自定义NSSlider</span>
                         </a>
                     </div>
                     <div class="gt-post-content post-abstract gt-c-content-color-second">
-                        <p>Xcode编译工程的时候，可以在Build Phases里增加Run Script脚本，用来打包SDK、运行Python修改工程信息或者其他功能，这里简单介绍一下使用Shell脚本来辅助打包SDK的相关知识；</p>
+                        <p>见名知意，本文介绍如何自定义NSSlider</p>
 
                     </div>
                     <div class="post-info">
                         <time class="post-time gt-c-content-color-first">
-                            发布于 · 2020-01-19 ·
+                            发布于 · 2020-07-22 ·
                         </time>
                         
-                            <a href="https://needquiet.github.io/tag/nKfqlyX-m/" class="post-tag">
-                                # shell
+                            <a href="https://needquiet.github.io/tag/pqG8Mzlpi/" class="post-tag">
+                                # MacOS
                             </a>
                         
-                            <a href="https://needquiet.github.io/tag/ld35A2DOVM/" class="post-tag">
-                                # Xcode
+                    </div>
+                </div>
+                
+            </div>
+        
+            <div class="post gt-bg-theme-color-second">
+                <div class="post-left">
+                    <div>
+                        
+                        <a href="https://needquiet.github.io/post/MacCloseAndReopen/">
+                            <span class="post-title gt-c-content-color-first">MacOS关闭按钮与Reopen</span>
+                        </a>
+                    </div>
+                    <div class="gt-post-content post-abstract gt-c-content-color-second">
+                        <p>在点击Window上的Close按钮后，再在dock栏里重新选中软件，这时软件的各种状态都会重置，一些设置的unowned的地方甚至会crash，这相当于一个半成品的reopen；<code>我们需要的是点击关闭按钮并不会杀掉软件，而是隐藏起来，点击后展示之前软件的显示状态</code>；</p>
+
+                    </div>
+                    <div class="post-info">
+                        <time class="post-time gt-c-content-color-first">
+                            发布于 · 2020-07-21 ·
+                        </time>
+                        
+                            <a href="https://needquiet.github.io/tag/pqG8Mzlpi/" class="post-tag">
+                                # MacOS
+                            </a>
+                        
+                    </div>
+                </div>
+                
+            </div>
+        
+            <div class="post gt-bg-theme-color-second">
+                <div class="post-left">
+                    <div>
+                        
+                        <a href="https://needquiet.github.io/post/MacOSCustomTitleBar/">
+                            <span class="post-title gt-c-content-color-first">MacOS自定义TitleBar</span>
+                        </a>
+                    </div>
+                    <div class="gt-post-content post-abstract gt-c-content-color-second">
+                        <p>简单介绍MacOS开发中如何自定义TitleBar</p>
+
+                    </div>
+                    <div class="post-info">
+                        <time class="post-time gt-c-content-color-first">
+                            发布于 · 2020-07-03 ·
+                        </time>
+                        
+                            <a href="https://needquiet.github.io/tag/pqG8Mzlpi/" class="post-tag">
+                                # MacOS
                             </a>
                         
                     </div>

@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://needquiet.github.io</id>
     <title>鼓捣猫宁</title>
-    <updated>2020-09-07T09:27:17.934Z</updated>
+    <updated>2020-09-07T09:32:57.906Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://needquiet.github.io"/>
     <link rel="self" href="https://needquiet.github.io/atom.xml"/>
@@ -10,6 +10,566 @@
     <logo>https://needquiet.github.io/images/avatar.png</logo>
     <icon>https://needquiet.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, 鼓捣猫宁</rights>
+    <entry>
+        <title type="html"><![CDATA[MacOS关闭按钮与Reopen]]></title>
+        <id>https://needquiet.github.io/post/macos-guan-bi-an-niu-yu-reopen/</id>
+        <link href="https://needquiet.github.io/post/macos-guan-bi-an-niu-yu-reopen/">
+        </link>
+        <updated>2020-09-07T09:29:36.000Z</updated>
+        <summary type="html"><![CDATA[<p>在点击Window上的Close按钮后，再在dock栏里重新选中软件，这时软件的各种状态都会重置，一些设置的unowned的地方甚至会crash，这相当于一个半成品的reopen；<code>我们需要的是点击关闭按钮并不会杀掉软件，而是隐藏起来，点击后展示之前软件的显示状态</code>；</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>在点击Window上的Close按钮后，再在dock栏里重新选中软件，这时软件的各种状态都会重置，一些设置的unowned的地方甚至会crash，这相当于一个半成品的reopen；<code>我们需要的是点击关闭按钮并不会杀掉软件，而是隐藏起来，点击后展示之前软件的显示状态</code>；</p>
+<!-- more -->
+<h2 id="步骤">步骤</h2>
+<p>实现方式很简单，一共就需要两步</p>
+<pre><code class="language-swift">//1. 首先定义mainWindow，并在加载后赋值
+var mainWindow: NSWindow!
+    func applicationDidFinishLaunching(_ aNotification: Notification) {
+        mainWindow = NSApplication.shared.windows[0]
+    }
+</code></pre>
+<pre><code class="language-swift">//2. 然后继承NSWindowDelegate，并实现如下方法
+extension AppDelegate: NSWindowDelegate {
+    func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -&gt; Bool {
+        if !flag {
+            mainWindow.makeKeyAndOrderFront(nil) // 这里是核心代码
+        }
+        return false // 这里要设为false，不然会reopen一个窗口
+    }
+}
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Mac监听键盘点击]]></title>
+        <id>https://needquiet.github.io/post/ListenKeyboardEvent/</id>
+        <link href="https://needquiet.github.io/post/ListenKeyboardEvent/">
+        </link>
+        <updated>2020-08-28T09:32:06.000Z</updated>
+        <summary type="html"><![CDATA[<p>总结了Swift中，暂时发现的3种键盘(鼠标)点击的监听方式</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>总结了Swift中，暂时发现的3种键盘(鼠标)点击的监听方式</p>
+<!-- more -->
+<blockquote>
+<p>注意，以下方法中，涉及到全局键盘监听的都需要系统提供权限才能正常使用，判断方式：</p>
+</blockquote>
+<pre><code class="language-swift">//系统首选项&gt;安全&amp;隐私权&gt;隐私权&gt;辅助功能 - 请确保您的应用已被选中。
+print(&quot;辅助功能:&quot;,AXIsProcessTrusted() ? &quot;信任&quot; : &quot;不信任&quot;)
+</code></pre>
+<h1 id="一-系统自带的api">一、系统自带的API</h1>
+<blockquote>
+<p>其实这两个监听就可以满足大部分的需求了，唯一的不足是像F7~F9的媒体功能键无法监听</p>
+</blockquote>
+<ul>
+<li>Global监听</li>
+</ul>
+<pre><code class="language-swift">    NSEvent.addGlobalMonitorForEvents(matching: [.keyDown]) { [unowned self] (event) in
+        // flags貌似是获取与常规键无关的按键
+        let flags = event.modifierFlags.intersection(.deviceIndependentFlagsMask)
+        // 常规 option || 带有左右键时的 cmd+option
+        if (flags == NSEvent.ModifierFlags.option || flags.contains([.command,.option])) {
+            self.playControlWithKeyCode(event.keyCode)
+        }
+    }
+</code></pre>
+<ul>
+<li>Local监听</li>
+</ul>
+<pre><code class="language-swift">    NSEvent.addLocalMonitorForEvents(matching: [.keyDown]) { [unowned self] (event) -&gt; NSEvent?  in
+        if self.TextFieldIsEditing == true { return event}
+        let code = event.keyCode
+        let flags = event.modifierFlags.intersection(.deviceIndependentFlagsMask)
+        
+        if (flags.contains([.option])) { // 包含option
+            self.playControlWithKeyCode(code)
+        } else {
+            if flags == NSEvent.ModifierFlags.command {
+                if code == kVK_ANSI_W {
+                    WindowManager.share.currentWindow?.close()
+                }
+            } else {
+                if (code == kVK_ANSI_W || code == kVK_Space){
+                    self.playControlWithKeyCode(code)
+                }
+            }
+        }
+        return nil
+    }
+</code></pre>
+<h1 id="二-子类化nsapplication">二、子类化NSApplication</h1>
+<p>我们可以通过子类化NSApplication，拦截sendEvent来实现获取键盘鼠标的点击事件，就像注释中描述的，虽然可以达到获取媒体键的点击，但是却无法拦截唤起的iTunes，不过用来获取其他按钮的点击事件也是可以的</p>
+<blockquote>
+<p>注意：子类化NSApplication，需更改Info.plist里的NSPrincipalClass，如果是Swift则设置为$(PRODUCT_MODULE_NAME).MyApplication才会有效，如果是OC则直接设置为MyApplication即可，当然类名可以自己随意定义，我这里仅仅举个例子</p>
+</blockquote>
+<pre><code class="language-swift">class MyApplication: NSApplication {
+    // 可以通过重写sendEvent监听媒体功能键，但是会唤起iTunes音乐，无法拦截，所以放弃
+    override func sendEvent(_ event: NSEvent) {
+        if  event.type == .systemDefined &amp;&amp;
+            event.subtype == .screenChanged
+        {
+            let keyCode : Int32 = (Int32((event.data1 &amp; 0xFFFF0000) &gt;&gt; 16))
+            let keyFlags = (event.data1 &amp; 0x0000FFFF)
+            let keyState = ((keyFlags &amp; 0xFF00) &gt;&gt; 8) == 0xA
+
+            mediaKeyEvent(withKeyCode: keyCode, andState: keyState)
+            return
+        }
+        super.sendEvent(event)
+    }
+}
+</code></pre>
+<h1 id="三-cgeventtapcreate拦截">三、CGEvent.tapCreate拦截</h1>
+<blockquote>
+<p>此方法一样可以直接获取键盘事件，比子类化NSApplication高级的是可以拦截事件，例如拦截媒体键对iTunes的控制，不废话，直接上代码</p>
+<blockquote>
+<p>同时，有趣的是这种方式，在首次加载时，会弹出系统提示框，获取隐私服务权限，比较友好</p>
+</blockquote>
+</blockquote>
+<pre><code class="language-swift">// 这个方法也可以拿来监听键盘其他key的点击
+    func startListenCGEventTap() {
+        func myCGEventCallback(proxy: CGEventTapProxy, type: CGEventType, event: CGEvent, refcon: UnsafeMutableRawPointer?) -&gt; Unmanaged&lt;CGEvent&gt;? {
+            if(type == .tapDisabledByTimeout){
+                return Unmanaged.passRetained(event)
+            }
+            
+            if let nsEvent = NSEvent.init(cgEvent: event) {
+                if (nsEvent.type == .systemDefined &amp;&amp; nsEvent.subtype == .screenChanged ) {
+                    let keyCode : Int32 = (Int32((nsEvent.data1 &amp; 0xFFFF0000) &gt;&gt; 16))
+                    let keyFlags = (nsEvent.data1 &amp; 0x0000FFFF)
+                    let keyState = ((keyFlags &amp; 0xFF00) &gt;&gt; 8) == 0xA
+//                    let keyIsRepeat = (keyFlags &amp; 0x1) &gt; 0
+//                    if keyIsRepeat {
+//                        print(&quot;keyIsRepeat&quot;)
+//                        return nil
+//                    }
+                    mediaKeyEvent(withKeyCode: keyCode, andState: keyState)
+                    return nil
+                }
+            }
+
+            return Unmanaged.passRetained(event)
+        }
+        
+        // let eventMask = (1 &lt;&lt; CGEventType.keyDown.rawValue) | (1 &lt;&lt; CGEventType.keyUp.rawValue | (1 &lt;&lt; CGEventType.flagsChanged.rawValue))
+        
+        // 创建eventTap，此时会唤起’打开隐私权限‘弹窗
+        if let eventTap = CGEvent.tapCreate(tap: .cgSessionEventTap,
+                                            place: .headInsertEventTap,
+                                            options: .defaultTap,
+                                            eventsOfInterest: CGEventMask(NX_SYSDEFINEDMASK),
+                                            callback: myCGEventCallback,
+                                            userInfo: nil) {
+            let runLoopSource = CFMachPortCreateRunLoopSource(kCFAllocatorSystemDefault, eventTap, 0)
+            CFRunLoopAddSource(CFRunLoopGetCurrent(), runLoopSource, .commonModes)
+            CGEvent.tapEnable(tap: eventTap, enable: true)
+            CFRunLoopRun()
+        } else {
+            print(&quot;failed to create event tap&quot;)
+//            exit(1)
+        }
+    }
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[NSMenu右键后，或者拖入文件时，cell的边框和下划线处理]]></title>
+        <id>https://needquiet.github.io/post/TableViewMenuRightClick/</id>
+        <link href="https://needquiet.github.io/post/TableViewMenuRightClick/">
+        </link>
+        <updated>2020-07-24T09:31:23.000Z</updated>
+        <summary type="html"><![CDATA[<p>我们在配合使用 NSTableView/NSOutlineView 和 NSmenu 的时候，会发现右键cell时，会多出一个蓝色的边框;<br><br>
+拖入文件到tableview里时，cell上也会多出一个下划线;<br><br>
+这里介绍如何拦截并修改它们</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>我们在配合使用 NSTableView/NSOutlineView 和 NSmenu 的时候，会发现右键cell时，会多出一个蓝色的边框;<br><br>
+拖入文件到tableview里时，cell上也会多出一个下划线;<br><br>
+这里介绍如何拦截并修改它们</p>
+<!-- more -->
+<h1 id="一-右键cell时的边框">一、右键cell时的边框</h1>
+<h2 id="分析">分析</h2>
+<ul>
+<li>
+<p>右键cell后，边框的样子如下，很突兀:<br>
+<img src="../images/TableViewMenuImage/menuRightBorder.png" alt="示例" loading="lazy"></p>
+</li>
+<li>
+<p>实际上，就是在tableView上 addSubview 了一个 NSMenuHighlightView：<br>
+<img src="../images/TableViewMenuImage/NSMenuHighlightView.png" alt="示例" loading="lazy"></p>
+</li>
+</ul>
+<h2 id="解决方式">解决方式</h2>
+<blockquote>
+<p>暴力点，直接重写NSTableView的addSubview方法，拦截掉NSMenuHighlightView的添加:</p>
+</blockquote>
+<pre><code class="language-swift">class DNTableView: NSTableView {
+    // 禁止右键 cell 边框
+    override func addSubview(_ view: NSView) {
+        if view.className != &quot;NSMenuHighlightView&quot; {
+            super.addSubview(view)
+        }
+    }
+}
+</code></pre>
+<h1 id="二-拖入文件时的下划线">二、拖入文件时的下划线</h1>
+<blockquote>
+<p>当然也可以通过设置 <code>tableView.draggingDestinationFeedbackStyle = .none</code> 直接隐藏，但是我更想修改它的颜色</p>
+</blockquote>
+<ul>
+<li>
+<p>首先看看它的样子<br>
+<img src="../images/TableViewMenuImage/drop_cell_line.png" alt="示例图" loading="lazy"></p>
+</li>
+<li>
+<p>其实原理和上面边框处理一样，也是通过重写addSubView进行拦截</p>
+</li>
+</ul>
+<pre><code class="language-swift">// 禁止右键cell 边框
+    override func addSubview(_ view: NSView) {
+        if view.className == &quot;NSMenuHighlightView&quot; { // 右键后cell上的线
+            return
+        } else if view.className == &quot;NSDraggingDestinationView&quot; { // 拖动文件后，cell上的线
+            // 发现无法修改view的背景色，无奈只能覆盖一个color view，以后发现更好的修改方式再改
+            let newLineView = NSView()
+            newLineView.frame = view.bounds
+            newLineView.wantsLayer = true
+            newLineView.layer?.backgroundColor = kRedHighlightColor.cgColor
+            view.addSubview(newLineView)
+            super.addSubview(view)
+        } else {
+            super.addSubview(view)
+        }
+    }
+</code></pre>
+<ul>
+<li>再来看看修改后的样子<br>
+<img src="../images/TableViewMenuImage/change_cell_line.png" alt="示例图" loading="lazy"></li>
+</ul>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[自定义NSSlider]]></title>
+        <id>https://needquiet.github.io/post/CustomNSSlider/</id>
+        <link href="https://needquiet.github.io/post/CustomNSSlider/">
+        </link>
+        <updated>2020-07-22T09:30:16.000Z</updated>
+        <summary type="html"><![CDATA[<p>见名知意，本文介绍如何自定义NSSlider</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>见名知意，本文介绍如何自定义NSSlider</p>
+<!-- more -->
+<blockquote>
+<p>NSSlider由2部分组成，外层的<code>NSSlider</code>以及内部的<code>NSSliderCell</code>。通常我们所说的自定义Slider说的就是自定义<code>NSSliderCell</code>。</p>
+</blockquote>
+<h2 id="自定义nsslidercell">自定义NSSliderCell</h2>
+<p>以我自定定义的DNSliderCell举例</p>
+<h3 id="1-定义实现代理">1. 定义/实现代理</h3>
+<blockquote>
+<p>NSSliderCell继承自NSActionCell，NSActionCell继承自NSCell，有关Tracking的方法都在NSCell中，<br>
+所以我们完全可以通过重写Tracking的相关方法来自定义Slider的点击、拖拽...</p>
+</blockquote>
+<pre><code class="language-swift">@objc protocol DNSliderCellDelegate {
+    // 我这里定义的都是可选代理，代理者可根据需求去实现方法 
+    // 开始拖动
+    @objc optional func startTracking(doubleValue:Double ,sender:DNSliderCell)
+    // 正在拖动
+    @objc optional func continueTracking(doubleValue:Double ,sender:DNSliderCell)
+    // 拖动结束 &amp; 点击结束
+    @objc optional func stopTracking(doubleValue:Double ,sender:DNSliderCell)
+}
+
+extension DNSliderCell {
+    //MARK: 开始拖动
+    override func startTracking(at startPoint: NSPoint, in controlView: NSView) -&gt; Bool {
+        delegate?.startTracking?(doubleValue: doubleValue, sender: self)
+        return super.startTracking(at: startPoint, in: controlView)
+    }
+    //MARK: 拖动中
+    override func continueTracking(last lastPoint: NSPoint, current currentPoint: NSPoint, in controlView: NSView) -&gt; Bool {
+        delegate?.continueTracking?(doubleValue: doubleValue, sender: self)
+        return super.continueTracking(last: lastPoint, current: currentPoint, in: controlView)
+    }
+    //MARK: 结束拖动 &amp; 点击结束
+    override func stopTracking(last lastPoint: NSPoint, current stopPoint: NSPoint, in controlView: NSView, mouseIsUp flag: Bool) {
+        delegate?.stopTracking?(doubleValue: doubleValue, sender: self)
+        super.stopTracking(last: lastPoint, current: stopPoint, in: controlView, mouseIsUp: flag)
+    }
+}
+</code></pre>
+<h3 id="2-定义属性">2. 定义属性</h3>
+<blockquote>
+<p>可以根据需求自己定义常量或者变量，<code>需要注意</code>的是，Swift5、macOS Catalina 10.15.4上，xib创建的NSSlider会向两边各延伸2个px（其他版本是否如此不确定），例如我自己定义长度1000的slider，实际上长度为1004，所以定义了个Offset方便计算。</p>
+</blockquote>
+<pre><code class="language-swift">class DNSliderCell: NSSliderCell {
+    let Offset:CGFloat = 2 // 进度条，实际上向（根据slider方向）左/右 或者 上/下 偏移2
+    let progressColor = kRedHighlightColor // 进度条进度背景色
+    var backgroundColor = NSColor.clear // 进度条整体背景色
+    let knobColor = kRedHighlightColor // 按钮颜色
+    let sliderThickness:CGFloat = 3.0 // 进度条厚度
+    let sliderBarRadius:CGFloat = 0 // 进度条圆角
+    let KnobWidth:CGFloat = 12.0 // 按钮宽度
+    let KnobHeight:CGFloat = 12.0 // 按钮高度
+    var progressRect = NSRect() // 进度的Rect
+    var needControlKnobHidden = false // 是否需要控制旋钮显示隐藏
+    
+    weak var delegate:DNSliderCellDelegate? // 代理
+    
+    // slider是否是竖直
+    lazy var isSliderVertical:Bool = {
+        let isVertical = (controlView as? DNSlider)?.isVertical == true
+        return isVertical
+    }()
+}
+</code></pre>
+<h3 id="3-重绘slider">3. 重绘slider</h3>
+<blockquote>
+<p>要根据其Slider是横着还是竖着的来计算不同的rect</p>
+</blockquote>
+<pre><code class="language-swift">extension DNSliderCell {
+    //MARK: - 重绘slider
+    override func drawBar(inside rect: NSRect, flipped: Bool) {
+        //MARK: 修改进度条'整体'背景色
+        // 1. 获取 slider 的 rect
+        var sliderRect = rect
+        // 2. 更改 slider 厚度
+        if isSliderVertical {
+            sliderRect.size.width = sliderThickness
+        } else {
+            sliderRect.size.height = sliderThickness
+        }
+        // 3. 填充背景色
+        let background = NSBezierPath(roundedRect: sliderRect, xRadius: sliderBarRadius, yRadius: sliderBarRadius)
+        self.backgroundColor.setFill()
+        background.fill()
+        
+        //MARK: 修改进度条'进度'背景色
+        // 1. 计算当前进度的占有比例
+        let value:CGFloat = CGFloat((doubleValue - minValue) / (maxValue - minValue))
+        // 2. 根据比例计算进度应有的长度
+        var viewLength:CGFloat
+        if isSliderVertical {
+            viewLength = (controlView?.frame.size.height)!
+        } else {
+            viewLength = (controlView?.frame.size.width)!
+        }
+ 
+        let finalLength:CGFloat = value * (viewLength - Offset * 2)
+        // 3. 计算进度的Rect
+        progressRect = sliderRect
+        if isSliderVertical {
+            progressRect.size.height = finalLength
+            progressRect.origin.y = Offset
+        } else {
+            progressRect.size.width = finalLength
+            progressRect.origin.x = Offset
+        }
+        
+        // 4. 填充进度背景色
+        let active = NSBezierPath(roundedRect: progressRect, xRadius: sliderBarRadius, yRadius: sliderBarRadius)
+        self.progressColor.setFill()
+        active.fill()
+    }
+}
+</code></pre>
+<h3 id="4-重绘旋钮">4. 重绘旋钮</h3>
+<blockquote>
+<p>要根据其Slider是横着还是竖着的来计算不同的rect</p>
+</blockquote>
+<pre><code class="language-swift">//MARK: - 重绘旋钮
+    override func drawKnob() {
+        // 根据比例计算进度应有的OriginX
+        let value:CGFloat = CGFloat((doubleValue - minValue) / (maxValue - minValue))
+        var viewLength:CGFloat
+        if isSliderVertical{
+            viewLength = (controlView?.frame.size.height)!
+        } else {
+            viewLength = (controlView?.frame.size.width)!
+        }
+        
+        var customKnobRect:NSRect
+        
+        if isSliderVertical {
+            //                   Offset +  进度  * ((       实际宽度     ) -  knob宽度 )
+            let finalStart:CGFloat = Offset + value * (viewLength - Offset * 2 - KnobHeight)
+            // 计算Knob的Rect
+            customKnobRect = NSRect(x: progressRect.origin.x + progressRect.size.width / 2 - KnobWidth / 2, y: finalStart, width: KnobWidth , height: KnobHeight)
+        } else {
+            //                   Offset +  进度  * ((       实际宽度      ) -  knob宽度 )
+            let finalStart:CGFloat = Offset + value * (viewLength - Offset * 2 - KnobWidth)
+            // 计算Knob的Rect
+            customKnobRect = NSRect(x: finalStart, y: progressRect.origin.y + progressRect.size.height / 2 - KnobHeight / 2, width: KnobWidth , height: KnobHeight)
+        }
+        
+        
+        // 填充Knob的颜色
+        let background = NSBezierPath(roundedRect: customKnobRect, xRadius: KnobWidth / 2, yRadius: KnobHeight / 2)
+        if needControlKnobHidden == true {
+            if (controlView as? DNSlider)?.shouKnob == true {
+                self.knobColor.setFill()
+            } else {
+                NSColor.clear.setFill()
+            }
+        } else {
+            self.knobColor.setFill()
+        }
+
+        background.fill()
+    }
+</code></pre>
+<h2 id="自定义nsslider">自定义NSSlider</h2>
+<blockquote>
+<p>自定义NSSlider，可以处理鼠标滑过时鼠标指针的状态、控制knob的显示隐藏等; 不废话直接上代码！</p>
+</blockquote>
+<pre><code class="language-swift">class DNSlider: NSSlider {
+    private var trackingArea:NSTrackingArea?
+    // 是否显示knob
+    var shouKnob:Bool = false    
+}
+
+extension DNSlider {
+    override func updateTrackingAreas() {
+        super.updateTrackingAreas()
+        if trackingArea != nil {
+            self.removeTrackingArea(trackingArea!)
+        }
+        
+        // 将设置追踪区域为控件大小
+        // 设置鼠标追踪区域，如果不设置追踪区域，mouseEntered和mouseExited会无效
+        trackingArea = NSTrackingArea(rect: bounds, options: [.mouseEnteredAndExited, .activeAlways], owner: self, userInfo: nil)
+        self.addTrackingArea(trackingArea!)
+    }
+    
+    override func mouseEntered(with event: NSEvent) {
+        super.mouseEntered(with: event)
+        NSCursor.pointingHand.set()
+        /*
+            通过设置 isHighlighted 取反来触发 cell 的 drawKnob 方法;
+            通过 shouKnob 来控制是否显示(因为isHighlighted受其他状态影响，无法精准控制)
+         */
+        shouKnob = true
+        isHighlighted = !isHighlighted
+    }
+    
+    override func mouseExited(with event: NSEvent) {
+        super.mouseExited(with: event)
+        NSCursor.arrow.set()
+        shouKnob = false
+        
+        // 不直接设置true/false是因为如果在mouseExited前isHighlighted已经是true/false，那就无法触发cell重新渲染了
+        isHighlighted = !isHighlighted
+    }
+    // 点击后，状态会刷新，此时如不做更改会默认改回指针状态
+    override func cursorUpdate(with event: NSEvent) {
+        super.cursorUpdate(with: event)
+        NSCursor.pointingHand.set()
+    }
+}
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[MacOS关闭按钮与Reopen]]></title>
+        <id>https://needquiet.github.io/post/MacCloseAndReopen/</id>
+        <link href="https://needquiet.github.io/post/MacCloseAndReopen/">
+        </link>
+        <updated>2020-07-21T09:29:36.000Z</updated>
+        <summary type="html"><![CDATA[<p>在点击Window上的Close按钮后，再在dock栏里重新选中软件，这时软件的各种状态都会重置，一些设置的unowned的地方甚至会crash，这相当于一个半成品的reopen；<code>我们需要的是点击关闭按钮并不会杀掉软件，而是隐藏起来，点击后展示之前软件的显示状态</code>；</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>在点击Window上的Close按钮后，再在dock栏里重新选中软件，这时软件的各种状态都会重置，一些设置的unowned的地方甚至会crash，这相当于一个半成品的reopen；<code>我们需要的是点击关闭按钮并不会杀掉软件，而是隐藏起来，点击后展示之前软件的显示状态</code>；</p>
+<!-- more -->
+<h2 id="步骤">步骤</h2>
+<p>实现方式很简单，一共就需要两步</p>
+<pre><code class="language-swift">//1. 首先定义mainWindow，并在加载后赋值
+var mainWindow: NSWindow!
+    func applicationDidFinishLaunching(_ aNotification: Notification) {
+        mainWindow = NSApplication.shared.windows[0]
+    }
+</code></pre>
+<pre><code class="language-swift">//2. 然后继承NSWindowDelegate，并实现如下方法
+extension AppDelegate: NSWindowDelegate {
+    func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -&gt; Bool {
+        if !flag {
+            mainWindow.makeKeyAndOrderFront(nil) // 这里是核心代码
+        }
+        return false // 这里要设为false，不然会reopen一个窗口
+    }
+}
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[MacOS自定义TitleBar]]></title>
+        <id>https://needquiet.github.io/post/MacOSCustomTitleBar/</id>
+        <link href="https://needquiet.github.io/post/MacOSCustomTitleBar/">
+        </link>
+        <updated>2020-07-03T09:28:19.000Z</updated>
+        <summary type="html"><![CDATA[<p>简单介绍MacOS开发中如何自定义TitleBar</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>简单介绍MacOS开发中如何自定义TitleBar</p>
+<!-- more -->
+<h2 id="默认样式">默认样式</h2>
+<p>默认的样式如下，无论是可选中的范围还是样式都比较有局限性</p>
+<figure data-type="image" tabindex="1"><img src="../images/MacOSCustomTB/defaultTitleBar.png" alt="示例" loading="lazy"></figure>
+<h2 id="目标示例样式">目标示例样式</h2>
+<p>期待的样式如下，选中的范围<code>变高</code>，内容更自由和丰富</p>
+<blockquote>
+<p>选中范围变大意味着什么？Mac上可以通过拖拽TitleBar来移动整个Window窗口，范围变大则操作更舒服</p>
+</blockquote>
+<figure data-type="image" tabindex="2"><img src="../images/MacOSCustomTB/targetStyle.png" alt="示例" loading="lazy"></figure>
+<h2 id="思路">思路</h2>
+<ul>
+<li>NSWindow上的Titlebar可以被隐藏；</li>
+<li>NSView可以通过重写mouseDownCanMoveWindow来控制长按移动窗口</li>
+</ul>
+<h2 id="步骤">步骤</h2>
+<ul>
+<li>
+<p>自定义CustomWindow，继承自NSWindow，然后在Storyboard中将Window的Class改为CustomWindow</p>
+</li>
+<li>
+<p>重新initWithContentRect方法，并隐藏Titlebar，并设置内容铺满整个window（fullSizeContentView）</p>
+<pre><code class="language-swift">  class CustomWindow: NSWindow {
+      // 个别属性可以在Storyboard里直接设置，这里都用代码写了
+      override init(contentRect: NSRect, styleMask style: NSWindow.StyleMask, backing backingStoreType: NSWindow.BackingStoreType, defer flag: Bool) {
+          // styleMask 默认是 [.titled, .closable, .miniaturizable, .resizable]
+          super.init(contentRect: contentRect,
+                     styleMask:[.titled, .closable, .miniaturizable, .resizable, .fullSizeContentView],
+                     backing: backingStoreType,
+                     defer: flag)
+          // titlebar透明
+          titlebarAppearsTransparent = true
+          // 隐藏title
+          titleVisibility = NSWindow.TitleVisibility.hidden
+          // 点击窗口背景支持鼠标拖动窗口
+          isMovableByWindowBackground = true
+          // 设置透明背景
+          isOpaque = false
+          backgroundColor = NSColor.clear
+      }
+  }
+</code></pre>
+</li>
+<li>
+<p>自定义一个NSView，设定好高度和位置代替原Titlebar</p>
+</li>
+<li>
+<p>此时拖拽窗口的任何位置都可以移动window，那么就要把rootView的mouseDownCanMoveWindow重写为false，CustomTitleBae的mouseDownCanMoveWindow重写为true</p>
+<pre><code class="language-swift">override var mouseDownCanMoveWindow: Bool {
+    return true; // 该属性默认为true
+}
+</code></pre>
+</li>
+<li>
+<p>最后记得给rootView设置圆角，不然默认是没有圆角的(我这里直接Storyboard里设置了)<br>
+<img src="../images/MacOSCustomTB/layerSetting.png" alt="示例" loading="lazy"></p>
+</li>
+</ul>
+<pre><code class="language-swift">wantsLayer = true
+layer.cornerRadius = 7.0
+layer.masksToBounds = true
+</code></pre>
+<h2 id="最终效果">最终效果</h2>
+<figure data-type="image" tabindex="3"><img src="../images/MacOSCustomTB/resultStyle.png" alt="示例" loading="lazy"></figure>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[获取APP图片资源(破解Assets.car)]]></title>
         <id>https://needquiet.github.io/post/GetAssetsCar/</id>
@@ -545,340 +1105,6 @@
 </code></pre>
 </li>
 </ol>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[GitBook搭建及配置]]></title>
-        <id>https://needquiet.github.io/post/GitBookNote/</id>
-        <link href="https://needquiet.github.io/post/GitBookNote/">
-        </link>
-        <updated>2020-05-15T08:35:04.000Z</updated>
-        <summary type="html"><![CDATA[<p>使用Jekyll去搭建SDK文档的网站虽然自由度高，但是想支持的非常好需要很娴熟的html技能；<br><br>
-GitBook有固定好的框架，非常适合书写SDK文档。</p>
-]]></summary>
-        <content type="html"><![CDATA[<p>使用Jekyll去搭建SDK文档的网站虽然自由度高，但是想支持的非常好需要很娴熟的html技能；<br><br>
-GitBook有固定好的框架，非常适合书写SDK文档。</p>
-<!-- more -->
-<h1 id="1-gitbook简介">1 GitBook简介</h1>
-<ul>
-<li><a href="https://www.gitbook.com">GitBook官网</a></li>
-<li><a href="https://github.com/GitbookIO/gitbook">GitBook文档</a></li>
-</ul>
-<h1 id="2-gitbook本地创建步骤">2 GitBook本地创建步骤</h1>
-<ol>
-<li>
-<p>创建好指定目录后，在该目录下执行 <code>gitbook init</code><br><br>
-首次init后，会自动生成README.md 和 SUMMARY.md 这两个文件；README就是说明文档，而SUMMARY其实就是页面的目录结构</p>
-</li>
-<li>
-<p>这时候其实就已经完成了初创GitBook了，接下来输入 <code>gitbook serve</code> 命令，就可以直接拉起 <code>http://localhost:4000</code> 本地serve，在浏览器可以直接展示</p>
-</li>
-<li>
-<p>接下来便可以针对此GibBook增加配置了，配置信息要放在 <code>book.json</code>里，例如：</p>
-<pre><code class="language-shell">{
-    &quot;title&quot;: &quot;LinkPlay SDK&quot;, #本书标题
-    &quot;author&quot;: &quot;LinkPlay&quot;, #本书作者
-    &quot;description&quot;: &quot;LinkPlay SDK 文档&quot;, #本书描述
-    &quot;language&quot;: &quot;zh-hans&quot;, #本书语言，中文设置 &quot;zh-hans&quot; 即可
-    &quot;styles&quot;: {
-        &quot;website&quot;: &quot;./styles/website.css&quot; #自定义页面样式
-    },
-    &quot;structure&quot;: {
-        &quot;readme&quot;: &quot;README.md&quot; #指定Readme、Summary、Glossary和Languages对应的文件名
-    },
-    &quot;plugins&quot;: [ #配置使用的插件
-        &quot;-sharing&quot;, #自带插件，前面加减号可以禁用
-        &quot;github&quot;,
-        &quot;-livereload&quot; #热加载，自带插件，强烈建议删除，如果开放然后查看其代码，会发现其端口号为35729，和网站上常用的80端口号不同；本地用着很爽，但是网页加载很慢，浏览器Title会转很久
-      ],
-      &quot;pluginsConfig&quot;: { #配置插件的属性
-        &quot;github&quot;: {
-          &quot;url&quot;: &quot;https://github.com/linkplayapp/linkplay_sdk_doc&quot;
-        },
-      }
-}
-</code></pre>
-</li>
-<li>
-<p>如果book.json配置中包含plugins，那么在重新 <code>gitbook serve</code> 前需要先 <code>gitbook install</code> ，安装对应的插件，实际上就是用npm去install</p>
-</li>
-<li>
-<p>接下来就可以配置页面的目录结构，修改 <code>SUMMARY.md</code> ，便可达到修改目录的作用，例：</p>
-</li>
-</ol>
-<pre><code class="language-markdown">  # Summary
-  * [介绍](README.md)
-  * [iOS](iOS/README.md) &lt;!-- 如果把md中的文档在左侧显示目录，可以拼接(#标题名) --&gt;
-      * [Device_SDK](iOS/Device_SDK.md#标题1)
-      * [Device_SDK](iOS/Device_SDK.md#标题2)
-  * [Android](android/README.md)
-      * [测试](android/Test.md)
-</code></pre>
-<h1 id="3-github上配套搭建环境">3 Github上配套搭建环境</h1>
-<ol>
-<li>先创建个仓库，然后clone至本地，并将上面步骤生成的代码全部copy到该目录下</li>
-<li>最好还是gitignore掉node_modules文件夹，然后将代码push到master上;(记得把_book文件夹备份一下，接下来会用到)</li>
-<li>然后创建gh-pages分支，命名最好如此，默认的规则，不然以后Gitbook链接会受到不定影响<pre><code class="language-shell">git checkout -b gh-pages
-</code></pre>
-</li>
-<li>在gh-pages分支下，先清空文件夹，将第2步准备好的_book里的所有内容copy到当前目录下（注意是copy _book文件下的所有子项，而不是仅仅把文件夹拷贝）</li>
-<li>此时可以提交了</li>
-<li>访问自己这个库的github地址，然后到setting里面<br>
-<img src="https://s1.ax1x.com/2020/09/07/wudgXD.png" alt="Setting" loading="lazy"></li>
-<li>找到options下面的github pages下的二级域名，这就是此gitbook的地址<br>
-<img src="https://s1.ax1x.com/2020/09/07/wudc6O.png" alt="Setting" loading="lazy"></li>
-</ol>
-<h1 id="4-faq">4 FAQ</h1>
-<h2 id="1-为什么要创建gh-pages分支">1 为什么要创建gh-pages分支？</h2>
-<blockquote>
-<p>gitbook serve时，本地会生成_book文件夹，里面就是网站的静态资源文件，其中index.html就是网站的入口；<br><br>
-github pages的原理是加载html的静态资源文件，所以只要让github pages加载_book这个文件夹就可以实现gitbook网站的展示；<br><br>
-但是由于_book里的静态资源是在_book的文件夹里的，所以要新建一个分支，间接删掉_book这一层，直接将其下的资源文件放在分支里。<br><br>
-因此我们创建了gh-pages分支，并且把master下_book的内容全部copy到该分支下，这样就可以实现网站展示了；</p>
-</blockquote>
-<h2 id="2-为什么gitbook展示的是gh-pages分支而不是master分支">2 为什么Gitbook展示的是gh-pages分支，而不是master分支？</h2>
-<blockquote>
-<p>我猜是由于github有自动检测的机制，发现master分支下没有index.html，但是gp-pages分支根目录下却有index.html，所以默认gh-pages为github pages 访问的分支。当然也可以自己手动更改：</p>
-</blockquote>
-<figure data-type="image" tabindex="1"><img src="https://s1.ax1x.com/2020/09/07/wuw4rF.png" alt="Setting" loading="lazy"></figure>
-<h2 id="3-有没有好的方法避免每次手动copy-_book下文件">3 有没有好的方法避免每次手动copy _book下文件</h2>
-<ul>
-<li>
-<p>第一种： 可以用jenkins：由master去监控master分支，轮询或者监听方式具体不了解，以此来实现每次master有变化，就去自动切换到gh-pages分支，copy master分支的_book资源文件</p>
-</li>
-<li>
-<p>第二种： 写了个脚本，将步骤缩减至2步；</p>
-<ol>
-<li>切换至gh-pages</li>
-<li>执行脚本</li>
-</ol>
-</li>
-<li>
-<p>脚本具体步骤：</p>
-<ol>
-<li>git fetch 、 git rebase <code>保证gh-pages分支为最新</code></li>
-<li>git checkout master -- _book <code>把master下_book拉到当前分支下</code></li>
-<li>递归遍历_book，把子文件全部覆盖至当前目录</li>
-<li>删除_book</li>
-<li>git add .</li>
-<li>git commit -m 'Update by <strong>当前时间</strong>'</li>
-<li>git push origin gh-pages <code>提交代码</code></li>
-<li>git checkout master <code>切换回master分支</code></li>
-</ol>
-</li>
-<li>
-<p>例：</p>
-</li>
-</ul>
-<pre><code class="language-python">import os
-import shutil
-import datetime
-
-print(&quot;*** gf &amp;&amp; gr&quot;)
-os.system(&quot;git fetch&quot;)
-os.system(&quot;git rebase&quot;)
-
-print(&quot;*** Copy from master's _book ***&quot;)
-os.system(&quot;git checkout master -- _book&quot;)
-
-target_path = os.getcwd()
-book_path = os.path.join(target_path, &quot;_book&quot;)
-if(os.path.exists(book_path)):
-    print(&quot;*** Start copy ***&quot;)
-    for a in os.walk(book_path):
-        # 递归创建目录
-        for d in a[1]:
-            dir_path = os.path.join(a[0].replace(book_path, target_path), d)
-            if not os.path.isdir(dir_path):
-                # 不存在就创建
-                os.makedirs(dir_path)
-        # 递归拷贝文件
-        for f in a[2]:
-            dep_path = os.path.join(a[0], f)  # _book 目录下的每个文件的绝对路径
-            arr_path = os.path.join(a[0].replace(
-                book_path, target_path), f)  # 每个文件的目标路径
-            shutil.copy(dep_path, arr_path)
-    print(&quot;*** Copy end ***&quot;)
-    shutil.rmtree('_book')
-    print(&quot;*** Remove _book ***&quot;)
-    print(&quot;*** Push... ***&quot;)
-    os.system(&quot;git add .&quot;)
-    now = datetime.datetime.now()
-    commitMessage = &quot;Update by %d-%02d-%02d %02d:%02d:%02d&quot; % (now.year,now.month,now.day,now.hour,now.minute,now.second)
-    commitCode = &quot;git commit -m '%s'&quot; % commitMessage
-    os.system(commitCode)
-    os.system(&quot;git push origin gh-pages&quot;)
-    print(&quot;*** Checkout master... ***&quot;)
-    os.system(&quot;git checkout master&quot;)
-else:
-    print(&quot;*** _book is not exists*** &quot;)
-
-</code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[iOS给项目添加多语种]]></title>
-        <id>https://needquiet.github.io/post/XcodeLocalizaions/</id>
-        <link href="https://needquiet.github.io/post/XcodeLocalizaions/">
-        </link>
-        <updated>2020-05-14T08:34:10.000Z</updated>
-        <summary type="html"><![CDATA[<p>给项目添加多语种时，如果嫌手动添加麻烦，可以尝试此文章方法</p>
-]]></summary>
-        <content type="html"><![CDATA[<p>给项目添加多语种时，如果嫌手动添加麻烦，可以尝试此文章方法</p>
-<!-- more -->
-<p>在给项目做国际化的时候，需要添加多语种，有2种方式，一种是在 PROJECT-Info-Localizations 里直接选择添加，这里不多做赘述。</p>
-<p>另一种是比较简洁的方法：直接修改工程文件，缺啥加啥就行</p>
-<blockquote>
-<p>/* Begin PBXProject section */ 下有个 knownRegions，这个就是对应国际化多语言选项的</p>
-</blockquote>
-<pre><code>knownRegions = (
-    English, 
-    en,         // English
-    Base,
-    &quot;zh-Hans&quot;,  // 简体中文
-    de,         // 德语
-    es,         // 西班牙
-    &quot;zh-Hant&quot;,  // 繁体中文
-    fr,         // 法语
-    it,         // 意大利
-    &quot;pt-PT&quot;,    // 葡萄牙
-    ja,         // 日语
-    nl,         // Dutch 荷兰语
-    ko,         // 韩语
-    ru,         // Russian 俄语
-    sv,         // Swedish 瑞典语
-    da,         // Danish 丹麦语
-    fi,         // finnish 芬兰语
-    pl,         // Polish  波兰语
-    nb,         // Norwegian 挪威语
-    hu,         // Hungarian 匈牙利语
-    ar,         // Arabic 阿拉伯语
-);
-</code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[PhotoShop操作笔记]]></title>
-        <id>https://needquiet.github.io/post/PSNotes/</id>
-        <link href="https://needquiet.github.io/post/PSNotes/">
-        </link>
-        <updated>2020-05-13T08:28:58.000Z</updated>
-        <summary type="html"><![CDATA[<p>偶尔会需要使用PS去对图片进行操作，在此记录一下部分操作的方法</p>
-]]></summary>
-        <content type="html"><![CDATA[<p>偶尔会需要使用PS去对图片进行操作，在此记录一下部分操作的方法</p>
-<!-- more -->
-<h2 id="1提取图片中文字">1.提取图片中文字</h2>
-<blockquote>
-<p>有2种简单的方式去提取图片中文字，一种是用<code>快速选择工具</code>，另一种是新建图层通过<code>色彩范围</code>提取文字</p>
-</blockquote>
-<h3 id="方式1快速选择工具">方式1：快速选择工具</h3>
-<ol>
-<li>这种方式最简单，直接在工具栏选择<code>快速选择工具</code>即可:  <img src="{{site.baseurl}}/images/PS/PS-Select-tool-image.png" alt="快速选择工具" style="display:inline"></li>
-<li>处于选中状态后，右键反向选择，然后<code>编辑-&gt;清除</code>即可</li>
-</ol>
-<h3 id="方式2色彩范围提取">方式2：色彩范围提取</h3>
-<ol>
-<li>打开图片，然后点击<code>创建新图层</code>（经试验，其实不做这一步也可以）<br>
-<img src="https://s1.ax1x.com/2020/09/07/wu05SP.png" alt="创建新图层" loading="lazy"></li>
-<li>接着点击<code>选择-&gt;色彩范围</code></li>
-<li>然后画笔提取字体颜色，并调整<code>颜色容差值</code>，之后点击确认<br>
-<img src="https://s1.ax1x.com/2020/09/07/wu0XYn.png" alt="色彩范围" loading="lazy"></li>
-<li>此时文字已经处于选中状态，可以通过右键反向选择，然后<code>编辑-&gt;清除</code>，或者进行第5步</li>
-<li><code>cmd+j</code>复制图层，然后选中图片图层，用<code>橡皮擦</code>即可擦除<br>
-<img src="https://s1.ax1x.com/2020/09/07/wuBpOU.png" alt="擦除" loading="lazy"></li>
-</ol>
-<h2 id="2去水印logo">2.去水印logo</h2>
-<blockquote>
-<p>图片中遮盖区域不太复杂的logo有个比较简单的擦除方式</p>
-</blockquote>
-<ul>
-<li>
-<figure data-type="image" tabindex="1"><img src="https://s1.ax1x.com/2020/09/07/wuBPw4.png" alt="擦除工具" loading="lazy"></figure>
-</li>
-<li>
-<p>效果如下<br>
-<img src="https://s1.ax1x.com/2020/09/07/wuBkk9.png" alt="擦除效果" loading="lazy"></p>
-</li>
-</ul>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[使用Netlify加速Github Pages访问速度(Jekyll)]]></title>
-        <id>https://needquiet.github.io/post/HowToUseNetlify/</id>
-        <link href="https://needquiet.github.io/post/HowToUseNetlify/">
-        </link>
-        <updated>2020-04-27T08:27:46.000Z</updated>
-        <summary type="html"><![CDATA[<p>使用 <strong>Github Pages</strong> 配合 <strong>Jekyll</strong> 搭建个人博客，即免费又便捷，但其有一个很大的问题就是国内的访问速度很慢，为了低成本的解决这个问题，在此介绍一个服务：<code>Netlify</code></p>
-]]></summary>
-        <content type="html"><![CDATA[<p>使用 <strong>Github Pages</strong> 配合 <strong>Jekyll</strong> 搭建个人博客，即免费又便捷，但其有一个很大的问题就是国内的访问速度很慢，为了低成本的解决这个问题，在此介绍一个服务：<code>Netlify</code></p>
-<!-- more -->
-<h2 id="一-netlify简介">一. Netlify简介</h2>
-<p>Netlify是一家提供静态网站托管的综合平台，支持自动从Github等仓库拉取代码，并构建网站进行发布，同时也支持自定义域名、自动申请SSL证书等功能；<br>
-最重要的同时也是我们所关注的就是自动启动CDN加速，国内访问速度会快上不少。</p>
-<h2 id="二-配置">二. 配置</h2>
-<ol>
-<li>首先打开 <a href="https://www.netlify.com/" target="_blank">Netlify官网</a></li>
-<li>然后进行一系列配置，很简单，就不详细说明了；不过有几点要注意：
-<ol>
-<li>博客根目录要配置Gemfile：因为Netlify在构建网页时需要知道自己该以怎样的方式去构建<pre><code class="language-shell">source 'https://rubygems.org' #配置Netfily的话，因为其服务器在国外，因此用此源
-# source 'https://gems.ruby-china.com' #本地执行的时候为了加速，将源改为ruby-china
-gem &quot;jekyll&quot;
-group :jekyll_plugins do
-    gem 'jekyll-feed'
-    gem 'jekyll-seo-tag'
-    gem 'jekyll-sitemap'
-    gem 'jekyll-paginate'
-end
-</code></pre>
-</li>
-<li>Build &amp; deploy配置下，Build command要填<code>jekyll build</code>,Publish directory要填<code>_site</code></li>
-</ol>
-</li>
-</ol>
-<p>配置完成后，就稍作等待就可以访问了</p>
-<h2 id="三-site修改">三. site修改</h2>
-<p>site name是可以随意修改的，也绑定自己的域名(custom domain)；<br><br>
-绑定自己的域名可以提供自己已经购买好的域名，或者直接在Getting started的第二步(实际操作的时候就知道在哪)，直接填写；<br><br>
-尝试填了一个，经历千万次重名提示后，提示我第一年要$10.99，以后每年要$14.99。Em............🤔 ヾ(￣▽￣)Bye<sub>Bye</sub></p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Cocoapods相关问题]]></title>
-        <id>https://needquiet.github.io/post/CocoapodsProblems/</id>
-        <link href="https://needquiet.github.io/post/CocoapodsProblems/">
-        </link>
-        <updated>2020-04-07T08:26:19.000Z</updated>
-        <summary type="html"><![CDATA[<p>使用Cocoapods时偶尔会遇到一些奇怪的问题，在此记录，方便查询</p>
-]]></summary>
-        <content type="html"><![CDATA[<p>使用Cocoapods时偶尔会遇到一些奇怪的问题，在此记录，方便查询</p>
-<!-- more -->
-<h2 id="1pod-install或者pod-search时报错">1.pod install或者pod search时，报错</h2>
-<blockquote>
-<p>如：</p>
-</blockquote>
-<p style="color:red">error: Failed to open TCP connection to raw.githubusercontent.com:443 (Connection refused - connect(2) for "raw.githubusercontent.com" port 443)</p>
->解决方法：
-<p>执行<code>pod repo remove trunk</code>移除trunk源，然后<code>pod search</code>就都正常了</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Xcode利用shell更改build号]]></title>
-        <id>https://needquiet.github.io/post/UseShChangeVersion/</id>
-        <link href="https://needquiet.github.io/post/UseShChangeVersion/">
-        </link>
-        <updated>2020-03-19T08:25:11.000Z</updated>
-        <summary type="html"><![CDATA[<p>编译iOS项目时，也许会遇到自动更改build号这样的需求，用来上架或其他用途。</p>
-]]></summary>
-        <content type="html"><![CDATA[<p>编译iOS项目时，也许会遇到自动更改build号这样的需求，用来上架或其他用途。</p>
-<!-- more -->
-<blockquote>
-<p>利用python或者shell脚本都可以做到这点，这里简述shell脚本使用方式</p>
-</blockquote>
-<p><code>使用方法：</code> Build Phases里增加一个Run Script即可</p>
-<pre><code class="language-shell">plist=${INFOPLIST_FILE}
-buildNumber=$(date +%Y%m%d%H%M)
-/usr/libexec/PlistBuddy -c &quot;Set :CFBundleVersion $buildNumber&quot; &quot;$INFOPLIST_FILE&quot;
-</code></pre>
 ]]></content>
     </entry>
 </feed>
