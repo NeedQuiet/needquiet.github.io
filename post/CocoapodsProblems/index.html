@@ -4,7 +4,7 @@
 <meta name="description" content=""/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 
-<title>markdown | 鼓捣猫宁</title>
+<title>Cocoapods相关问题 | 鼓捣猫宁</title>
 
 <link rel="shortcut icon" href="https://needquiet.github.io/favicon.ico?v=1599470015408">
 
@@ -25,11 +25,11 @@
 
 
 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.css">
 </head>
 <body>
 <div class="main gt-bg-theme-color-first">
-    <div class="main-content">
-        <nav class="navbar navbar-expand-lg">
+    <nav class="navbar navbar-expand-lg">
     <div class="navbar-brand">
         <img class="user-avatar" src="/images/avatar.png" alt="头像">
         <div class="site-name gt-c-content-color-first">
@@ -85,50 +85,55 @@
     </div>
 </nav>
 
-        <div class="current-tag-container">
-            <h2 class="title gt-c-content-color-first">
-                #markdown
-            </h2>
-        </div>
-        <div class="post-list-container">
-    <div class="post-inner">
-        
-            <div class="post gt-bg-theme-color-second">
-                <div class="post-left">
-                    <div>
-                        
-                        <a href="https://needquiet.github.io/post/markdownNote/">
-                            <span class="post-title gt-c-content-color-first">MarkDown简单用法</span>
+    <div class="post-container">
+        <div class="post-detail gt-bg-theme-color-second">
+            <article class="gt-post-content">
+                <h2 class="post-title">
+                    Cocoapods相关问题
+                </h2>
+                <div class="post-info">
+                    <time class="post-time gt-c-content-color-first">
+                        · 2020-04-07 ·
+                    </time>
+                    
+                        <a href="https://needquiet.github.io/tag/4ZGYtHW-9/" class="post-tags">
+                            # Cocoapods
                         </a>
-                    </div>
-                    <div class="gt-post-content post-abstract gt-c-content-color-second">
-                        <p>Markdown 是一种轻量级标记语言，学习成本也不需要太多，且一旦熟悉这种语法规则，会有一劳永逸的效果。</p>
-
-                    </div>
-                    <div class="post-info">
-                        <time class="post-time gt-c-content-color-first">
-                            发布于 · 2020-01-10 ·
-                        </time>
-                        
-                            <a href="https://needquiet.github.io/tag/FfyUyo2P-/" class="post-tag">
-                                # markdown
-                            </a>
-                        
-                    </div>
+                    
+                        <a href="https://needquiet.github.io/tag/VYkxi25Yw/" class="post-tags">
+                            # Tool
+                        </a>
+                    
                 </div>
-                
-                    <a href="https://needquiet.github.io/post/markdownNote/" class="post-feature-image"
-                       style="background-image: url('https://needquiet.github.io/post-images/markdownNote.png')">
-                    </a>
-                
+                <div class="post-content">
+                    <p>使用Cocoapods时偶尔会遇到一些奇怪的问题，在此记录，方便查询</p>
+<!-- more -->
+<h2 id="1pod-install或者pod-search时报错">1.pod install或者pod search时，报错</h2>
+<blockquote>
+<p>如：</p>
+</blockquote>
+<p style="color:red">error: Failed to open TCP connection to raw.githubusercontent.com:443 (Connection refused - connect(2) for "raw.githubusercontent.com" port 443)</p>
+>解决方法：
+<p>执行<code>pod repo remove trunk</code>移除trunk源，然后<code>pod search</code>就都正常了</p>
+
+                </div>
+            </article>
+        </div>
+
+        
+            <div class="next-post">
+                <div class="next gt-c-content-color-first">下一篇</div>
+                <a href="https://needquiet.github.io/post/UseShChangeVersion/" class="post-title gt-a-link">
+                    Xcode利用shell更改build号
+                </a>
             </div>
         
-    </div>
-</div>
-        <div class="pagination-container">
-    
-    
-</div>
+
+        
+
+        
+
+        
 
         <div class="site-footer gt-c-content-color-first">
     <div class="slogan gt-c-content-color-first">梧高凤必至，花香蝶自来</div>

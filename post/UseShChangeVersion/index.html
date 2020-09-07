@@ -4,7 +4,7 @@
 <meta name="description" content=""/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 
-<title>markdown | 鼓捣猫宁</title>
+<title>Xcode利用shell更改build号 | 鼓捣猫宁</title>
 
 <link rel="shortcut icon" href="https://needquiet.github.io/favicon.ico?v=1599470015408">
 
@@ -25,11 +25,11 @@
 
 
 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.css">
 </head>
 <body>
 <div class="main gt-bg-theme-color-first">
-    <div class="main-content">
-        <nav class="navbar navbar-expand-lg">
+    <nav class="navbar navbar-expand-lg">
     <div class="navbar-brand">
         <img class="user-avatar" src="/images/avatar.png" alt="头像">
         <div class="site-name gt-c-content-color-first">
@@ -85,50 +85,56 @@
     </div>
 </nav>
 
-        <div class="current-tag-container">
-            <h2 class="title gt-c-content-color-first">
-                #markdown
-            </h2>
-        </div>
-        <div class="post-list-container">
-    <div class="post-inner">
-        
-            <div class="post gt-bg-theme-color-second">
-                <div class="post-left">
-                    <div>
-                        
-                        <a href="https://needquiet.github.io/post/markdownNote/">
-                            <span class="post-title gt-c-content-color-first">MarkDown简单用法</span>
+    <div class="post-container">
+        <div class="post-detail gt-bg-theme-color-second">
+            <article class="gt-post-content">
+                <h2 class="post-title">
+                    Xcode利用shell更改build号
+                </h2>
+                <div class="post-info">
+                    <time class="post-time gt-c-content-color-first">
+                        · 2020-03-19 ·
+                    </time>
+                    
+                        <a href="https://needquiet.github.io/tag/nKfqlyX-m/" class="post-tags">
+                            # shell
                         </a>
-                    </div>
-                    <div class="gt-post-content post-abstract gt-c-content-color-second">
-                        <p>Markdown 是一种轻量级标记语言，学习成本也不需要太多，且一旦熟悉这种语法规则，会有一劳永逸的效果。</p>
-
-                    </div>
-                    <div class="post-info">
-                        <time class="post-time gt-c-content-color-first">
-                            发布于 · 2020-01-10 ·
-                        </time>
-                        
-                            <a href="https://needquiet.github.io/tag/FfyUyo2P-/" class="post-tag">
-                                # markdown
-                            </a>
-                        
-                    </div>
+                    
+                        <a href="https://needquiet.github.io/tag/ld35A2DOVM/" class="post-tags">
+                            # Xcode
+                        </a>
+                    
                 </div>
-                
-                    <a href="https://needquiet.github.io/post/markdownNote/" class="post-feature-image"
-                       style="background-image: url('https://needquiet.github.io/post-images/markdownNote.png')">
-                    </a>
-                
+                <div class="post-content">
+                    <p>编译iOS项目时，也许会遇到自动更改build号这样的需求，用来上架或其他用途。</p>
+<!-- more -->
+<blockquote>
+<p>利用python或者shell脚本都可以做到这点，这里简述shell脚本使用方式</p>
+</blockquote>
+<p><code>使用方法：</code> Build Phases里增加一个Run Script即可</p>
+<pre><code class="language-shell">plist=${INFOPLIST_FILE}
+buildNumber=$(date +%Y%m%d%H%M)
+/usr/libexec/PlistBuddy -c &quot;Set :CFBundleVersion $buildNumber&quot; &quot;$INFOPLIST_FILE&quot;
+</code></pre>
+
+                </div>
+            </article>
+        </div>
+
+        
+            <div class="next-post">
+                <div class="next gt-c-content-color-first">下一篇</div>
+                <a href="https://needquiet.github.io/post/XcodeRunScriptShell/" class="post-title gt-a-link">
+                    Xcode利用shell编译sdk
+                </a>
             </div>
         
-    </div>
-</div>
-        <div class="pagination-container">
-    
-    
-</div>
+
+        
+
+        
+
+        
 
         <div class="site-footer gt-c-content-color-first">
     <div class="slogan gt-c-content-color-first">梧高凤必至，花香蝶自来</div>
