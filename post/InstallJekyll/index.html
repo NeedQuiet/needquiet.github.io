@@ -1,0 +1,235 @@
+<html>
+<head>
+    <meta charset="utf-8"/>
+<meta name="description" content=""/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+<title>安装Jekyll | 鼓捣猫宁</title>
+
+<link rel="shortcut icon" href="https://needquiet.github.io/favicon.ico?v=1599466923079">
+
+<link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://needquiet.github.io/styles/main.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css">
+
+<script src="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets/highlight.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/dockerfile.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/dart.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/moment@2.27.0/moment.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.min.js"></script>
+<!-- DEMO JS -->
+<!--<script src="media/scripts/index.js"></script>-->
+
+
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.css">
+</head>
+<body>
+<div class="main gt-bg-theme-color-first">
+    <nav class="navbar navbar-expand-lg">
+    <div class="navbar-brand">
+        <img class="user-avatar" src="/images/avatar.png" alt="头像">
+        <div class="site-name gt-c-content-color-first">
+            鼓捣猫宁
+        </div>
+    </div>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fas fa-bars gt-c-content-color-first" style="font-size: 18px"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="navbar-nav mr-auto" style="text-align: center">
+            
+                <div class="nav-item">
+                    
+                        <a href="/" class="menu gt-a-link">
+                            首页
+                        </a>
+                    
+                </div>
+            
+                <div class="nav-item">
+                    
+                        <a href="/archives" class="menu gt-a-link">
+                            归档
+                        </a>
+                    
+                </div>
+            
+                <div class="nav-item">
+                    
+                        <a href="/tags" class="menu gt-a-link">
+                            标签
+                        </a>
+                    
+                </div>
+            
+                <div class="nav-item">
+                    
+                        <a href="/post/about" class="menu gt-a-link">
+                            关于
+                        </a>
+                    
+                </div>
+            
+        </div>
+        <div style="text-align: center">
+            <form id="gridea-search-form" style="position: relative" data-update="1599466923079" action="/search/index.html">
+                <input class="search-input" autocomplete="off" spellcheck="false" name="q" placeholder="搜索文章" />
+                <i class="fas fa-search gt-c-content-color-first" style="position: absolute; top: 9px; left: 10px;"></i>
+            </form>
+        </div>
+    </div>
+</nav>
+
+    <div class="post-container">
+        <div class="post-detail gt-bg-theme-color-second">
+            <article class="gt-post-content">
+                <h2 class="post-title">
+                    安装Jekyll
+                </h2>
+                <div class="post-info">
+                    <time class="post-time gt-c-content-color-first">
+                        · 2020-01-14 ·
+                    </time>
+                    
+                        <a href="https://needquiet.github.io/tag/VYkxi25Yw/" class="post-tags">
+                            # Tool
+                        </a>
+                    
+                </div>
+                <div class="post-content">
+                    <p>Jekyll也是一种搭建个人博客的方式，本文讲简述如何安装Jekyll并调试。</p>
+<!-- more -->
+<h2 id="一-安装">一、安装</h2>
+<ul>
+<li><a href="https://www.jekyll.com.cn/">Jekyll官网</a></li>
+</ul>
+<blockquote>
+<p>安装前需要确认环境：Xcode、Ruby。（MacOS自带Ruby、Xcode不用解释）</p>
+</blockquote>
+<p>环境没有问题的话，就可以直接安装<strong>jekyll</strong>了.</p>
+<pre><code class="language-bash">sudo gem install bundler jekyll
+</code></pre>
+<p>(bundler)说明：Ruby Project依赖于一系列的ruby gems.而bundler是一个很好的管理ruby项目gems的工具。当然也是一个ruby gem.</p>
+<h2 id="二-调试">二、调试</h2>
+<p>经过几分钟的安装后，就可以调试了</p>
+<p>1.查看jekyll版本可以用</p>
+<pre><code class="language-bash">jekyll -v
+</code></pre>
+<p>2.到项目根目录下，运行<code>jekyll server</code>即可启动本地server <code>http://127.0.0.1:4000/</code></p>
+<pre><code class="language-bash">jekyll server
+</code></pre>
+<p>3.启动成功后，直接在浏览器输入<code>http://127.0.0.1:4000/</code>即可同步调试</p>
+<h2 id="三-报错汇总">三、报错汇总</h2>
+<h3 id="31-启动server时可能会遇到不同的错误我在使用时遇到的问题基本是缺少不同的jekyll库遇到这种问题很简单安装对应的库即可例如">3.1 启动server时，可能会遇到不同的错误，我在使用时，遇到的问题基本是缺少不同的jekyll库，遇到这种问题很简单，安装对应的库即可，例如：</h3>
+<figure data-type="image" tabindex="1"><img src="https://needquiet.github.io/post-images/1599465291503.png" alt="server_error" loading="lazy"></figure>
+<p>很明显缺少jekyll-sitemap，安装即可：</p>
+<pre><code class="language-bash">sudo gem install jekyll-sitemap
+</code></pre>
+<h3 id="32-尝试配置linkplay-sdk-github-pages时按照其对应的模板执行了-bundle-install">3.2 尝试配置Linkplay SDK Github Pages时，按照其对应的模板执行了 <code>bundle install</code></h3>
+<p>由于调试了其他的jekyll theme，在调试时按照步骤执行了bundleinstall<br><br>
+bundle install后，会根据目录下的Gemfile文件自动安装很多库，具体没研究，不过再次启动本地调试的话，之前的jekyll server已经不行了；<br><br>
+此时想要本地调试需要2步：</p>
+<ol>
+<li>
+<p>Gemfile文件，模板如下(不指定版本也行)</p>
+<pre><code class="language-shell"> source 'https://rubygems.org'
+ gem &quot;jekyll&quot;, '3.8.4'
+ group :jekyll_plugins do
+     gem 'jekyll-feed', '0.11.0'
+     gem 'jekyll-seo-tag', '2.5.0'
+     gem 'jekyll-sitemap', '1.2.0'
+     gem 'jekyll-paginate'
+ end
+</code></pre>
+</li>
+<li>
+<p>创建完成后就可以通过执行 <code>bundle exec jekyll serve</code> 来拉起本地server <code>http://127.0.0.1:4000</code> ;<br>同时会生成Gemfile.lock文件，可忽略</p>
+</li>
+<li>
+<p>当然也可以<code>解决以上问题</code>，将其恢复到 <code>jekyll serve</code> 的方式；</p>
+<ol>
+<li>先删除Gemfile.Lock文件，然后重新编辑Gemfile，将jekyll 升级到最新的4.0.0：<pre><code class="language-shell">    source 'https://rubygems.org' #配置Netfily的话，因为其服务器在国外，因此用此源
+    #source 'https://gems.ruby-china.com' #本地执行的时候为了加速，将源改为ruby-china
+
+    gem &quot;jekyll&quot;, '~&gt; 4.0.0'
+
+    group :jekyll_plugins do
+      gem 'jekyll-feed'
+      gem 'jekyll-seo-tag'
+      gem 'jekyll-sitemap'
+      gem 'jekyll-paginate'
+    end
+</code></pre>
+</li>
+<li>重新bundle install，成功后即可重新使用 <code>jekyll serve</code> 来进行本地调试了</li>
+<li>最后为了Netfily，记得吧Gemflie和Gemfile.lock文件中的Gem sourse改回 <code>https://rubygems.org</code></li>
+</ol>
+</li>
+</ol>
+
+                </div>
+            </article>
+        </div>
+
+        
+            <div class="next-post">
+                <div class="next gt-c-content-color-first">下一篇</div>
+                <a href="https://needquiet.github.io/post/GoodSentences/" class="post-title gt-a-link">
+                    喜欢的文案
+                </a>
+            </div>
+        
+
+        
+
+        
+
+        
+
+        <div class="site-footer gt-c-content-color-first">
+    <div class="slogan gt-c-content-color-first">梧高凤必至，花香蝶自来</div>
+    <div class="social-container">
+        
+            
+                <a href="https://github.com/NeedQuiet" target="_blank">
+                    <i class="fab fa-github gt-c-content-color-first"></i>
+                </a>
+            
+        
+            
+        
+            
+        
+            
+                <a href="https://www.zhihu.com/people/da-ning-40" target="_blank">
+                    <i class="fab fa-zhihu gt-c-content-color-first"></i>
+                </a>
+            
+        
+            
+        
+            
+        
+    </div>
+    <div class="footer-info">
+        技术支持:  <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+    </div>
+    <div>
+        Theme by <a href="https://imhanjie.com/" target="_blank">imhanjie</a>, Powered by <a
+                href="https://github.com/getgridea/gridea" target="_blank">Gridea | <a href="https://needquiet.github.io/atom.xml" target="_blank">RSS</a></a>
+    </div>
+</div>
+
+<script>
+  hljs.initHighlightingOnLoad()
+</script>
+
+    </div>
+</div>
+</body>
+</html>
