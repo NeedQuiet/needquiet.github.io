@@ -1,49 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-    <id>https://needquiet.github.io</id>
+    <id>https://daning.netlify.app</id>
     <title>鼓捣猫宁</title>
-    <updated>2020-09-07T09:32:57.906Z</updated>
+    <updated>2020-09-07T10:36:07.818Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
-    <link rel="alternate" href="https://needquiet.github.io"/>
-    <link rel="self" href="https://needquiet.github.io/atom.xml"/>
+    <link rel="alternate" href="https://daning.netlify.app"/>
+    <link rel="self" href="https://daning.netlify.app/atom.xml"/>
     <subtitle>梧高凤必至，花香蝶自来</subtitle>
-    <logo>https://needquiet.github.io/images/avatar.png</logo>
-    <icon>https://needquiet.github.io/favicon.ico</icon>
+    <logo>https://daning.netlify.app/images/avatar.png</logo>
+    <icon>https://daning.netlify.app/favicon.ico</icon>
     <rights>All rights reserved 2020, 鼓捣猫宁</rights>
     <entry>
-        <title type="html"><![CDATA[MacOS关闭按钮与Reopen]]></title>
-        <id>https://needquiet.github.io/post/macos-guan-bi-an-niu-yu-reopen/</id>
-        <link href="https://needquiet.github.io/post/macos-guan-bi-an-niu-yu-reopen/">
+        <title type="html"><![CDATA[使用 Gridea+Github Pages 搭建个人博客]]></title>
+        <id>https://daning.netlify.app/post/CreateBlogWithGridea/</id>
+        <link href="https://daning.netlify.app/post/CreateBlogWithGridea/">
         </link>
-        <updated>2020-09-07T09:29:36.000Z</updated>
-        <summary type="html"><![CDATA[<p>在点击Window上的Close按钮后，再在dock栏里重新选中软件，这时软件的各种状态都会重置，一些设置的unowned的地方甚至会crash，这相当于一个半成品的reopen；<code>我们需要的是点击关闭按钮并不会杀掉软件，而是隐藏起来，点击后展示之前软件的显示状态</code>；</p>
+        <updated>2020-09-07T09:36:33.000Z</updated>
+        <summary type="html"><![CDATA[<p>Gridea 是一个静态博客写作客户端，它对比Jekyll、Hexo搭建博客的优势就在于拥有一个独有的客户端，不需要把注意力放在UI的配置上，只需要进行简单的配置即可迅速上手搭建个人博客！</p>
 ]]></summary>
-        <content type="html"><![CDATA[<p>在点击Window上的Close按钮后，再在dock栏里重新选中软件，这时软件的各种状态都会重置，一些设置的unowned的地方甚至会crash，这相当于一个半成品的reopen；<code>我们需要的是点击关闭按钮并不会杀掉软件，而是隐藏起来，点击后展示之前软件的显示状态</code>；</p>
+        <content type="html"><![CDATA[<p>Gridea 是一个静态博客写作客户端，它对比Jekyll、Hexo搭建博客的优势就在于拥有一个独有的客户端，不需要把注意力放在UI的配置上，只需要进行简单的配置即可迅速上手搭建个人博客！</p>
 <!-- more -->
+<h2 id="github-pages简介">Github Pages简介</h2>
+<p><a href="#https://pages.github.com/">Github Pages官网</a></p>
+<p>Github Pages是一个静态站点托管服务，也就是说你完全可以随便做一个静态网页，来展示你要的东西，最重要的一点，它是免费的！😏</p>
+<p>Github Pages也有自己的主题，如果不依赖其他工具去搭建blog也是可以的，<a href="#https://sspai.com/post/54608">GitHub Pages 搭建教程</a>，没尝试过，不做评价；</p>
+<h2 id="gridea">Gridea</h2>
+<p>官网：<a href="#https://gridea.dev/">Gridea官网</a></p>
+<p>主题：<a href="#https://gridea.dev/themes/">Gridea主题</a></p>
 <h2 id="步骤">步骤</h2>
-<p>实现方式很简单，一共就需要两步</p>
-<pre><code class="language-swift">//1. 首先定义mainWindow，并在加载后赋值
-var mainWindow: NSWindow!
-    func applicationDidFinishLaunching(_ aNotification: Notification) {
-        mainWindow = NSApplication.shared.windows[0]
-    }
-</code></pre>
-<pre><code class="language-swift">//2. 然后继承NSWindowDelegate，并实现如下方法
-extension AppDelegate: NSWindowDelegate {
-    func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -&gt; Bool {
-        if !flag {
-            mainWindow.makeKeyAndOrderFront(nil) // 这里是核心代码
-        }
-        return false // 这里要设为false，不然会reopen一个窗口
-    }
-}
-</code></pre>
+<ul>
+<li>
+<p>详细过程：<a href="#https://gridea.dev/#started">官方教程</a></p>
+</li>
+<li>
+<p>大体过程：</p>
+<ol>
+<li>下载<a href="#https://gridea.dev/#started">Gridea客户端</a></li>
+<li>创建Github Token，路径：Setting -&gt; Developer settings -&gt; Personal access tokens -&gt; Generate new token; 创建完成后记得保存，如果推出当前页面，token就再也看不到了！</li>
+<li>在客户端里配置Github信息；</li>
+</ol>
+</li>
+</ul>
 ]]></content>
     </entry>
     <entry>
         <title type="html"><![CDATA[Mac监听键盘点击]]></title>
-        <id>https://needquiet.github.io/post/ListenKeyboardEvent/</id>
-        <link href="https://needquiet.github.io/post/ListenKeyboardEvent/">
+        <id>https://daning.netlify.app/post/ListenKeyboardEvent/</id>
+        <link href="https://daning.netlify.app/post/ListenKeyboardEvent/">
         </link>
         <updated>2020-08-28T09:32:06.000Z</updated>
         <summary type="html"><![CDATA[<p>总结了Swift中，暂时发现的3种键盘(鼠标)点击的监听方式</p>
@@ -173,8 +176,8 @@ print(&quot;辅助功能:&quot;,AXIsProcessTrusted() ? &quot;信任&quot; : &quo
     </entry>
     <entry>
         <title type="html"><![CDATA[NSMenu右键后，或者拖入文件时，cell的边框和下划线处理]]></title>
-        <id>https://needquiet.github.io/post/TableViewMenuRightClick/</id>
-        <link href="https://needquiet.github.io/post/TableViewMenuRightClick/">
+        <id>https://daning.netlify.app/post/TableViewMenuRightClick/</id>
+        <link href="https://daning.netlify.app/post/TableViewMenuRightClick/">
         </link>
         <updated>2020-07-24T09:31:23.000Z</updated>
         <summary type="html"><![CDATA[<p>我们在配合使用 NSTableView/NSOutlineView 和 NSmenu 的时候，会发现右键cell时，会多出一个蓝色的边框;<br><br>
@@ -190,11 +193,11 @@ print(&quot;辅助功能:&quot;,AXIsProcessTrusted() ? &quot;信任&quot; : &quo
 <ul>
 <li>
 <p>右键cell后，边框的样子如下，很突兀:<br>
-<img src="../images/TableViewMenuImage/menuRightBorder.png" alt="示例" loading="lazy"></p>
+<img src="https://s1.ax1x.com/2020/09/07/wuIScF.png" alt="示例" loading="lazy"></p>
 </li>
 <li>
 <p>实际上，就是在tableView上 addSubview 了一个 NSMenuHighlightView：<br>
-<img src="../images/TableViewMenuImage/NSMenuHighlightView.png" alt="示例" loading="lazy"></p>
+<img src="https://s1.ax1x.com/2020/09/07/wuIpX4.png" alt="示例" loading="lazy"></p>
 </li>
 </ul>
 <h2 id="解决方式">解决方式</h2>
@@ -217,7 +220,7 @@ print(&quot;辅助功能:&quot;,AXIsProcessTrusted() ? &quot;信任&quot; : &quo
 <ul>
 <li>
 <p>首先看看它的样子<br>
-<img src="../images/TableViewMenuImage/drop_cell_line.png" alt="示例图" loading="lazy"></p>
+<img src="https://s1.ax1x.com/2020/09/07/wuIpX4.png" alt="示例图" loading="lazy"></p>
 </li>
 <li>
 <p>其实原理和上面边框处理一样，也是通过重写addSubView进行拦截</p>
@@ -242,14 +245,14 @@ print(&quot;辅助功能:&quot;,AXIsProcessTrusted() ? &quot;信任&quot; : &quo
 </code></pre>
 <ul>
 <li>再来看看修改后的样子<br>
-<img src="../images/TableViewMenuImage/change_cell_line.png" alt="示例图" loading="lazy"></li>
+<img src="https://s1.ax1x.com/2020/09/07/wuIi7R.png" alt="示例图" loading="lazy"></li>
 </ul>
 ]]></content>
     </entry>
     <entry>
         <title type="html"><![CDATA[自定义NSSlider]]></title>
-        <id>https://needquiet.github.io/post/CustomNSSlider/</id>
-        <link href="https://needquiet.github.io/post/CustomNSSlider/">
+        <id>https://daning.netlify.app/post/CustomNSSlider/</id>
+        <link href="https://daning.netlify.app/post/CustomNSSlider/">
         </link>
         <updated>2020-07-22T09:30:16.000Z</updated>
         <summary type="html"><![CDATA[<p>见名知意，本文介绍如何自定义NSSlider</p>
@@ -467,8 +470,8 @@ extension DNSlider {
     </entry>
     <entry>
         <title type="html"><![CDATA[MacOS关闭按钮与Reopen]]></title>
-        <id>https://needquiet.github.io/post/MacCloseAndReopen/</id>
-        <link href="https://needquiet.github.io/post/MacCloseAndReopen/">
+        <id>https://daning.netlify.app/post/MacCloseAndReopen/</id>
+        <link href="https://daning.netlify.app/post/MacCloseAndReopen/">
         </link>
         <updated>2020-07-21T09:29:36.000Z</updated>
         <summary type="html"><![CDATA[<p>在点击Window上的Close按钮后，再在dock栏里重新选中软件，这时软件的各种状态都会重置，一些设置的unowned的地方甚至会crash，这相当于一个半成品的reopen；<code>我们需要的是点击关闭按钮并不会杀掉软件，而是隐藏起来，点击后展示之前软件的显示状态</code>；</p>
@@ -497,8 +500,8 @@ extension AppDelegate: NSWindowDelegate {
     </entry>
     <entry>
         <title type="html"><![CDATA[MacOS自定义TitleBar]]></title>
-        <id>https://needquiet.github.io/post/MacOSCustomTitleBar/</id>
-        <link href="https://needquiet.github.io/post/MacOSCustomTitleBar/">
+        <id>https://daning.netlify.app/post/MacOSCustomTitleBar/</id>
+        <link href="https://daning.netlify.app/post/MacOSCustomTitleBar/">
         </link>
         <updated>2020-07-03T09:28:19.000Z</updated>
         <summary type="html"><![CDATA[<p>简单介绍MacOS开发中如何自定义TitleBar</p>
@@ -507,13 +510,13 @@ extension AppDelegate: NSWindowDelegate {
 <!-- more -->
 <h2 id="默认样式">默认样式</h2>
 <p>默认的样式如下，无论是可选中的范围还是样式都比较有局限性</p>
-<figure data-type="image" tabindex="1"><img src="../images/MacOSCustomTB/defaultTitleBar.png" alt="示例" loading="lazy"></figure>
+<figure data-type="image" tabindex="1"><img src="https://s1.ax1x.com/2020/09/07/wu5DSO.png" alt="示例" loading="lazy"></figure>
 <h2 id="目标示例样式">目标示例样式</h2>
 <p>期待的样式如下，选中的范围<code>变高</code>，内容更自由和丰富</p>
 <blockquote>
 <p>选中范围变大意味着什么？Mac上可以通过拖拽TitleBar来移动整个Window窗口，范围变大则操作更舒服</p>
 </blockquote>
-<figure data-type="image" tabindex="2"><img src="../images/MacOSCustomTB/targetStyle.png" alt="示例" loading="lazy"></figure>
+<figure data-type="image" tabindex="2"><img src="https://s1.ax1x.com/2020/09/07/wu5g0A.png" alt="示例" loading="lazy"></figure>
 <h2 id="思路">思路</h2>
 <ul>
 <li>NSWindow上的Titlebar可以被隐藏；</li>
@@ -559,7 +562,7 @@ extension AppDelegate: NSWindowDelegate {
 </li>
 <li>
 <p>最后记得给rootView设置圆角，不然默认是没有圆角的(我这里直接Storyboard里设置了)<br>
-<img src="../images/MacOSCustomTB/layerSetting.png" alt="示例" loading="lazy"></p>
+<img src="https://s1.ax1x.com/2020/09/07/wu55p8.png" alt="示例" loading="lazy"></p>
 </li>
 </ul>
 <pre><code class="language-swift">wantsLayer = true
@@ -567,13 +570,13 @@ layer.cornerRadius = 7.0
 layer.masksToBounds = true
 </code></pre>
 <h2 id="最终效果">最终效果</h2>
-<figure data-type="image" tabindex="3"><img src="../images/MacOSCustomTB/resultStyle.png" alt="示例" loading="lazy"></figure>
+<figure data-type="image" tabindex="3"><img src="https://s1.ax1x.com/2020/09/07/wu5o6g.png" alt="示例" loading="lazy"></figure>
 ]]></content>
     </entry>
     <entry>
         <title type="html"><![CDATA[获取APP图片资源(破解Assets.car)]]></title>
-        <id>https://needquiet.github.io/post/GetAssetsCar/</id>
-        <link href="https://needquiet.github.io/post/GetAssetsCar/">
+        <id>https://daning.netlify.app/post/GetAssetsCar/</id>
+        <link href="https://daning.netlify.app/post/GetAssetsCar/">
         </link>
         <updated>2020-07-03T09:19:26.000Z</updated>
         <summary type="html"><![CDATA[<p>在借鉴(抄袭)或学习一个APP的时候，总是情不自禁的想直接使用人家的图片资源，在拿到iPA或者在MAC下的应用程序里，图片资源一般是<code>Assets.car</code>，这里我们介绍下如何打开这个文件</p>
@@ -604,7 +607,7 @@ layer.masksToBounds = true
 </code></pre>
 <ol start="2">
 <li>修改代码<br>
-<img src="../images/AssetsCar/fixError2.png" alt="示例" loading="lazy"></li>
+<img src="https://s1.ax1x.com/2020/09/07/wu5SeA.png" alt="示例" loading="lazy"></li>
 </ol>
 <pre><code class="language-objc">//	CUIThemeFacet *facet = [CUIThemeFacet themeWithContentsOfURL:[NSURL fileURLWithPath:carPath] error:&amp;error];
 //
@@ -629,8 +632,8 @@ layer.masksToBounds = true
     </entry>
     <entry>
         <title type="html"><![CDATA[Charles抓包工具介绍]]></title>
-        <id>https://needquiet.github.io/post/HowToUseCharles/</id>
-        <link href="https://needquiet.github.io/post/HowToUseCharles/">
+        <id>https://daning.netlify.app/post/HowToUseCharles/</id>
+        <link href="https://daning.netlify.app/post/HowToUseCharles/">
         </link>
         <updated>2020-05-18T09:13:56.000Z</updated>
         <summary type="html"><![CDATA[<p>Charles(青花瓷)是HTTP的抓包工具，可以有效地获取HTTP通信信息；此文章使用的是Charles V4.5.6版本</p>
@@ -698,8 +701,8 @@ layer.masksToBounds = true
     </entry>
     <entry>
         <title type="html"><![CDATA[GitBook常用插件]]></title>
-        <id>https://needquiet.github.io/post/GitBookPlugin/</id>
-        <link href="https://needquiet.github.io/post/GitBookPlugin/">
+        <id>https://daning.netlify.app/post/GitBookPlugin/</id>
+        <link href="https://daning.netlify.app/post/GitBookPlugin/">
         </link>
         <updated>2020-05-18T09:04:21.000Z</updated>
         <content type="html"><![CDATA[<p>整理一下目前发现的GitBook的插件（plugins），各插件具体使用方式请看其对应的官方介绍</p>
@@ -1027,8 +1030,8 @@ layer.masksToBounds = true
     </entry>
     <entry>
         <title type="html"><![CDATA[npm镜像管理]]></title>
-        <id>https://needquiet.github.io/post/npmManagement/</id>
-        <link href="https://needquiet.github.io/post/npmManagement/">
+        <id>https://daning.netlify.app/post/npmManagement/</id>
+        <link href="https://daning.netlify.app/post/npmManagement/">
         </link>
         <updated>2020-05-15T09:03:09.000Z</updated>
         <summary type="html"><![CDATA[<p>npm install 或者 gitbook install的时候，经常遇见网速导致的卡慢问题，这里介绍 <code>nrm</code></p>
