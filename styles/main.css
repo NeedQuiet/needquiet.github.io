@@ -634,15 +634,7 @@ ul li {
     margin-left: 10px;
   }
   .post-list-container .post-inner .post .post-feature-image {
-    width: 0;
-    height: 0;
-    flex-basis: 0;
-    flex-shrink: 0;
-    margin-left: 0;
-    border-radius: 2px;
-    overflow: hidden;
-    background-size: cover;
-    background-position: center;
+    padding-top: 56.25%;
   }
 }
 .post-container {
@@ -674,6 +666,12 @@ ul li {
 }
 .post-container .post-detail .post-content {
   margin-top: 30px;
+}
+.post-container .post-detail .post-feature-image {
+  width: 100%;
+  height: auto;
+  margin-bottom: 24px;
+  border-radius: 2px;
 }
 .next-post {
   text-align: center;
