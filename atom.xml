@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://daning.netlify.app</id>
     <title>鼓捣猫宁</title>
-    <updated>2020-09-08T11:41:34.334Z</updated>
+    <updated>2020-09-08T11:43:34.517Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://daning.netlify.app"/>
     <link rel="self" href="https://daning.netlify.app/atom.xml"/>
@@ -337,8 +337,8 @@ print(&quot;辅助功能:&quot;,AXIsProcessTrusted() ? &quot;信任&quot; : &quo
     </entry>
     <entry>
         <title type="html"><![CDATA[自定义NSSlider]]></title>
-        <id>https://daning.netlify.app/post/CustomNSSlider/</id>
-        <link href="https://daning.netlify.app/post/CustomNSSlider/">
+        <id>https://daning.netlify.app/post/custom-nsslider/</id>
+        <link href="https://daning.netlify.app/post/custom-nsslider/">
         </link>
         <updated>2020-07-22T09:30:16.000Z</updated>
         <summary type="html"><![CDATA[<p>见名知意，本文介绍如何自定义NSSlider</p>
