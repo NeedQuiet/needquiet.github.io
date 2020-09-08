@@ -1,12 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-
+<html>
 <head>
     <meta charset="utf-8"/>
 <meta name="description" content=""/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 
-<title>搜索 - 鼓捣猫宁</title>
+<title>使用Netlify加速Github Pages访问速度(Jekyll) | 鼓捣猫宁</title>
 
 <link rel="shortcut icon" href="https://daning.netlify.app/favicon.ico?v=1599565275926">
 
@@ -39,21 +37,11 @@
     </script>
 
 
-    <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.0/dist/fuse.basic.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/ejs@3.1.3/ejs.min.js"></script>
-    <script src="https://daning.netlify.app/media/gridea-search/gridea-search.js"></script>
-    <script src="https://daning.netlify.app/media/gridea-search/result-template.ejs" type="text/ejs"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.css">
 </head>
-
 <body>
-    <style>
-        .searched-keyword {
-            background-color: yellow;
-            color: red;
-        }
-    </style>
-    <div class="main gt-bg-theme-color-first">
-        <nav class="navbar navbar-expand-lg">
+<div class="main gt-bg-theme-color-first">
+    <nav class="navbar navbar-expand-lg">
     <div class="navbar-brand">
         <img class="user-avatar" src="/images/avatar.png" alt="头像">
         <div class="site-name gt-c-content-color-first">
@@ -110,16 +98,106 @@
     </div>
 </nav>
 
-        <div id="gridea-search-result" data-update="1599565275926">
-            <div class="searching" style="font-size: 18px; margin-top: 50px;">
-                <i class="fa fa-sync-alt fa-spin"></i>&nbsp;&nbsp;搜索中......
-                <br><br>
-                <span style="font-size: 65%; color: #aaa">第一次搜索可能需要耗费较长时间构建索引，请耐心等待...</span>
-            </div>
-            <div class="no-result" style="display:none; font-size: 20px; margin-top: 50px;">
-                <i class="fa fa-exclamation-triangle"></i>&nbsp;&nbsp;未搜索到相关文章，请更换关键词
-            </div>
+    <div class="post-container">
+        <div class="post-detail gt-bg-theme-color-second">
+            <article class="gt-post-content">
+                <h2 class="post-title">
+                    使用Netlify加速Github Pages访问速度(Jekyll)
+                </h2>
+                <div class="post-info">
+                    <time class="post-time gt-c-content-color-first">
+                        · 2020-04-27 ·
+                    </time>
+                    
+                        <a href="https://daning.netlify.app/tag/VYkxi25Yw/" class="post-tags">
+                            # Tool
+                        </a>
+                    
+                </div>
+                
+                <div class="post-content">
+                    <p>使用 <strong>Github Pages</strong> 配合 <strong>Jekyll</strong> 搭建个人博客，即免费又便捷，但其有一个很大的问题就是国内的访问速度很慢，为了低成本的解决这个问题，在此介绍一个服务：<code>Netlify</code></p>
+<!-- more -->
+<h2 id="一-netlify简介">一. Netlify简介</h2>
+<p>Netlify是一家提供静态网站托管的综合平台，支持自动从Github等仓库拉取代码，并构建网站进行发布，同时也支持自定义域名、自动申请SSL证书等功能；<br>
+最重要的同时也是我们所关注的就是自动启动CDN加速，国内访问速度会快上不少。</p>
+<h2 id="二-配置">二. 配置</h2>
+<ol>
+<li>首先打开 <a href="https://www.netlify.com/" target="_blank">Netlify官网</a></li>
+<li>然后进行一系列配置，很简单，就不详细说明了；不过有几点要注意：
+<ol>
+<li>博客根目录要配置Gemfile：因为Netlify在构建网页时需要知道自己该以怎样的方式去构建<pre><code class="language-shell">source 'https://rubygems.org' #配置Netfily的话，因为其服务器在国外，因此用此源
+# source 'https://gems.ruby-china.com' #本地执行的时候为了加速，将源改为ruby-china
+gem &quot;jekyll&quot;
+group :jekyll_plugins do
+    gem 'jekyll-feed'
+    gem 'jekyll-seo-tag'
+    gem 'jekyll-sitemap'
+    gem 'jekyll-paginate'
+end
+</code></pre>
+</li>
+<li>Build &amp; deploy配置下，Build command要填<code>jekyll build</code>,Publish directory要填<code>_site</code></li>
+</ol>
+</li>
+</ol>
+<p>配置完成后，就稍作等待就可以访问了</p>
+<h2 id="三-site修改">三. site修改</h2>
+<p>site name是可以随意修改的，也绑定自己的域名(custom domain)；<br><br>
+绑定自己的域名可以提供自己已经购买好的域名，或者直接在Getting started的第二步(实际操作的时候就知道在哪)，直接填写；<br><br>
+尝试填了一个，经历千万次重名提示后，提示我第一年要$10.99，以后每年要$14.99。Em............🤔 ヾ(￣▽￣)Bye<sub>Bye</sub></p>
+
+                </div>
+            </article>
         </div>
+
+        
+            <div class="next-post">
+                <div class="next gt-c-content-color-first">下一篇</div>
+                <a href="https://daning.netlify.app/post/cocoapods-problems/" class="post-title gt-a-link">
+                    Cocoapods相关问题
+                </a>
+            </div>
+        
+
+        
+            <span id="/post/how-to-use-netlify/" class="leancloud_visitors" data-flag-title="使用Netlify加速Github Pages访问速度(Jekyll)">
+                <em class="post-meta-item-text">阅读量 </em>
+                <i class="leancloud-visitors-count">loading...</i>
+            </span>
+        
+
+        
+
+        
+            <script src='https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js'></script>
+
+<style>
+	div#vcomments{
+		width:100%;
+		max-width: 1000px;
+		padding: 2.5%
+	}
+</style>
+
+
+	<div id="vcomments"></div>
+
+<script>
+	new Valine({
+		el: '#vcomments',
+		appId: 'MAAasDLv2NYMtEEAn4QnnU3l-gzGzoHsz',
+		appKey: 'dISXAmwDUYme6vJqsc5HgYw1',
+		avatar: 'mp',
+		pageSize: 5,
+		recordIp: true,
+		placeholder: '设置一个昵称，然后留下你的奇思妙想吧',
+		visitor: true,
+	});
+</script>
+
+        
+
         <div class="site-footer gt-c-content-color-first">
     <div class="slogan gt-c-content-color-first">梧高凤必至，花香蝶自来</div>
     <div class="social-container">
@@ -155,6 +233,6 @@
 </script>
 
     </div>
+</div>
 </body>
-
 </html>

@@ -1,10 +1,10 @@
-<html lang="zh">
+<html>
 <head>
     <meta charset="utf-8"/>
 <meta name="description" content=""/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 
-<title>关于 - 鼓捣猫宁</title>
+<title>MacOS自定义TitleBar | 鼓捣猫宁</title>
 
 <link rel="shortcut icon" href="https://daning.netlify.app/favicon.ico?v=1599565275926">
 
@@ -37,7 +37,7 @@
     </script>
 
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.css">
 </head>
 <body>
 <div class="main gt-bg-theme-color-first">
@@ -99,32 +99,109 @@
 </nav>
 
     <div class="post-container">
-        <div class="post-detail">
+        <div class="post-detail gt-bg-theme-color-second">
             <article class="gt-post-content">
+                <h2 class="post-title">
+                    MacOS自定义TitleBar
+                </h2>
+                <div class="post-info">
+                    <time class="post-time gt-c-content-color-first">
+                        · 2020-07-03 ·
+                    </time>
+                    
+                        <a href="https://daning.netlify.app/tag/pqG8Mzlpi/" class="post-tags">
+                            # MacOS
+                        </a>
+                    
+                </div>
+                
                 <div class="post-content">
-                    <h2 id="关于">关于</h2>
+                    <p>简单介绍MacOS开发中如何自定义TitleBar</p>
+<!-- more -->
+<h2 id="默认样式">默认样式</h2>
+<p>默认的样式如下，无论是可选中的范围还是样式都比较有局限性</p>
+<figure data-type="image" tabindex="1"><img src="https://s1.ax1x.com/2020/09/07/wu5DSO.png" alt="示例" loading="lazy"></figure>
+<h2 id="目标示例样式">目标示例样式</h2>
+<p>期待的样式如下，选中的范围<code>变高</code>，内容更自由和丰富</p>
 <blockquote>
-<p>Blog内容于2020-09-07从<a href="https://daningjekyll.netlify.app/">鼓捣猫宁(Jekyll版)</a>迁移至此，旧的Blog不再维护。</p>
+<p>选中范围变大意味着什么？Mac上可以通过拖拽TitleBar来移动整个Window窗口，范围变大则操作更舒服</p>
 </blockquote>
-<h2 id="其他">其他</h2>
+<figure data-type="image" tabindex="2"><img src="https://s1.ax1x.com/2020/09/07/wu5g0A.png" alt="示例" loading="lazy"></figure>
+<h2 id="思路">思路</h2>
 <ul>
-<li>Swift笔记
-<ul>
-<li>具体地址： <a href="https://daningswift.netlify.app/">大宁Swift学习文档</a></li>
-<li>Github地址：<a href="https://github.com/NeedQuiet/Swift_Learn_Gitbook">Swift_Learn_Gitbook仓库</a></li>
+<li>NSWindow上的Titlebar可以被隐藏；</li>
+<li>NSView可以通过重写mouseDownCanMoveWindow来控制长按移动窗口</li>
 </ul>
+<h2 id="步骤">步骤</h2>
+<ul>
+<li>
+<p>自定义CustomWindow，继承自NSWindow，然后在Storyboard中将Window的Class改为CustomWindow</p>
+</li>
+<li>
+<p>重新initWithContentRect方法，并隐藏Titlebar，并设置内容铺满整个window（fullSizeContentView）</p>
+<pre><code class="language-swift">  class CustomWindow: NSWindow {
+      // 个别属性可以在Storyboard里直接设置，这里都用代码写了
+      override init(contentRect: NSRect, styleMask style: NSWindow.StyleMask, backing backingStoreType: NSWindow.BackingStoreType, defer flag: Bool) {
+          // styleMask 默认是 [.titled, .closable, .miniaturizable, .resizable]
+          super.init(contentRect: contentRect,
+                     styleMask:[.titled, .closable, .miniaturizable, .resizable, .fullSizeContentView],
+                     backing: backingStoreType,
+                     defer: flag)
+          // titlebar透明
+          titlebarAppearsTransparent = true
+          // 隐藏title
+          titleVisibility = NSWindow.TitleVisibility.hidden
+          // 点击窗口背景支持鼠标拖动窗口
+          isMovableByWindowBackground = true
+          // 设置透明背景
+          isOpaque = false
+          backgroundColor = NSColor.clear
+      }
+  }
+</code></pre>
+</li>
+<li>
+<p>自定义一个NSView，设定好高度和位置代替原Titlebar</p>
+</li>
+<li>
+<p>此时拖拽窗口的任何位置都可以移动window，那么就要把rootView的mouseDownCanMoveWindow重写为false，CustomTitleBae的mouseDownCanMoveWindow重写为true</p>
+<pre><code class="language-swift">override var mouseDownCanMoveWindow: Bool {
+    return true; // 该属性默认为true
+}
+</code></pre>
+</li>
+<li>
+<p>最后记得给rootView设置圆角，不然默认是没有圆角的(我这里直接Storyboard里设置了)<br>
+<img src="https://s1.ax1x.com/2020/09/07/wu55p8.png" alt="示例" loading="lazy"></p>
 </li>
 </ul>
-<h2 id="项目">项目</h2>
-<ul>
-<li>DN音乐（MAC）<br>
-简书地址：<a href="https://www.jianshu.com/p/2d847ae52ab1">MAC开发 本地播放器（仿网易云）</a></li>
-</ul>
+<pre><code class="language-swift">wantsLayer = true
+layer.cornerRadius = 7.0
+layer.masksToBounds = true
+</code></pre>
+<h2 id="最终效果">最终效果</h2>
+<figure data-type="image" tabindex="3"><img src="https://s1.ax1x.com/2020/09/07/wu5o6g.png" alt="示例" loading="lazy"></figure>
 
                 </div>
             </article>
         </div>
-        <br>
+
+        
+            <div class="next-post">
+                <div class="next gt-c-content-color-first">下一篇</div>
+                <a href="https://daning.netlify.app/post/get-assetscar/" class="post-title gt-a-link">
+                    获取APP图片资源(破解Assets.car)
+                </a>
+            </div>
+        
+
+        
+            <span id="/post/macos-custom-titlebar/" class="leancloud_visitors" data-flag-title="MacOS自定义TitleBar">
+                <em class="post-meta-item-text">阅读量 </em>
+                <i class="leancloud-visitors-count">loading...</i>
+            </span>
+        
+
         
 
         
@@ -155,7 +232,6 @@
 </script>
 
         
-
 
         <div class="site-footer gt-c-content-color-first">
     <div class="slogan gt-c-content-color-first">梧高凤必至，花香蝶自来</div>

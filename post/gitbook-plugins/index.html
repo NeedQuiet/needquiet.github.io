@@ -1,0 +1,533 @@
+<html>
+<head>
+    <meta charset="utf-8"/>
+<meta name="description" content=""/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+<title>GitBook常用插件 | 鼓捣猫宁</title>
+
+<link rel="shortcut icon" href="https://daning.netlify.app/favicon.ico?v=1599565275926">
+
+<link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://daning.netlify.app/styles/main.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css">
+
+<script src="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets/highlight.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/dockerfile.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/dart.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/moment@2.27.0/moment.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.min.js"></script>
+<!-- DEMO JS -->
+<!--<script src="media/scripts/index.js"></script>-->
+
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-177423030-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+        gtag('config', 'UA-177423030-1');
+    </script>
+
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.css">
+</head>
+<body>
+<div class="main gt-bg-theme-color-first">
+    <nav class="navbar navbar-expand-lg">
+    <div class="navbar-brand">
+        <img class="user-avatar" src="/images/avatar.png" alt="头像">
+        <div class="site-name gt-c-content-color-first">
+            鼓捣猫宁
+        </div>
+    </div>
+    
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fas fa-bars gt-c-content-color-first" style="font-size: 18px"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="navbar-nav mr-auto" style="text-align: center">
+            
+                <div class="nav-item">
+                    
+                        <a href="/" class="menu gt-a-link">
+                            首页
+                        </a>
+                    
+                </div>
+            
+                <div class="nav-item">
+                    
+                        <a href="/archives" class="menu gt-a-link">
+                            归档
+                        </a>
+                    
+                </div>
+            
+                <div class="nav-item">
+                    
+                        <a href="/tags" class="menu gt-a-link">
+                            标签
+                        </a>
+                    
+                </div>
+            
+                <div class="nav-item">
+                    
+                        <a href="/about" class="menu gt-a-link">
+                            关于
+                        </a>
+                    
+                </div>
+            
+        </div>
+        <div style="text-align: center">
+            <form id="gridea-search-form" style="position: relative" data-update="1599565275926" action="/search/index.html">
+                <input class="search-input" autocomplete="off" spellcheck="false" name="q" placeholder="搜索文章" />
+                <i class="fas fa-search gt-c-content-color-first" style="position: absolute; top: 9px; left: 10px;"></i>
+            </form>
+        </div>
+    </div>
+</nav>
+
+    <div class="post-container">
+        <div class="post-detail gt-bg-theme-color-second">
+            <article class="gt-post-content">
+                <h2 class="post-title">
+                    GitBook常用插件
+                </h2>
+                <div class="post-info">
+                    <time class="post-time gt-c-content-color-first">
+                        · 2020-05-18 ·
+                    </time>
+                    
+                        <a href="https://daning.netlify.app/tag/zL-xmZeUD/" class="post-tags">
+                            # GitBook
+                        </a>
+                    
+                        <a href="https://daning.netlify.app/tag/VYkxi25Yw/" class="post-tags">
+                            # Tool
+                        </a>
+                    
+                </div>
+                
+                <div class="post-content">
+                    <p>整理一下目前发现的GitBook的插件（plugins），各插件具体使用方式请看其对应的官方介绍</p>
+<h2 id="1-时序图">1. 时序图</h2>
+<blockquote>
+<p>插件：<strong><code>js-sequence-diagram-full</code></strong><br><br>
+说明：时序图样式插件</p>
+</blockquote>
+<ul>
+<li>
+<p><a href="https://www.npmjs.com/package/gitbook-plugin-js-sequence-diagram-full">官方介绍</a></p>
+</li>
+<li>
+<p>示例：</p>
+</li>
+</ul>
+<pre><code class="language-json">&quot;plugins&quot;: [&quot;js-sequence-diagram-full@&gt;=0.3.1&quot;] 
+</code></pre>
+<ul>
+<li>书写方式：</li>
+</ul>
+<pre><code class="language-shell">    （```sequence）// 忽略括号
+        participant A
+        participant B
+
+        Note over C: Note over C
+        Note over A: Note over A
+
+        C-&gt;D: C-&gt;D
+        D-&gt;B: D-&gt;B
+        B--&gt;D: B--&gt;D
+        D--&gt;C: D--&gt;C
+        A-&gt;A: A-&gt;A
+    （```）
+</code></pre>
+<ul>
+<li>效果图：<br>
+<img src="https://s1.ax1x.com/2020/09/07/wuDVEQ.png" alt="效果图" loading="lazy"></li>
+</ul>
+<hr>
+<h2 id="2-代码块">2. 代码块</h2>
+<blockquote>
+<p>插件：<strong><code>prism</code></strong><br><br>
+说明：代码块的样式插件</p>
+</blockquote>
+<ul>
+<li>
+<p><a href="https://www.npmjs.com/package/gitbook-plugin-prism">官方介绍</a></p>
+</li>
+<li>
+<p>参数说明：</p>
+<ol>
+<li>css：代码块样式，官方说明上有几种不同的样式</li>
+<li>lang：可以自定义重命名代码块命名，例如 <code>objectivec</code> 有点长，我们就重命名为 <code>oc</code></li>
+<li>ignore：忽略其他可能会引起冲突的代码块插件的代码块名字，如 <code>js-sequence-diagram-full</code> 的 <code>sequence</code></li>
+</ol>
+</li>
+<li>
+<p>示例：</p>
+</li>
+</ul>
+<pre><code class="language-json">&quot;plugins&quot;: [&quot;prism&quot;]
+&quot;pluginsConfig&quot;: {
+    &quot;prism&quot;: {
+          &quot;css&quot;: [&quot;prismjs/themes/prism-okaidia.css&quot;],
+          &quot;lang&quot;: {&quot;oc&quot;: &quot;objectivec&quot;,},
+          &quot;ignore&quot;: [&quot;sequence&quot;]
+        }
+}
+</code></pre>
+<ul>
+<li>效果图：</li>
+</ul>
+<figure data-type="image" tabindex="1"><img src="https://s1.ax1x.com/2020/09/07/wuDnCn.png" alt="效果图" loading="lazy"></figure>
+<hr>
+<h2 id="3-锚点">3. 锚点</h2>
+<blockquote>
+<p>插件：<strong><code>anchors</code></strong><br><br>
+说明：标题带有 github 样式的锚点。(其实就是鼠标hover在对应h标签后，有个链接小图标显示，点击后标题稍微置顶)</p>
+</blockquote>
+<blockquote>
+<p>如果使用了 <code>anchor-navigation-ex</code>，那就不需要这个<code>anchors</code>插件了，已被其包含</p>
+</blockquote>
+<ul>
+<li>
+<p><a href="https://www.npmjs.com/package/gitbook-plugin-anchors">官方介绍</a></p>
+</li>
+<li>
+<p>示例：</p>
+</li>
+</ul>
+<pre><code class="language-json">  &quot;plugins&quot; : [ &quot;anchors&quot; ]
+</code></pre>
+<ul>
+<li>效果图：</li>
+</ul>
+<figure data-type="image" tabindex="2"><img src="https://s1.ax1x.com/2020/09/07/wuDKg0.png" alt="效果图" loading="lazy"></figure>
+<hr>
+<h2 id="4-目录宽度拖拽">4. 目录宽度拖拽</h2>
+<blockquote>
+<p>插件：<strong><code>splitter</code></strong><br><br>
+说明：在左侧目录和右侧内容之间添加一个可以拖拽的栏，用来调整两边的宽度。</p>
+</blockquote>
+<ul>
+<li>
+<p><a href="https://www.npmjs.com/package/gitbook-plugin-splitter">官方介绍</a></p>
+</li>
+<li>
+<p>示例：</p>
+</li>
+</ul>
+<pre><code class="language-json">  &quot;plugins&quot; : [ &quot;splitter&quot; ]
+</code></pre>
+<ul>
+<li>效果图：</li>
+</ul>
+<figure data-type="image" tabindex="3"><img src="https://s1.ax1x.com/2020/09/07/wuDMvV.png" alt="效果图" loading="lazy"></figure>
+<hr>
+<h2 id="5-gtalk-评论">5. gtalk 评论</h2>
+<blockquote>
+<p>插件：<strong><code>gtalk</code></strong><br><br>
+说明：添加gitalk评论插件</p>
+</blockquote>
+<ul>
+<li><a href="https://www.npmjs.com/package/gitbook-plugin-gtalk">官方介绍</a></li>
+</ul>
+<pre><code class="language-json">&quot;plugins&quot;: [&quot;gtalk&quot;]
+&quot;pluginsConfig&quot;: {
+      &quot;gtalk&quot;: {
+        &quot;clientID&quot;: &quot;GitHub Application Client ID&quot;,
+        &quot;clientSecret&quot;: &quot;GitHub Application Client Secret&quot;,
+        &quot;repo&quot;: &quot;GitHub repo&quot;,
+        &quot;owner&quot;: &quot;GitHub repo owner&quot;,
+        &quot;admin&quot;: [&quot;GitHub repo owner and collaborators, only these guys can initialize github issues&quot;]
+      }
+}
+</code></pre>
+<hr>
+<h2 id="6-github">6. github</h2>
+<blockquote>
+<p>插件：<strong><code>github</code></strong><br><br>
+说明：在右上角显示 github 仓库的图标链接。</p>
+</blockquote>
+<ul>
+<li>
+<p><a href="https://www.npmjs.com/package/gitbook-plugin-github">官方介绍</a></p>
+</li>
+<li>
+<p>示例：</p>
+</li>
+</ul>
+<pre><code class="language-json">&quot;plugins&quot;: [ &quot;github&quot; ]
+&quot;pluginsConfig&quot;: {
+    &quot;github&quot;: {
+        &quot;url&quot;: &quot;https://github.com/your/repo&quot;
+    }
+}
+</code></pre>
+<hr>
+<h2 id="7-章节目录">7. 章节目录</h2>
+<blockquote>
+<p>插件：<strong><code>anchor-navigation-ex</code></strong><br><br>
+说明：目录插件</p>
+</blockquote>
+<ul>
+<li>
+<p><a href="https://www.npmjs.com/package/gitbook-plugin-anchor-navigation-ex">官方介绍</a></p>
+</li>
+<li>
+<p><a href="https://github.com/zq99299/gitbook-plugin-anchor-navigation-ex/blob/master/doc/effectScreenshot.md">具体参数介绍</a></p>
+</li>
+<li>
+<p>示例：</p>
+</li>
+</ul>
+<pre><code class="language-json">&quot;plugins&quot;: [
+   &quot;anchor-navigation-ex&quot;
+]
+&quot;pluginsConfig&quot;: {
+    &quot;anchor-navigation-ex&quot;: {
+          &quot;showGoTop&quot;:true, #右下角是否添加“返回顶部”按钮
+          &quot;showLevel&quot;: false, #标题是否显示层级序号（控制页面标题是否被重写）
+          &quot;printLog&quot;: true, #是否打印处理日志,在排查生成book失败的时候很有用
+          &quot;mode&quot;: &quot;float&quot;, #目录的显示模式，目前有三种“float悬浮”、“pageTop文章顶部”、“”不显示，默认float
+          &quot;float&quot;: { #对应floatMode的图标，可以设置目录里标题前面的ICON
+              &quot;floatIcon&quot;: &quot;fa fa-navicon&quot;,
+              &quot;showLevelIcon&quot;: true,
+              &quot;level1Icon&quot;: &quot;fa fa-hand-o-right&quot;,
+              &quot;level2Icon&quot;: &quot;fa fa-hand-o-right&quot;,
+              &quot;level3Icon&quot;: &quot;fa fa-hand-o-right&quot;
+          }
+    }
+}
+</code></pre>
+<hr>
+<h2 id="8-book目录折叠">8. book目录折叠</h2>
+<blockquote>
+<p>插件：<strong><code>expandable-chapters-small</code></strong><br><br>
+说明：左侧的主目录折叠插件</p>
+</blockquote>
+<ul>
+<li>
+<p><a href="https://www.npmjs.com/package/gitbook-plugin-expandable-chapters-small">官方介绍</a></p>
+</li>
+<li>
+<p>示例：</p>
+</li>
+</ul>
+<pre><code class="language-json">&quot;plugins&quot;: [&quot;expandable-chapters-small&quot;] 
+</code></pre>
+<ul>
+<li>效果图：</li>
+</ul>
+<figure data-type="image" tabindex="4"><img src="https://s1.ax1x.com/2020/09/07/wuDNCR.png" alt="效果图" loading="lazy"></figure>
+<hr>
+<h2 id="9-访问数量">9. 访问数量</h2>
+<blockquote>
+<p>插件：<strong><code>pageview-count</code></strong><br><br>
+说明：文档页面阅读数插件，菜单栏增加个小眼睛，显示访问次数</p>
+</blockquote>
+<p>PS: 经查询，是访问 <code>https://hitcounter.pythonanywhere.com/count/文章地址</code> 来查询访问次数的</p>
+<ul>
+<li>
+<p><a href="https://www.npmjs.com/package/gitbook-plugin-pageview-count">官方介绍</a></p>
+</li>
+<li>
+<p>示例：</p>
+</li>
+</ul>
+<pre><code class="language-json">&quot;plugins&quot;: [&quot;pageview-count&quot;] 
+</code></pre>
+<ul>
+<li>效果图：</li>
+</ul>
+<figure data-type="image" tabindex="5"><img src="https://s1.ax1x.com/2020/09/07/wuD0KK.png" alt="效果图" loading="lazy"></figure>
+<hr>
+<h2 id="10-多语言国际化">10. 多语言国际化</h2>
+<blockquote>
+<p>插件：<strong><code>language-picker</code></strong><br><br>
+说明：语言切换插件</p>
+</blockquote>
+<ul>
+<li>
+<p><a href="https://www.npmjs.com/package/gitbook-plugin-language-picker">官方介绍</a></p>
+</li>
+<li>
+<p>示例：</p>
+</li>
+</ul>
+<pre><code class="language-json">&quot;plugins&quot;: [&quot;language-picker&quot;]
+&quot;pluginsConfig&quot;: { 
+        &quot;language-picker&quot;: { #可以不设置，默认两种
+            &quot;grid-columns&quot;: 2 #如果想设置更多种语言，就改这里即可
+        }
+    }
+</code></pre>
+<ul>
+<li>使用细节，以中/英文2种语言为例:
+<ol>
+<li>
+<p>使用此插件后，GitBook的目录结构需要同时调整，删除以前的SUMMARY</p>
+</li>
+<li>
+<p>创建<code>en</code>、<code>zh-hans</code>2个文件夹，分别创建其对应的<code>README.md</code>和<code>SUMMARY.md</code></p>
+</li>
+<li>
+<p>根目录创建<code>LANGS.md</code>，指定中/英文文档入口，例如</p>
+<pre><code class="language-markdown">   * [English](en/)
+   * [简体中文](zh-hans/)
+</code></pre>
+</li>
+<li>
+<p>这样该gitbook的初始页面其实就变成了<code>LANGS.md</code>，并同时提供了中/英文文档入口。例如：</p>
+<figure data-type="image" tabindex="6"><img src="https://s1.ax1x.com/2020/09/07/wurlRI.png" alt="效果图" loading="lazy"></figure>
+</li>
+</ol>
+</li>
+</ul>
+<hr>
+<h2 id="11-插入自定义cssjs">11. 插入自定义css/js</h2>
+<blockquote>
+<p>插件：<strong><code>addcssjs</code></strong><br><br>
+说明：给gitbook添加外部的css、js文件</p>
+</blockquote>
+<ul>
+<li>
+<p><a href="https://www.npmjs.com/package/gitbook-plugin-addcssjs">官方介绍</a></p>
+</li>
+<li>
+<p>示例：</p>
+</li>
+</ul>
+<pre><code class="language-json">&quot;plugins&quot;: [&quot;addcssjs&quot;]
+&quot;pluginsConfig&quot;: { 
+        &quot;addcssjs&quot;: {
+            &quot;css&quot;: [&quot;styles/website.css&quot;],
+            &quot;js&quot;: [&quot;styles/website.js&quot;]
+        }
+    }
+</code></pre>
+<blockquote>
+<p>如果你使用了<code>language-picker</code>，那么在<code>pluginsConfig</code>配置路径时，记得要在路径前加上<code>../</code>;<br>因为国际化后，所有book的html已经不在根目录的上了，而是在对应的语言文件夹下面</p>
+</blockquote>
+<hr>
+<h2 id="12-代码块行号-复制">12. 代码块行号、复制</h2>
+<blockquote>
+<p>插件：<strong><code>code</code></strong><br><br>
+说明：为代码块添加行号和复制按钮，复制按钮可关闭</p>
+</blockquote>
+<ul>
+<li><a href="https://www.npmjs.com/package/gitbook-plugin-code">官方介绍</a></li>
+</ul>
+<pre><code class="language-json">{
+    &quot;plugins&quot; : [ 
+            &quot;code&quot; 
+     ],
+    &quot;pluginsConfig&quot;: {
+      &quot;code&quot;: {
+        &quot;copyButtons&quot;: false #复制按钮可关闭
+      }
+    }
+}
+</code></pre>
+
+                </div>
+            </article>
+        </div>
+
+        
+            <div class="next-post">
+                <div class="next gt-c-content-color-first">下一篇</div>
+                <a href="https://daning.netlify.app/post/npm-management/" class="post-title gt-a-link">
+                    npm镜像管理
+                </a>
+            </div>
+        
+
+        
+            <span id="/post/gitbook-plugins/" class="leancloud_visitors" data-flag-title="GitBook常用插件">
+                <em class="post-meta-item-text">阅读量 </em>
+                <i class="leancloud-visitors-count">loading...</i>
+            </span>
+        
+
+        
+
+        
+            <script src='https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js'></script>
+
+<style>
+	div#vcomments{
+		width:100%;
+		max-width: 1000px;
+		padding: 2.5%
+	}
+</style>
+
+
+	<div id="vcomments"></div>
+
+<script>
+	new Valine({
+		el: '#vcomments',
+		appId: 'MAAasDLv2NYMtEEAn4QnnU3l-gzGzoHsz',
+		appKey: 'dISXAmwDUYme6vJqsc5HgYw1',
+		avatar: 'mp',
+		pageSize: 5,
+		recordIp: true,
+		placeholder: '设置一个昵称，然后留下你的奇思妙想吧',
+		visitor: true,
+	});
+</script>
+
+        
+
+        <div class="site-footer gt-c-content-color-first">
+    <div class="slogan gt-c-content-color-first">梧高凤必至，花香蝶自来</div>
+    <div class="social-container">
+        
+            
+                <a href="https://github.com/NeedQuiet" target="_blank">
+                    <i class="fab fa-github gt-c-content-color-first"></i>
+                </a>
+            
+        
+            
+        
+            
+        
+            
+                <a href="https://www.zhihu.com/people/da-ning-40" target="_blank">
+                    <i class="fab fa-zhihu gt-c-content-color-first"></i>
+                </a>
+            
+        
+            
+        
+            
+        
+    </div>
+    <div class="footer-info">
+        <div> 主题: <a href="https://imhanjie.com/" target="_blank">imhanjie</a>, 技术支持: <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a></div>
+    </div>
+</div>
+
+<script>
+  hljs.initHighlightingOnLoad()
+</script>
+
+    </div>
+</div>
+</body>
+</html>

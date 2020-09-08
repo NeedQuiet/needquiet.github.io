@@ -1,10 +1,10 @@
-<html lang="zh">
+<html>
 <head>
     <meta charset="utf-8"/>
 <meta name="description" content=""/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 
-<title>关于 - 鼓捣猫宁</title>
+<title>npm镜像管理 | 鼓捣猫宁</title>
 
 <link rel="shortcut icon" href="https://daning.netlify.app/favicon.ico?v=1599565275926">
 
@@ -37,7 +37,7 @@
     </script>
 
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.css">
 </head>
 <body>
 <div class="main gt-bg-theme-color-first">
@@ -99,32 +99,124 @@
 </nav>
 
     <div class="post-container">
-        <div class="post-detail">
+        <div class="post-detail gt-bg-theme-color-second">
             <article class="gt-post-content">
+                <h2 class="post-title">
+                    npm镜像管理
+                </h2>
+                <div class="post-info">
+                    <time class="post-time gt-c-content-color-first">
+                        · 2020-05-15 ·
+                    </time>
+                    
+                        <a href="https://daning.netlify.app/tag/JLn7uEyMa/" class="post-tags">
+                            # npm
+                        </a>
+                    
+                        <a href="https://daning.netlify.app/tag/zL-xmZeUD/" class="post-tags">
+                            # GitBook
+                        </a>
+                    
+                        <a href="https://daning.netlify.app/tag/VYkxi25Yw/" class="post-tags">
+                            # Tool
+                        </a>
+                    
+                </div>
+                
                 <div class="post-content">
-                    <h2 id="关于">关于</h2>
+                    <p>npm install 或者 gitbook install的时候，经常遇见网速导致的卡慢问题，这里介绍 <code>nrm</code></p>
+<!-- more -->
 <blockquote>
-<p>Blog内容于2020-09-07从<a href="https://daningjekyll.netlify.app/">鼓捣猫宁(Jekyll版)</a>迁移至此，旧的Blog不再维护。</p>
+<p>说明：此文 copy 自 -&gt; <a href="https://www.jianshu.com/p/66f97cadd1eb">简书 · 作者：四月天__</a></p>
 </blockquote>
-<h2 id="其他">其他</h2>
-<ul>
-<li>Swift笔记
-<ul>
-<li>具体地址： <a href="https://daningswift.netlify.app/">大宁Swift学习文档</a></li>
-<li>Github地址：<a href="https://github.com/NeedQuiet/Swift_Learn_Gitbook">Swift_Learn_Gitbook仓库</a></li>
-</ul>
+<p>此文列出常见npm命令，大家共勉。</p>
+<ol>
+<li>
+<p>查看npm源地址</p>
+<pre><code class="language-shell">npm config list
+</code></pre>
+<p>结果:</p>
+<pre><code class="language-shell">metrics-registry = &quot;http://registry.npm.taobao.org/&quot;
+</code></pre>
 </li>
-</ul>
-<h2 id="项目">项目</h2>
-<ul>
-<li>DN音乐（MAC）<br>
-简书地址：<a href="https://www.jianshu.com/p/2d847ae52ab1">MAC开发 本地播放器（仿网易云）</a></li>
-</ul>
+<li>
+<p>修改registry地址，比如修改为淘宝镜像源。</p>
+<pre><code class="language-shell">npm set registry https://registry.npm.taobao.org/
+</code></pre>
+<p>如果有一天你肉身FQ到国外，用不上了，用rm命令删掉它</p>
+<pre><code class="language-shell">  npm config rm registry
+</code></pre>
+</li>
+<li>
+<p>nrm是专门用来管理和快速切换私人配置的registry，建议全局安装</p>
+<pre><code class="language-shell">npm install nrm -g --save
+</code></pre>
+<p>用nrm ls命令查看默认配置，带*号即为当前使用的配置</p>
+<pre><code class="language-shell">  nrm ls
+</code></pre>
+<pre><code class="language-shell">  npm ---- https://registry.npmjs.org/
+  cnpm --- http://r.cnpmjs.org/
+  * taobao - https://registry.npm.taobao.org/
+  nj ----- https://registry.nodejitsu.com/
+  rednpm - http://registry.mirror.cqupt.edu.cn/
+  npmMirror  https://skimdb.npmjs.com/registry/
+  edunpm - http://registry.enpmjs.org/
+</code></pre>
+<p>也可以直接输入以下命令查看当前使用的是哪个源</p>
+<pre><code class="language-shell">  nrm current
+</code></pre>
+<p>切换源</p>
+<pre><code class="language-shell">  nrm use cnpm
+</code></pre>
+<p>用nrm add 命令添加公司私有npm源，如http://registry.npm.360.org(随便写的)，起个别名叫qihoo</p>
+<pre><code class="language-shell">  nrm add qihoo http://registry.npm.360.org
+</code></pre>
+<p>测试下速度</p>
+<pre><code class="language-shell">  nrm test npm
+  输出npm ---- 790ms
+</code></pre>
+<p>最后，如果你被公司开除了，怒删公司npm源配置</p>
+<pre><code class="language-shell">  nrm del qihoo
+</code></pre>
+</li>
+<li>
+<p>更新Node版本和npm版本<br><br>
+清除node的cache（清除node的缓存，这个看情况而定，不是必须的）</p>
+<pre><code class="language-shell">   sudo npm cache clean -f 
+</code></pre>
+<p>安装&quot;n&quot;版本管理工具，管理node（没有错，就是n）</p>
+<pre><code class="language-shell">   sudo npm install -g n 
+</code></pre>
+<p>更新node版本</p>
+<pre><code class="language-shell">   sudo npm install npm@latest -g 
+</code></pre>
+<p>再查一遍本机当前Node和npm的版本吧</p>
+<pre><code class="language-shell">   node -v 
+   npm -v 
+</code></pre>
+</li>
+</ol>
 
                 </div>
             </article>
         </div>
-        <br>
+
+        
+            <div class="next-post">
+                <div class="next gt-c-content-color-first">下一篇</div>
+                <a href="https://daning.netlify.app/post/gitbook-note/" class="post-title gt-a-link">
+                    GitBook搭建及配置
+                </a>
+            </div>
+        
+
+        
+            <span id="/post/npm-management/" class="leancloud_visitors" data-flag-title="npm镜像管理">
+                <em class="post-meta-item-text">阅读量 </em>
+                <i class="leancloud-visitors-count">loading...</i>
+            </span>
+        
+
         
 
         
@@ -155,7 +247,6 @@
 </script>
 
         
-
 
         <div class="site-footer gt-c-content-color-first">
     <div class="slogan gt-c-content-color-first">梧高凤必至，花香蝶自来</div>

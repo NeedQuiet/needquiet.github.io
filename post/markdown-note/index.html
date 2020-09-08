@@ -1,10 +1,10 @@
-<html lang="zh">
+<html>
 <head>
     <meta charset="utf-8"/>
 <meta name="description" content=""/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 
-<title>关于 - 鼓捣猫宁</title>
+<title>MarkDown简单用法 | 鼓捣猫宁</title>
 
 <link rel="shortcut icon" href="https://daning.netlify.app/favicon.ico?v=1599565275926">
 
@@ -37,7 +37,7 @@
     </script>
 
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.css">
 </head>
 <body>
 <div class="main gt-bg-theme-color-first">
@@ -99,32 +99,180 @@
 </nav>
 
     <div class="post-container">
-        <div class="post-detail">
+        <div class="post-detail gt-bg-theme-color-second">
             <article class="gt-post-content">
+                <h2 class="post-title">
+                    MarkDown简单用法
+                </h2>
+                <div class="post-info">
+                    <time class="post-time gt-c-content-color-first">
+                        · 2020-01-10 ·
+                    </time>
+                    
+                        <a href="https://daning.netlify.app/tag/FfyUyo2P-/" class="post-tags">
+                            # markdown
+                        </a>
+                    
+                </div>
+                
+                    <img class="post-feature-image" src="https://s1.ax1x.com/2020/09/07/wuoPxS.png" alt="">
+                
                 <div class="post-content">
-                    <h2 id="关于">关于</h2>
+                    <p>Markdown 是一种轻量级标记语言，学习成本也不需要太多，且一旦熟悉这种语法规则，会有一劳永逸的效果。</p>
+<!-- more -->
+<h2 id="1常用语法">1.常用语法</h2>
+<ul>
+<li>
+<p>标题<br>
+1~4个<code>#</code>加上空格，代表4个字号的标题</p>
+</li>
+<li>
+<p>高亮强调：<br>
+<code>就是两个反引号把内容括起来</code> ``</p>
+</li>
+<li>
+<p>引用符号： <code>&gt;</code></p>
 <blockquote>
-<p>Blog内容于2020-09-07从<a href="https://daningjekyll.netlify.app/">鼓捣猫宁(Jekyll版)</a>迁移至此，旧的Blog不再维护。</p>
+<p>用来突出内容</p>
 </blockquote>
-<h2 id="其他">其他</h2>
+</li>
+<li>
+<p><strong>字体加粗</strong> ：</p>
+<pre><code>**字体加粗** 
+</code></pre>
+</li>
+<li>
+<p><em>字体斜体</em>：</p>
+<pre><code>*字体斜体*：
+</code></pre>
+</li>
+<li>
+<p>菜单：<br>
+菜单用-、+、*加空格都可以</p>
+</li>
+<li>
+<p>链接：</p>
 <ul>
-<li>Swift笔记
-<ul>
-<li>具体地址： <a href="https://daningswift.netlify.app/">大宁Swift学习文档</a></li>
-<li>Github地址：<a href="https://github.com/NeedQuiet/Swift_Learn_Gitbook">Swift_Learn_Gitbook仓库</a></li>
-</ul>
+<li>格式：[标签名字]（链接地址）</li>
+<li><a href="https://www.baidu.com">百度</a><pre><code>[百度](https://www.baidu.com)
+</code></pre>
 </li>
 </ul>
-<h2 id="项目">项目</h2>
+</li>
+<li>
+<p>插入图片</p>
 <ul>
-<li>DN音乐（MAC）<br>
-简书地址：<a href="https://www.jianshu.com/p/2d847ae52ab1">MAC开发 本地播放器（仿网易云）</a></li>
+<li>例：<img src="https://i.loli.net/2020/01/09/n9bcw14OXN82lMD.png" alt="test.png" loading="lazy"></li>
+<li>代码<pre><code class="language-shell">![描述](图片地址)
+#例如： ![blog头像图片](../images/blog.jpg)
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p>分割线：</p>
+<pre><code>// 就是3个星号
+***
+</code></pre>
+<p>或者用html标签<code>&lt;hr&gt;</code></p>
+<hr>
+</li>
+<li>
+<p>视频：</p>
+</li>
+</ul>
+<video id="video" controls="" width="300px" height="200px" preload="none" poster="https://i.loli.net/2020/01/09/n9bcw14OXN82lMD.png">
+  <source id="mp4" src="https://video.pearvideo.com/mp4/third/20200109/cont-1640431-10042874-102056-hd.mp4" type="video/mp4">
+</video>
+<pre><code class="language-html">&lt;video id=&quot;video&quot; controls=&quot;&quot; preload=&quot;none&quot; poster=&quot;https://i.loli.net/2020/01/09/n9bcw14OXN82lMD.png&quot;&gt;
+  &lt;source id=&quot;mp4&quot; src=&quot;https://video.pearvideo.com/mp4/third/20200109/cont-1640431-10042874-102056-hd.mp4&quot; type=&quot;video/mp4&quot;&gt;
+&lt;/video&gt;
+</code></pre>
+<ul>
+<li>音频：</li>
+</ul>
+<audio id="audio" controls="" preload="none">
+    <source id="mp3" src="http://qiniu.cloud.fandong.me/Music_iP%E8%B5%B5%E9%9C%B2%20-%20%E7%A6%BB%E6%AD%8C%20%28Live%29.mp3">
+</audio>
+<pre><code class="language-html">&lt;audio id=&quot;audio&quot; controls=&quot;&quot; preload=&quot;none&quot;&gt;
+    &lt;source id=&quot;mp3&quot; src=&quot;http://qiniu.cloud.fandong.me/Music_iP%E8%B5%B5%E9%9C%B2%20-%20%E7%A6%BB%E6%AD%8C%20%28Live%29.mp3&quot;&gt;
+&lt;/audio&gt;
+</code></pre>
+<h2 id="2代码块">2.代码块</h2>
+<p>以Python为例</p>
+<pre><code class="language-python"># 示例 ```python
+import os
+print('python 代码块？')
+# OC和html同理：ObjectiveC、html
+</code></pre>
+<h2 id="3表格">3.表格:</h2>
+<pre><code>| 左对齐 | 居中  | 右对齐 |
+| ------ | :---: | -----: |
+| 香蕉   |  $1   |      5 |
+| 苹果   |  $1   |      6 |
+| 草莓   |  $1   |      7 |
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>左对齐</th>
+<th style="text-align:center">居中</th>
+<th style="text-align:right">右对齐</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>香蕉</td>
+<td style="text-align:center">$1</td>
+<td style="text-align:right">5</td>
+</tr>
+<tr>
+<td>苹果</td>
+<td style="text-align:center">$1</td>
+<td style="text-align:right">6</td>
+</tr>
+<tr>
+<td>草莓</td>
+<td style="text-align:center">$1</td>
+<td style="text-align:right">7</td>
+</tr>
+</tbody>
+</table>
+<h2 id="4锚点">4.锚点</h2>
+<p>可以利用html的a标签，进行锚点跳转，例：A、B互跳</p>
+<p><a id="text" href="#sssss" style="color:red">锚点A</a></p>
+<p><a id="sssss" href="#text" style="color:red">锚点B</a></p>
+<pre><code class="language-html">&lt;a id=&quot;text&quot; href=&quot;#sssss&quot;&gt;锚点A&lt;/a&gt;
+&lt;a id=&quot;sssss&quot; href=&quot;#text&quot;&gt;锚点B&lt;/a&gt;
+</code></pre>
+<h2 id="4快捷键">4.快捷键</h2>
+<ul>
+<li>
+<p><strong>字体加粗</strong> ：conmmond + b</p>
+</li>
+<li>
+<p><em>字体斜体</em>：conmmond + i</p>
+</li>
+<li>
+<p>标题VSCode快捷键<br>
+变大： shift + ctrl + [<br>
+缩小： shift + ctrl + ]</p>
+</li>
 </ul>
 
                 </div>
             </article>
         </div>
-        <br>
+
+        
+
+        
+            <span id="/post/markdown-note/" class="leancloud_visitors" data-flag-title="MarkDown简单用法">
+                <em class="post-meta-item-text">阅读量 </em>
+                <i class="leancloud-visitors-count">loading...</i>
+            </span>
+        
+
         
 
         
@@ -155,7 +303,6 @@
 </script>
 
         
-
 
         <div class="site-footer gt-c-content-color-first">
     <div class="slogan gt-c-content-color-first">梧高凤必至，花香蝶自来</div>

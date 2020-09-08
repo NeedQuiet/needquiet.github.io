@@ -1,10 +1,10 @@
-<html lang="zh">
+<html>
 <head>
     <meta charset="utf-8"/>
 <meta name="description" content=""/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 
-<title>关于 - 鼓捣猫宁</title>
+<title>安装Jekyll | 鼓捣猫宁</title>
 
 <link rel="shortcut icon" href="https://daning.netlify.app/favicon.ico?v=1599565275926">
 
@@ -37,7 +37,7 @@
     </script>
 
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.css">
 </head>
 <body>
 <div class="main gt-bg-theme-color-first">
@@ -99,32 +99,113 @@
 </nav>
 
     <div class="post-container">
-        <div class="post-detail">
+        <div class="post-detail gt-bg-theme-color-second">
             <article class="gt-post-content">
+                <h2 class="post-title">
+                    安装Jekyll
+                </h2>
+                <div class="post-info">
+                    <time class="post-time gt-c-content-color-first">
+                        · 2020-01-14 ·
+                    </time>
+                    
+                        <a href="https://daning.netlify.app/tag/VYkxi25Yw/" class="post-tags">
+                            # Tool
+                        </a>
+                    
+                </div>
+                
                 <div class="post-content">
-                    <h2 id="关于">关于</h2>
+                    <p>Jekyll也是一种搭建个人博客的方式，本文讲简述如何安装Jekyll并调试。</p>
+<!-- more -->
+<h2 id="一-安装">一、安装</h2>
+<ul>
+<li><a href="https://www.jekyll.com.cn/">Jekyll官网</a></li>
+</ul>
 <blockquote>
-<p>Blog内容于2020-09-07从<a href="https://daningjekyll.netlify.app/">鼓捣猫宁(Jekyll版)</a>迁移至此，旧的Blog不再维护。</p>
+<p>安装前需要确认环境：Xcode、Ruby。（MacOS自带Ruby、Xcode不用解释）</p>
 </blockquote>
-<h2 id="其他">其他</h2>
-<ul>
-<li>Swift笔记
-<ul>
-<li>具体地址： <a href="https://daningswift.netlify.app/">大宁Swift学习文档</a></li>
-<li>Github地址：<a href="https://github.com/NeedQuiet/Swift_Learn_Gitbook">Swift_Learn_Gitbook仓库</a></li>
-</ul>
+<p>环境没有问题的话，就可以直接安装<strong>jekyll</strong>了.</p>
+<pre><code class="language-bash">sudo gem install bundler jekyll
+</code></pre>
+<p>(bundler)说明：Ruby Project依赖于一系列的ruby gems.而bundler是一个很好的管理ruby项目gems的工具。当然也是一个ruby gem.</p>
+<h2 id="二-调试">二、调试</h2>
+<p>经过几分钟的安装后，就可以调试了</p>
+<p>1.查看jekyll版本可以用</p>
+<pre><code class="language-bash">jekyll -v
+</code></pre>
+<p>2.到项目根目录下，运行<code>jekyll server</code>即可启动本地server <code>http://127.0.0.1:4000/</code></p>
+<pre><code class="language-bash">jekyll server
+</code></pre>
+<p>3.启动成功后，直接在浏览器输入<code>http://127.0.0.1:4000/</code>即可同步调试</p>
+<h2 id="三-报错汇总">三、报错汇总</h2>
+<h3 id="31-启动server时可能会遇到不同的错误我在使用时遇到的问题基本是缺少不同的jekyll库遇到这种问题很简单安装对应的库即可例如">3.1 启动server时，可能会遇到不同的错误，我在使用时，遇到的问题基本是缺少不同的jekyll库，遇到这种问题很简单，安装对应的库即可，例如：</h3>
+<figure data-type="image" tabindex="1"><img src="https://s1.ax1x.com/2020/09/07/wuBY1P.png" alt="server_error" loading="lazy"></figure>
+<p>很明显缺少jekyll-sitemap，安装即可：</p>
+<pre><code class="language-bash">sudo gem install jekyll-sitemap
+</code></pre>
+<h3 id="32-尝试配置linkplay-sdk-github-pages时按照其对应的模板执行了-bundle-install">3.2 尝试配置Linkplay SDK Github Pages时，按照其对应的模板执行了 <code>bundle install</code></h3>
+<p>由于调试了其他的jekyll theme，在调试时按照步骤执行了bundleinstall<br><br>
+bundle install后，会根据目录下的Gemfile文件自动安装很多库，具体没研究，不过再次启动本地调试的话，之前的jekyll server已经不行了；<br><br>
+此时想要本地调试需要2步：</p>
+<ol>
+<li>
+<p>Gemfile文件，模板如下(不指定版本也行)</p>
+<pre><code class="language-shell"> source 'https://rubygems.org'
+ gem &quot;jekyll&quot;, '3.8.4'
+ group :jekyll_plugins do
+     gem 'jekyll-feed', '0.11.0'
+     gem 'jekyll-seo-tag', '2.5.0'
+     gem 'jekyll-sitemap', '1.2.0'
+     gem 'jekyll-paginate'
+ end
+</code></pre>
 </li>
-</ul>
-<h2 id="项目">项目</h2>
-<ul>
-<li>DN音乐（MAC）<br>
-简书地址：<a href="https://www.jianshu.com/p/2d847ae52ab1">MAC开发 本地播放器（仿网易云）</a></li>
-</ul>
+<li>
+<p>创建完成后就可以通过执行 <code>bundle exec jekyll serve</code> 来拉起本地server <code>http://127.0.0.1:4000</code> ;<br>同时会生成Gemfile.lock文件，可忽略</p>
+</li>
+<li>
+<p>当然也可以<code>解决以上问题</code>，将其恢复到 <code>jekyll serve</code> 的方式；</p>
+<ol>
+<li>先删除Gemfile.Lock文件，然后重新编辑Gemfile，将jekyll 升级到最新的4.0.0：<pre><code class="language-shell">    source 'https://rubygems.org' #配置Netfily的话，因为其服务器在国外，因此用此源
+    #source 'https://gems.ruby-china.com' #本地执行的时候为了加速，将源改为ruby-china
+
+    gem &quot;jekyll&quot;, '~&gt; 4.0.0'
+
+    group :jekyll_plugins do
+      gem 'jekyll-feed'
+      gem 'jekyll-seo-tag'
+      gem 'jekyll-sitemap'
+      gem 'jekyll-paginate'
+    end
+</code></pre>
+</li>
+<li>重新bundle install，成功后即可重新使用 <code>jekyll serve</code> 来进行本地调试了</li>
+<li>最后为了Netfily，记得吧Gemflie和Gemfile.lock文件中的Gem sourse改回 <code>https://rubygems.org</code></li>
+</ol>
+</li>
+</ol>
 
                 </div>
             </article>
         </div>
-        <br>
+
+        
+            <div class="next-post">
+                <div class="next gt-c-content-color-first">下一篇</div>
+                <a href="https://daning.netlify.app/post/good-sentences/" class="post-title gt-a-link">
+                    喜欢的文案
+                </a>
+            </div>
+        
+
+        
+            <span id="/post/install-jekyll/" class="leancloud_visitors" data-flag-title="安装Jekyll">
+                <em class="post-meta-item-text">阅读量 </em>
+                <i class="leancloud-visitors-count">loading...</i>
+            </span>
+        
+
         
 
         
@@ -155,7 +236,6 @@
 </script>
 
         
-
 
         <div class="site-footer gt-c-content-color-first">
     <div class="slogan gt-c-content-color-first">梧高凤必至，花香蝶自来</div>

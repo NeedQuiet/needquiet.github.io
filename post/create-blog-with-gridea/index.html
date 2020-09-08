@@ -1,12 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-
+<html>
 <head>
     <meta charset="utf-8"/>
 <meta name="description" content=""/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 
-<title>搜索 - 鼓捣猫宁</title>
+<title>使用 Gridea+Github Pages 搭建个人博客 | 鼓捣猫宁</title>
 
 <link rel="shortcut icon" href="https://daning.netlify.app/favicon.ico?v=1599565275926">
 
@@ -39,21 +37,11 @@
     </script>
 
 
-    <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.0/dist/fuse.basic.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/ejs@3.1.3/ejs.min.js"></script>
-    <script src="https://daning.netlify.app/media/gridea-search/gridea-search.js"></script>
-    <script src="https://daning.netlify.app/media/gridea-search/result-template.ejs" type="text/ejs"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.css">
 </head>
-
 <body>
-    <style>
-        .searched-keyword {
-            background-color: yellow;
-            color: red;
-        }
-    </style>
-    <div class="main gt-bg-theme-color-first">
-        <nav class="navbar navbar-expand-lg">
+<div class="main gt-bg-theme-color-first">
+    <nav class="navbar navbar-expand-lg">
     <div class="navbar-brand">
         <img class="user-avatar" src="/images/avatar.png" alt="头像">
         <div class="site-name gt-c-content-color-first">
@@ -110,16 +98,104 @@
     </div>
 </nav>
 
-        <div id="gridea-search-result" data-update="1599565275926">
-            <div class="searching" style="font-size: 18px; margin-top: 50px;">
-                <i class="fa fa-sync-alt fa-spin"></i>&nbsp;&nbsp;搜索中......
-                <br><br>
-                <span style="font-size: 65%; color: #aaa">第一次搜索可能需要耗费较长时间构建索引，请耐心等待...</span>
-            </div>
-            <div class="no-result" style="display:none; font-size: 20px; margin-top: 50px;">
-                <i class="fa fa-exclamation-triangle"></i>&nbsp;&nbsp;未搜索到相关文章，请更换关键词
-            </div>
+    <div class="post-container">
+        <div class="post-detail gt-bg-theme-color-second">
+            <article class="gt-post-content">
+                <h2 class="post-title">
+                    使用 Gridea+Github Pages 搭建个人博客
+                </h2>
+                <div class="post-info">
+                    <time class="post-time gt-c-content-color-first">
+                        · 2020-09-07 ·
+                    </time>
+                    
+                        <a href="https://daning.netlify.app/tag/VYkxi25Yw/" class="post-tags">
+                            # Tool
+                        </a>
+                    
+                </div>
+                
+                    <img class="post-feature-image" src="https://s1.ax1x.com/2020/09/07/wuobiq.png" alt="">
+                
+                <div class="post-content">
+                    <p>Gridea 是一个静态博客写作客户端，它对比Jekyll、Hexo搭建博客的优势就在于拥有一个独有的客户端，不需要把注意力放在UI的配置上，只需要进行简单的配置即可迅速上手搭建个人博客！</p>
+<!-- more -->
+<h2 id="github-pages简介">Github Pages简介</h2>
+<p><a href="https://pages.github.com/">Github Pages官网</a></p>
+<p>Github Pages是一个静态站点托管服务，也就是说你完全可以随便做一个静态网页，来展示你要的东西，最重要的一点，它是免费的！😏</p>
+<p>Github Pages也有自己的主题，如果不依赖其他工具去搭建blog也是可以的，<a href="#https://sspai.com/post/54608">GitHub Pages 搭建教程</a>，没尝试过，不做评价；</p>
+<h2 id="gridea">Gridea</h2>
+<p>官网：<a href="https://gridea.dev/">Gridea官网</a></p>
+<p>主题：<a href="https://gridea.dev/themes/">Gridea主题</a></p>
+<h2 id="步骤">步骤</h2>
+<ul>
+<li>
+<p>详细过程：<a href="https://gridea.dev/#started">官方教程</a></p>
+</li>
+<li>
+<p>大体过程：</p>
+<ol>
+<li>下载<a href="https://gridea.dev/#started">Gridea客户端</a></li>
+<li>创建Github Token，路径：Setting -&gt; Developer settings -&gt; Personal access tokens -&gt; Generate new token; 创建完成后记得保存，如果退出当前页面，token就再也看不到了！</li>
+<li>在客户端里配置Github信息；</li>
+</ol>
+</li>
+</ul>
+<h2 id="netlify加速">Netlify加速</h2>
+<p>如果需要使用Netlify的CDN加速，并免费自定义域名<br>
+可以参考：<a href="https://daning.netlify.app/post/howtousenetlify/">使用Netlify加速Github Pages访问速度(Jekyll)</a></p>
+
+                </div>
+            </article>
         </div>
+
+        
+            <div class="next-post">
+                <div class="next gt-c-content-color-first">下一篇</div>
+                <a href="https://daning.netlify.app/post/listen-keyboard-event/" class="post-title gt-a-link">
+                    Mac监听键盘点击
+                </a>
+            </div>
+        
+
+        
+            <span id="/post/create-blog-with-gridea/" class="leancloud_visitors" data-flag-title="使用 Gridea+Github Pages 搭建个人博客">
+                <em class="post-meta-item-text">阅读量 </em>
+                <i class="leancloud-visitors-count">loading...</i>
+            </span>
+        
+
+        
+
+        
+            <script src='https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js'></script>
+
+<style>
+	div#vcomments{
+		width:100%;
+		max-width: 1000px;
+		padding: 2.5%
+	}
+</style>
+
+
+	<div id="vcomments"></div>
+
+<script>
+	new Valine({
+		el: '#vcomments',
+		appId: 'MAAasDLv2NYMtEEAn4QnnU3l-gzGzoHsz',
+		appKey: 'dISXAmwDUYme6vJqsc5HgYw1',
+		avatar: 'mp',
+		pageSize: 5,
+		recordIp: true,
+		placeholder: '设置一个昵称，然后留下你的奇思妙想吧',
+		visitor: true,
+	});
+</script>
+
+        
+
         <div class="site-footer gt-c-content-color-first">
     <div class="slogan gt-c-content-color-first">梧高凤必至，花香蝶自来</div>
     <div class="social-container">
@@ -155,6 +231,6 @@
 </script>
 
     </div>
+</div>
 </body>
-
 </html>
