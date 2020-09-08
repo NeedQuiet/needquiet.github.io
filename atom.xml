@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://daning.netlify.app</id>
     <title>鼓捣猫宁</title>
-    <updated>2020-09-08T06:14:41.303Z</updated>
+    <updated>2020-09-08T10:26:17.430Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://daning.netlify.app"/>
     <link rel="self" href="https://daning.netlify.app/atom.xml"/>
@@ -10,6 +10,89 @@
     <logo>https://daning.netlify.app/images/avatar.png</logo>
     <icon>https://daning.netlify.app/favicon.ico</icon>
     <rights>All rights reserved 2020, 鼓捣猫宁</rights>
+    <entry>
+        <title type="html"><![CDATA[正则相关]]></title>
+        <id>https://daning.netlify.app/post/regexp-rule/</id>
+        <link href="https://daning.netlify.app/post/regexp-rule/">
+        </link>
+        <updated>2020-09-08T09:01:59.000Z</updated>
+        <summary type="html"><![CDATA[<p>对正则了解不多，在此记录一下平时经常用到的表达式&amp;修饰符</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>对正则了解不多，在此记录一下平时经常用到的表达式&amp;修饰符</p>
+<!-- more -->
+<h2 id="1-匹配规则">1 匹配规则</h2>
+<p>参考文章：<a href="https://www.runoob.com/regexp/regexp-rule.html">正则表达式 - 匹配规则</a><br>
+例：校验字符串中是否包含 ':', ';', '/', '', '%', '`'</p>
+<pre><code class="language-objectivec">NSString *nameRegex = @&quot;^[^:;\\\\/%`]+$&quot;;
+NSPredicate *namePredicate = [NSPredicate predicateWithFormat:@&quot;SELF MATCHES %@&quot;,nameRegex];
+return [namePredicate evaluateWithObject:name];
+</code></pre>
+<h3 id="11-基本匹配模式">1.1 基本匹配模式</h3>
+<ul>
+<li>
+<p><code>$</code>符号<br>
+表示<code>结尾</code>：例如<code>bucket$</code>，匹配‘in a bucket’，而不匹配‘buckets’</p>
+</li>
+<li>
+<p><code>^</code>符号<br>
+有2个含义：</p>
+<ol>
+<li>&quot;开头&quot;，以<code>^abc</code>为例：匹配以<code>abc</code>开头的字符串</li>
+<li>&quot;非&quot;或&quot;排除&quot;，以<code>^[^abc]+$</code>为例：从<code>头</code>到<code>尾</code>，不包含（排除）<code>a、b、c</code>的字符串</li>
+</ol>
+</li>
+</ul>
+<h3 id="12-字符簇">1.2 字符簇</h3>
+<ul>
+<li>简单说就是用来描述我们匹配模式的方法，书写方式为<code>[.....]</code><pre><code>[a-z] //匹配所有的小写字母 
+[A-Z] //匹配所有的大写字母 
+[a-zA-Z] //匹配所有的字母 
+[0-9] //匹配所有的数字 
+[0-9\.\-] //匹配所有的数字，句号和减号 
+[ \f\r\t\n] //匹配所有的白字符
+[^a-z] //除了小写字母以外的所有字符 
+[^\\\/\^] //除了(\)(/)(^)之外的所有字符 
+[^\&quot;\'] //除了双引号(&quot;)和单引号(')之外的所有字符
+</code></pre>
+</li>
+<li>举个栗子🌰，匹配一个小写字母和一个数字组成的字符串，如‘a1’、‘b2’，但不是&quot;ab2&quot;：<pre><code>^[a-z][0-9]$
+</code></pre>
+</li>
+<li>再举个栗子🌰，同样匹配2个字符的字符串，第一个不是数字，第二个是数字，如‘#1’、‘R2’：<pre><code>^[^0-9][0-9]$
+</code></pre>
+</li>
+</ul>
+<h2 id="2-元字符">2 元字符</h2>
+<p>参考文章：<a href="https://www.runoob.com/regexp/regexp-metachar.html">正则表达式 - 元字符</a><br>
+这里组合演示了：</p>
+<ul>
+<li>
+<p><code>?&lt;=</code> : xx之后<br>
+例：?&lt;=href 表示 匹配 href之后  (不包含href)</p>
+</li>
+<li>
+<p><code>?=</code> : xx之前<br>
+例： ?=href 表示 匹配 href之前  (包含href)</p>
+</li>
+<li>
+<p><code>.*?</code> : 取尽量少的任意字符</p>
+<blockquote>
+<p>注：<code>.</code>代表的是任意字符。<code>*</code> 代表的是取 0 至 无限长度。<code>？</code>代表的是非贪婪模式。</p>
+</blockquote>
+<p>例子，<code>CFBundleDisplayName=&quot;MUZO Player&quot;;</code>字符串中，我想获取<code>MUZO Player</code>:</p>
+<pre><code>(?&lt;=CFBundleDisplayName=&quot;).*?(?=&quot;)
+</code></pre>
+</li>
+<li>
+<p><code>?&lt;!</code> : 不以xx开头<br>
+例子，遍历字符串文件时，想过滤掉 <code>//&quot;adddevice_test&quot;=&quot;test&quot;;</code>这种字串：</p>
+<pre><code>// 不以(//)开头，并且格式为(&quot;xxx&quot;可能存在空格=可能存在空格&quot;xxx&quot;;)
+(?&lt;!//)&quot;.*?&quot; ?= ?”.*?”;  
+</code></pre>
+</li>
+</ul>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[使用 Gridea+Github Pages 搭建个人博客]]></title>
         <id>https://daning.netlify.app/post/CreateBlogWithGridea/</id>
@@ -1029,88 +1112,6 @@ layer.masksToBounds = true
     }
 }
 </code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[npm镜像管理]]></title>
-        <id>https://daning.netlify.app/post/npmManagement/</id>
-        <link href="https://daning.netlify.app/post/npmManagement/">
-        </link>
-        <updated>2020-05-15T09:03:09.000Z</updated>
-        <summary type="html"><![CDATA[<p>npm install 或者 gitbook install的时候，经常遇见网速导致的卡慢问题，这里介绍 <code>nrm</code></p>
-]]></summary>
-        <content type="html"><![CDATA[<p>npm install 或者 gitbook install的时候，经常遇见网速导致的卡慢问题，这里介绍 <code>nrm</code></p>
-<!-- more -->
-<blockquote>
-<p>说明：此文 copy 自 -&gt; <a href="https://www.jianshu.com/p/66f97cadd1eb">简书 · 作者：四月天__</a></p>
-</blockquote>
-<p>此文列出常见npm命令，大家共勉。</p>
-<ol>
-<li>
-<p>查看npm源地址</p>
-<pre><code class="language-shell">npm config list
-</code></pre>
-<p>结果:</p>
-<pre><code class="language-shell">metrics-registry = &quot;http://registry.npm.taobao.org/&quot;
-</code></pre>
-</li>
-<li>
-<p>修改registry地址，比如修改为淘宝镜像源。</p>
-<pre><code class="language-shell">npm set registry https://registry.npm.taobao.org/
-</code></pre>
-<p>如果有一天你肉身FQ到国外，用不上了，用rm命令删掉它</p>
-<pre><code class="language-shell">  npm config rm registry
-</code></pre>
-</li>
-<li>
-<p>nrm是专门用来管理和快速切换私人配置的registry，建议全局安装</p>
-<pre><code class="language-shell">npm install nrm -g --save
-</code></pre>
-<p>用nrm ls命令查看默认配置，带*号即为当前使用的配置</p>
-<pre><code class="language-shell">  nrm ls
-</code></pre>
-<pre><code class="language-shell">  npm ---- https://registry.npmjs.org/
-  cnpm --- http://r.cnpmjs.org/
-  * taobao - https://registry.npm.taobao.org/
-  nj ----- https://registry.nodejitsu.com/
-  rednpm - http://registry.mirror.cqupt.edu.cn/
-  npmMirror  https://skimdb.npmjs.com/registry/
-  edunpm - http://registry.enpmjs.org/
-</code></pre>
-<p>也可以直接输入以下命令查看当前使用的是哪个源</p>
-<pre><code class="language-shell">  nrm current
-</code></pre>
-<p>切换源</p>
-<pre><code class="language-shell">  nrm use cnpm
-</code></pre>
-<p>用nrm add 命令添加公司私有npm源，如http://registry.npm.360.org(随便写的)，起个别名叫qihoo</p>
-<pre><code class="language-shell">  nrm add qihoo http://registry.npm.360.org
-</code></pre>
-<p>测试下速度</p>
-<pre><code class="language-shell">  nrm test npm
-  输出npm ---- 790ms
-</code></pre>
-<p>最后，如果你被公司开除了，怒删公司npm源配置</p>
-<pre><code class="language-shell">  nrm del qihoo
-</code></pre>
-</li>
-<li>
-<p>更新Node版本和npm版本<br><br>
-清除node的cache（清除node的缓存，这个看情况而定，不是必须的）</p>
-<pre><code class="language-shell">   sudo npm cache clean -f 
-</code></pre>
-<p>安装&quot;n&quot;版本管理工具，管理node（没有错，就是n）</p>
-<pre><code class="language-shell">   sudo npm install -g n 
-</code></pre>
-<p>更新node版本</p>
-<pre><code class="language-shell">   sudo npm install npm@latest -g 
-</code></pre>
-<p>再查一遍本机当前Node和npm的版本吧</p>
-<pre><code class="language-shell">   node -v 
-   npm -v 
-</code></pre>
-</li>
-</ol>
 ]]></content>
     </entry>
 </feed>
