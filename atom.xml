@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://daning.netlify.app</id>
     <title>鼓捣猫宁</title>
-    <updated>2020-09-10T04:42:06.416Z</updated>
+    <updated>2020-09-14T09:02:51.193Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://daning.netlify.app"/>
     <link rel="self" href="https://daning.netlify.app/atom.xml"/>
@@ -10,6 +10,76 @@
     <logo>https://daning.netlify.app/images/avatar.png</logo>
     <icon>https://daning.netlify.app/favicon.ico</icon>
     <rights>All rights reserved 2020, 鼓捣猫宁</rights>
+    <entry>
+        <title type="html"><![CDATA[HTTP协议中的"四层"与"七层"]]></title>
+        <id>https://daning.netlify.app/post/http-xie-yi-zhong-de-si-ceng-yu-qi-ceng/</id>
+        <link href="https://daning.netlify.app/post/http-xie-yi-zhong-de-si-ceng-yu-qi-ceng/">
+        </link>
+        <updated>2020-09-14T06:17:57.000Z</updated>
+        <summary type="html"><![CDATA[<p>谈到HTTP协议，经常会遇到有关<code>四层</code>与<code>七层</code>的相关话题，那么他们之间的区别到底是什么呢？</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>谈到HTTP协议，经常会遇到有关<code>四层</code>与<code>七层</code>的相关话题，那么他们之间的区别到底是什么呢？</p>
+<!-- more -->
+<p>其实我们常说的<code>四层</code>与<code>七层</code>分层，对应的分别是：</p>
+<ul>
+<li><strong>四层</strong>：TCP/IP 网络分层模型</li>
+<li><strong>七层</strong>：OSI 网络分层模型</li>
+</ul>
+<h2 id="tcpip-网络分层模型">TCP/IP 网络分层模型</h2>
+<p>TCP/IP协议是目前网络上的通讯标准，它的设计者非常聪明，创造性的提出了&quot;分层&quot;的概念，把复杂的网络通信划分出了多个层次，再给每一个层次分配不同的职责，层次内只专心做自己的事情就好，下面是TCP/IP的协议栈的层次图：<br>
+<img src="https://s1.ax1x.com/2020/09/14/wDUoCj.png" alt="四层协议栈" loading="lazy"></p>
+<p>TCP/IP协议总共有四层，&quot;<strong>从下往上</strong>&quot;，分别是：</p>
+<ul>
+<li>第一层：&quot;<strong>链接层</strong>&quot;（link layer），负责在以太网、WiFi 这样的底层网络上发送原始数据包，工作在网卡这个层次，使用 MAC 地址来标记网络上的设备，所以有时候也叫 MAC 层。</li>
+<li>第二层：&quot;<strong>网际层/网络互连层</strong>&quot;（internet layer），IP 协议就在这一层。因为 IP 协议定义了&quot; IP 地址&quot;的概念，所以就可以在&quot;链接层&quot;的基础上，用 IP 地址取代 MAC 地址，把许许多多的局域网、广域网连接成一个虚拟的巨大网络，在这个网络里找设备时只要把 IP 地址再&quot;翻译&quot;成 MAC 地址就可以了。</li>
+<li>第三层：&quot;<strong>传输层</strong>&quot;（transport layer），这个层次协议的职责是保证数据在 IP 地址标记的两点之间&quot;可靠&quot;的传输，是 TCP 协议工作的层次，另外还有它的一个&quot;小伙伴&quot; UCP。<br>
+TCP 是一个有状态的协议，需要先与对方建立连接，然后才能发送数据，而且保证数据不丢失不重复。而 UDP 则比较简单，它无状态，不用事先建立连接就可以任意发送数据，但不保证数据一定会发到对方、两个协议的另一个重要的区别在于数据的形式。TCP 的数据是连续的&quot;字节流&quot;，有先后顺序，而 UDP 则是分散的小数据包，是顺序发，乱序收。</li>
+<li>第四层：&quot;<strong>应用层</strong>&quot;（application layer），由于上三层把基础打的非常好，所以这一层就“百花齐放”了，有各种面向具体应用的协议。例如 Telnet、SSH、FTP、SMTP 等等，当然还有我们的HTTP。</li>
+</ul>
+<blockquote>
+<p>MAC 层的传输单位是帧（frame），IP 层的传输单位是包（packet），TCP 层的传输单位是段（segment），HTTP 的传输单位则是消息或报文（message）。但这些名词并没有什么本质的区分，可以统称为数据包。</p>
+</blockquote>
+<h2 id="osi-网络分层模型">OSI 网络分层模型</h2>
+<p>OSI：全称“<strong>开放式系统互联通讯参考模型</strong>”（Open System Interconnection Reference Model）。TCP/IP 发明于 1970 年代，当时除了它还有很多其他的网络协议，整个网络世界很混乱，这时候国际标准组织（ISO）注意到了这种现象，为了“统一”，于是设计出了新的网络分层模型，想用这个新框架统一各种网络协议。<br>
+OSI 模型分七层，部分层次和 TCP/IP 很像，从下到上分别是：<br>
+<img src="https://s1.ax1x.com/2020/09/14/wDfly8.png" alt="七层协议栈" loading="lazy"></p>
+<ul>
+<li>第一层：物理层，网络的物理形式，例如电缆、光纤、网卡、集线器等等；</li>
+<li>第二层：数据链路层，相当于 TCP/IP 的链接层；</li>
+<li>第三层：网络层，相当于 TCP/IP 的网际层；</li>
+<li>第四层：传输层，相当于 TCP/IP 的传输层；</li>
+<li>第五层：会话层，维护网络中的连接状态，即保持会话和同步；</li>
+<li>第六层：表示层，把数据转换为合适、可理解的语法和语义；</li>
+<li>第七层：应用层，面向具体的应用传输数据；</li>
+</ul>
+<p>OSI 分层模型在发布的时候就明确的表明是一个“参考”，不是强制标准。TCP/IP 是一个纯软件的栈，没有网络应有的最根基的电缆、网卡等物理设备的位置，而 OSI 则补足了这个缺失，在理论层面上描述网络更加完整。</p>
+<h2 id="两个分层模型的映射关系">两个分层模型的映射关系</h2>
+<figure data-type="image" tabindex="1"><img src="https://s1.ax1x.com/2020/09/14/wDTT78.png" alt="七层与四层映射" loading="lazy"></figure>
+<ul>
+<li>第一层：物理层，TCP/IP 里无对应;</li>
+<li>第二层：数据链路层，对应 TCP/IP 的链接层；</li>
+<li>第三层：网络层，对应 TCP/IP 的网际层；</li>
+<li>第四层：传输层，对应 TCP/IP 的传输层；</li>
+<li>第五、六、七层：统一对应到 TCP/IP 的应用层。</li>
+</ul>
+<p>所以你看，这就是“理想与现实”之间的矛盾。理想很美好，有七层，但现实很残酷，只有四层，“多余”的五层、六层就这样“消失”了。<br>
+但这也有一定的实际原因，OSI 的分层模型在四层以上分的太细，而 TCP/IP 实际应用时的会话管理、编码转换、压缩等和具体应用经常联系的很紧密，很难分开。例如，HTTP 协议就同时包含了连接管理和数据格式定义。</p>
+<h2 id="tcpip-协议栈的工作方式">TCP/IP 协议栈的工作方式</h2>
+<figure data-type="image" tabindex="2"><img src="https://s1.ax1x.com/2020/09/14/wrP4i9.png" alt="HTTP协议工作示意图" loading="lazy"></figure>
+<ul>
+<li>发：HTTP 协议的传输过程就是这样通过协议栈逐层向下，每一层都添加本层的专有数据，层层打包，然后通过下层发送出去。</li>
+<li>收：接收数据则是相反的操作，从下往上穿过协议栈，逐层拆包，每层去掉本层的专有头，上层就会拿到自己的数据。</li>
+<li>说明：下层的传输过程对于上层是完全“透明”的，上层也不需要关心下层的具体实现细节，所以就 HTTP 层次来看，它不管下层是不是 TCP/IP 协议，看到的只是一个可靠的传输链路，只要把数据加上自己的头，对方就能原样收到。</li>
+</ul>
+<h2 id="补充">补充</h2>
+<ul>
+<li>二层转发：设备工作在链路层，帧在经过交换机设备时，检查帧的头部信息，拿到目标mac地址，进行本地转发和广播。</li>
+<li>三层路由：设备工作在ip层，报文经过有路由功能的设备时，设备分析报文中的头部信息，拿到ip地址，根据网段范围，进行本地转发或选择下一个网关。</li>
+<li>DNS 协议工作在应用层，因为网络请求的第一步是域名解析。</li>
+<li>CDN工作在应用层，因为CDN是“内容分发网络”，要看到内容就必须在应用层。</li>
+</ul>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[正则相关]]></title>
         <id>https://daning.netlify.app/post/regexp-rule/</id>
@@ -783,335 +853,6 @@ layer.masksToBounds = true
 <img src="https://s1.ax1x.com/2020/09/07/wus8h9.png" alt="示例" loading="lazy"></li>
 <li>大功告成，此时你就可以愉快的抓HTTPS的包了。</li>
 </ol>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[GitBook常用插件]]></title>
-        <id>https://daning.netlify.app/post/gitbook-plugins/</id>
-        <link href="https://daning.netlify.app/post/gitbook-plugins/">
-        </link>
-        <updated>2020-05-18T09:04:21.000Z</updated>
-        <content type="html"><![CDATA[<p>整理一下目前发现的GitBook的插件（plugins），各插件具体使用方式请看其对应的官方介绍</p>
-<h2 id="1-时序图">1. 时序图</h2>
-<blockquote>
-<p>插件：<strong><code>js-sequence-diagram-full</code></strong><br><br>
-说明：时序图样式插件</p>
-</blockquote>
-<ul>
-<li>
-<p><a href="https://www.npmjs.com/package/gitbook-plugin-js-sequence-diagram-full">官方介绍</a></p>
-</li>
-<li>
-<p>示例：</p>
-</li>
-</ul>
-<pre><code class="language-json">&quot;plugins&quot;: [&quot;js-sequence-diagram-full@&gt;=0.3.1&quot;] 
-</code></pre>
-<ul>
-<li>书写方式：</li>
-</ul>
-<pre><code class="language-shell">    （```sequence）// 忽略括号
-        participant A
-        participant B
-
-        Note over C: Note over C
-        Note over A: Note over A
-
-        C-&gt;D: C-&gt;D
-        D-&gt;B: D-&gt;B
-        B--&gt;D: B--&gt;D
-        D--&gt;C: D--&gt;C
-        A-&gt;A: A-&gt;A
-    （```）
-</code></pre>
-<ul>
-<li>效果图：<br>
-<img src="https://s1.ax1x.com/2020/09/07/wuDVEQ.png" alt="效果图" loading="lazy"></li>
-</ul>
-<hr>
-<h2 id="2-代码块">2. 代码块</h2>
-<blockquote>
-<p>插件：<strong><code>prism</code></strong><br><br>
-说明：代码块的样式插件</p>
-</blockquote>
-<ul>
-<li>
-<p><a href="https://www.npmjs.com/package/gitbook-plugin-prism">官方介绍</a></p>
-</li>
-<li>
-<p>参数说明：</p>
-<ol>
-<li>css：代码块样式，官方说明上有几种不同的样式</li>
-<li>lang：可以自定义重命名代码块命名，例如 <code>objectivec</code> 有点长，我们就重命名为 <code>oc</code></li>
-<li>ignore：忽略其他可能会引起冲突的代码块插件的代码块名字，如 <code>js-sequence-diagram-full</code> 的 <code>sequence</code></li>
-</ol>
-</li>
-<li>
-<p>示例：</p>
-</li>
-</ul>
-<pre><code class="language-json">&quot;plugins&quot;: [&quot;prism&quot;]
-&quot;pluginsConfig&quot;: {
-    &quot;prism&quot;: {
-          &quot;css&quot;: [&quot;prismjs/themes/prism-okaidia.css&quot;],
-          &quot;lang&quot;: {&quot;oc&quot;: &quot;objectivec&quot;,},
-          &quot;ignore&quot;: [&quot;sequence&quot;]
-        }
-}
-</code></pre>
-<ul>
-<li>效果图：</li>
-</ul>
-<figure data-type="image" tabindex="1"><img src="https://s1.ax1x.com/2020/09/07/wuDnCn.png" alt="效果图" loading="lazy"></figure>
-<hr>
-<h2 id="3-锚点">3. 锚点</h2>
-<blockquote>
-<p>插件：<strong><code>anchors</code></strong><br><br>
-说明：标题带有 github 样式的锚点。(其实就是鼠标hover在对应h标签后，有个链接小图标显示，点击后标题稍微置顶)</p>
-</blockquote>
-<blockquote>
-<p>如果使用了 <code>anchor-navigation-ex</code>，那就不需要这个<code>anchors</code>插件了，已被其包含</p>
-</blockquote>
-<ul>
-<li>
-<p><a href="https://www.npmjs.com/package/gitbook-plugin-anchors">官方介绍</a></p>
-</li>
-<li>
-<p>示例：</p>
-</li>
-</ul>
-<pre><code class="language-json">  &quot;plugins&quot; : [ &quot;anchors&quot; ]
-</code></pre>
-<ul>
-<li>效果图：</li>
-</ul>
-<figure data-type="image" tabindex="2"><img src="https://s1.ax1x.com/2020/09/07/wuDKg0.png" alt="效果图" loading="lazy"></figure>
-<hr>
-<h2 id="4-目录宽度拖拽">4. 目录宽度拖拽</h2>
-<blockquote>
-<p>插件：<strong><code>splitter</code></strong><br><br>
-说明：在左侧目录和右侧内容之间添加一个可以拖拽的栏，用来调整两边的宽度。</p>
-</blockquote>
-<ul>
-<li>
-<p><a href="https://www.npmjs.com/package/gitbook-plugin-splitter">官方介绍</a></p>
-</li>
-<li>
-<p>示例：</p>
-</li>
-</ul>
-<pre><code class="language-json">  &quot;plugins&quot; : [ &quot;splitter&quot; ]
-</code></pre>
-<ul>
-<li>效果图：</li>
-</ul>
-<figure data-type="image" tabindex="3"><img src="https://s1.ax1x.com/2020/09/07/wuDMvV.png" alt="效果图" loading="lazy"></figure>
-<hr>
-<h2 id="5-gtalk-评论">5. gtalk 评论</h2>
-<blockquote>
-<p>插件：<strong><code>gtalk</code></strong><br><br>
-说明：添加gitalk评论插件</p>
-</blockquote>
-<ul>
-<li><a href="https://www.npmjs.com/package/gitbook-plugin-gtalk">官方介绍</a></li>
-</ul>
-<pre><code class="language-json">&quot;plugins&quot;: [&quot;gtalk&quot;]
-&quot;pluginsConfig&quot;: {
-      &quot;gtalk&quot;: {
-        &quot;clientID&quot;: &quot;GitHub Application Client ID&quot;,
-        &quot;clientSecret&quot;: &quot;GitHub Application Client Secret&quot;,
-        &quot;repo&quot;: &quot;GitHub repo&quot;,
-        &quot;owner&quot;: &quot;GitHub repo owner&quot;,
-        &quot;admin&quot;: [&quot;GitHub repo owner and collaborators, only these guys can initialize github issues&quot;]
-      }
-}
-</code></pre>
-<hr>
-<h2 id="6-github">6. github</h2>
-<blockquote>
-<p>插件：<strong><code>github</code></strong><br><br>
-说明：在右上角显示 github 仓库的图标链接。</p>
-</blockquote>
-<ul>
-<li>
-<p><a href="https://www.npmjs.com/package/gitbook-plugin-github">官方介绍</a></p>
-</li>
-<li>
-<p>示例：</p>
-</li>
-</ul>
-<pre><code class="language-json">&quot;plugins&quot;: [ &quot;github&quot; ]
-&quot;pluginsConfig&quot;: {
-    &quot;github&quot;: {
-        &quot;url&quot;: &quot;https://github.com/your/repo&quot;
-    }
-}
-</code></pre>
-<hr>
-<h2 id="7-章节目录">7. 章节目录</h2>
-<blockquote>
-<p>插件：<strong><code>anchor-navigation-ex</code></strong><br><br>
-说明：目录插件</p>
-</blockquote>
-<ul>
-<li>
-<p><a href="https://www.npmjs.com/package/gitbook-plugin-anchor-navigation-ex">官方介绍</a></p>
-</li>
-<li>
-<p><a href="https://github.com/zq99299/gitbook-plugin-anchor-navigation-ex/blob/master/doc/effectScreenshot.md">具体参数介绍</a></p>
-</li>
-<li>
-<p>示例：</p>
-</li>
-</ul>
-<pre><code class="language-json">&quot;plugins&quot;: [
-   &quot;anchor-navigation-ex&quot;
-]
-&quot;pluginsConfig&quot;: {
-    &quot;anchor-navigation-ex&quot;: {
-          &quot;showGoTop&quot;:true, #右下角是否添加“返回顶部”按钮
-          &quot;showLevel&quot;: false, #标题是否显示层级序号（控制页面标题是否被重写）
-          &quot;printLog&quot;: true, #是否打印处理日志,在排查生成book失败的时候很有用
-          &quot;mode&quot;: &quot;float&quot;, #目录的显示模式，目前有三种“float悬浮”、“pageTop文章顶部”、“”不显示，默认float
-          &quot;float&quot;: { #对应floatMode的图标，可以设置目录里标题前面的ICON
-              &quot;floatIcon&quot;: &quot;fa fa-navicon&quot;,
-              &quot;showLevelIcon&quot;: true,
-              &quot;level1Icon&quot;: &quot;fa fa-hand-o-right&quot;,
-              &quot;level2Icon&quot;: &quot;fa fa-hand-o-right&quot;,
-              &quot;level3Icon&quot;: &quot;fa fa-hand-o-right&quot;
-          }
-    }
-}
-</code></pre>
-<hr>
-<h2 id="8-book目录折叠">8. book目录折叠</h2>
-<blockquote>
-<p>插件：<strong><code>expandable-chapters-small</code></strong><br><br>
-说明：左侧的主目录折叠插件</p>
-</blockquote>
-<ul>
-<li>
-<p><a href="https://www.npmjs.com/package/gitbook-plugin-expandable-chapters-small">官方介绍</a></p>
-</li>
-<li>
-<p>示例：</p>
-</li>
-</ul>
-<pre><code class="language-json">&quot;plugins&quot;: [&quot;expandable-chapters-small&quot;] 
-</code></pre>
-<ul>
-<li>效果图：</li>
-</ul>
-<figure data-type="image" tabindex="4"><img src="https://s1.ax1x.com/2020/09/07/wuDNCR.png" alt="效果图" loading="lazy"></figure>
-<hr>
-<h2 id="9-访问数量">9. 访问数量</h2>
-<blockquote>
-<p>插件：<strong><code>pageview-count</code></strong><br><br>
-说明：文档页面阅读数插件，菜单栏增加个小眼睛，显示访问次数</p>
-</blockquote>
-<p>PS: 经查询，是访问 <code>https://hitcounter.pythonanywhere.com/count/文章地址</code> 来查询访问次数的</p>
-<ul>
-<li>
-<p><a href="https://www.npmjs.com/package/gitbook-plugin-pageview-count">官方介绍</a></p>
-</li>
-<li>
-<p>示例：</p>
-</li>
-</ul>
-<pre><code class="language-json">&quot;plugins&quot;: [&quot;pageview-count&quot;] 
-</code></pre>
-<ul>
-<li>效果图：</li>
-</ul>
-<figure data-type="image" tabindex="5"><img src="https://s1.ax1x.com/2020/09/07/wuD0KK.png" alt="效果图" loading="lazy"></figure>
-<hr>
-<h2 id="10-多语言国际化">10. 多语言国际化</h2>
-<blockquote>
-<p>插件：<strong><code>language-picker</code></strong><br><br>
-说明：语言切换插件</p>
-</blockquote>
-<ul>
-<li>
-<p><a href="https://www.npmjs.com/package/gitbook-plugin-language-picker">官方介绍</a></p>
-</li>
-<li>
-<p>示例：</p>
-</li>
-</ul>
-<pre><code class="language-json">&quot;plugins&quot;: [&quot;language-picker&quot;]
-&quot;pluginsConfig&quot;: { 
-        &quot;language-picker&quot;: { #可以不设置，默认两种
-            &quot;grid-columns&quot;: 2 #如果想设置更多种语言，就改这里即可
-        }
-    }
-</code></pre>
-<ul>
-<li>使用细节，以中/英文2种语言为例:
-<ol>
-<li>
-<p>使用此插件后，GitBook的目录结构需要同时调整，删除以前的SUMMARY</p>
-</li>
-<li>
-<p>创建<code>en</code>、<code>zh-hans</code>2个文件夹，分别创建其对应的<code>README.md</code>和<code>SUMMARY.md</code></p>
-</li>
-<li>
-<p>根目录创建<code>LANGS.md</code>，指定中/英文文档入口，例如</p>
-<pre><code class="language-markdown">   * [English](en/)
-   * [简体中文](zh-hans/)
-</code></pre>
-</li>
-<li>
-<p>这样该gitbook的初始页面其实就变成了<code>LANGS.md</code>，并同时提供了中/英文文档入口。例如：</p>
-<figure data-type="image" tabindex="6"><img src="https://s1.ax1x.com/2020/09/07/wurlRI.png" alt="效果图" loading="lazy"></figure>
-</li>
-</ol>
-</li>
-</ul>
-<hr>
-<h2 id="11-插入自定义cssjs">11. 插入自定义css/js</h2>
-<blockquote>
-<p>插件：<strong><code>addcssjs</code></strong><br><br>
-说明：给gitbook添加外部的css、js文件</p>
-</blockquote>
-<ul>
-<li>
-<p><a href="https://www.npmjs.com/package/gitbook-plugin-addcssjs">官方介绍</a></p>
-</li>
-<li>
-<p>示例：</p>
-</li>
-</ul>
-<pre><code class="language-json">&quot;plugins&quot;: [&quot;addcssjs&quot;]
-&quot;pluginsConfig&quot;: { 
-        &quot;addcssjs&quot;: {
-            &quot;css&quot;: [&quot;styles/website.css&quot;],
-            &quot;js&quot;: [&quot;styles/website.js&quot;]
-        }
-    }
-</code></pre>
-<blockquote>
-<p>如果你使用了<code>language-picker</code>，那么在<code>pluginsConfig</code>配置路径时，记得要在路径前加上<code>../</code>;<br>因为国际化后，所有book的html已经不在根目录的上了，而是在对应的语言文件夹下面</p>
-</blockquote>
-<hr>
-<h2 id="12-代码块行号-复制">12. 代码块行号、复制</h2>
-<blockquote>
-<p>插件：<strong><code>code</code></strong><br><br>
-说明：为代码块添加行号和复制按钮，复制按钮可关闭</p>
-</blockquote>
-<ul>
-<li><a href="https://www.npmjs.com/package/gitbook-plugin-code">官方介绍</a></li>
-</ul>
-<pre><code class="language-json">{
-    &quot;plugins&quot; : [ 
-            &quot;code&quot; 
-     ],
-    &quot;pluginsConfig&quot;: {
-      &quot;code&quot;: {
-        &quot;copyButtons&quot;: false #复制按钮可关闭
-      }
-    }
-}
-</code></pre>
 ]]></content>
     </entry>
 </feed>

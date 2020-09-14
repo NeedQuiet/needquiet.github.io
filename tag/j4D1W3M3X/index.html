@@ -4,7 +4,7 @@
 <meta name="description" content=""/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 
-<title>NSMenu右键后，或者拖入文件时，cell的边框和下划线处理 | 鼓捣猫宁</title>
+<title>HTTP | 鼓捣猫宁</title>
 
 <link rel="shortcut icon" href="https://daning.netlify.app/favicon.ico?v=1600074168233">
 
@@ -37,11 +37,11 @@
     </script>
 
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.css">
 </head>
 <body>
 <div class="main gt-bg-theme-color-first">
-    <nav class="navbar navbar-expand-lg">
+    <div class="main-content">
+        <nav class="navbar navbar-expand-lg">
     <div class="navbar-brand">
         <img class="user-avatar" src="/images/avatar.png" alt="头像">
         <div class="site-name gt-c-content-color-first">
@@ -98,138 +98,47 @@
     </div>
 </nav>
 
-    <div class="post-container">
-        <div class="post-detail gt-bg-theme-color-second">
-            <article class="gt-post-content">
-                <h2 class="post-title">
-                    NSMenu右键后，或者拖入文件时，cell的边框和下划线处理
-                </h2>
-                <div class="post-info">
-                    <time class="post-time gt-c-content-color-first">
-                        · 2020-07-24 ·
-                    </time>
-                    
-                        <a href="https://daning.netlify.app/tag/pqG8Mzlpi/" class="post-tags">
-                            # MacOS
+        <div class="current-tag-container">
+            <h2 class="title gt-c-content-color-first">
+                #HTTP
+            </h2>
+        </div>
+        <div class="post-list-container">
+    <div class="post-inner">
+        
+            <div class="post gt-bg-theme-color-second">
+                <div class="post-left">
+                    <div>
+                        
+                        <a href="https://daning.netlify.app/post/http-xie-yi-zhong-de-si-ceng-yu-qi-ceng/">
+                            <span class="post-title gt-c-content-color-first">HTTP协议中的&#34;四层&#34;与&#34;七层&#34;</span>
                         </a>
+                    </div>
                     
+                    <div class="gt-post-content post-abstract gt-c-content-color-second">
+                        <p>谈到HTTP协议，经常会遇到有关<code>四层</code>与<code>七层</code>的相关话题，那么他们之间的区别到底是什么呢？</p>
+
+                    </div>
+                    <div class="post-info">
+                        <time class="post-time gt-c-content-color-first">
+                            发布于 · 2020-09-14 ·
+                        </time>
+                        
+                            <a href="https://daning.netlify.app/tag/j4D1W3M3X/" class="post-tag">
+                                # HTTP
+                            </a>
+                        
+                    </div>
                 </div>
                 
-                <div class="post-content">
-                    <p>我们在配合使用 NSTableView/NSOutlineView 和 NSmenu 的时候，会发现右键cell时，会多出一个蓝色的边框;<br><br>
-拖入文件到tableview里时，cell上也会多出一个下划线;<br><br>
-这里介绍如何拦截并修改它们</p>
-<!-- more -->
-<h1 id="一-右键cell时的边框">一、右键cell时的边框</h1>
-<h2 id="分析">分析</h2>
-<ul>
-<li>
-<p>右键cell后，边框的样子如下，很突兀:<br>
-<img src="https://s1.ax1x.com/2020/09/07/wuIScF.png" alt="示例" loading="lazy"></p>
-</li>
-<li>
-<p>实际上，就是在tableView上 addSubview 了一个 NSMenuHighlightView：<br>
-<img src="https://s1.ax1x.com/2020/09/07/wuIpX4.png" alt="示例" loading="lazy"></p>
-</li>
-</ul>
-<h2 id="解决方式">解决方式</h2>
-<blockquote>
-<p>暴力点，直接重写NSTableView的addSubview方法，拦截掉NSMenuHighlightView的添加:</p>
-</blockquote>
-<pre><code class="language-swift">class DNTableView: NSTableView {
-    // 禁止右键 cell 边框
-    override func addSubview(_ view: NSView) {
-        if view.className != &quot;NSMenuHighlightView&quot; {
-            super.addSubview(view)
-        }
-    }
-}
-</code></pre>
-<h1 id="二-拖入文件时的下划线">二、拖入文件时的下划线</h1>
-<blockquote>
-<p>当然也可以通过设置 <code>tableView.draggingDestinationFeedbackStyle = .none</code> 直接隐藏，但是我更想修改它的颜色</p>
-</blockquote>
-<ul>
-<li>
-<p>首先看看它的样子<br>
-<img src="https://s1.ax1x.com/2020/09/07/wuIpX4.png" alt="示例图" loading="lazy"></p>
-</li>
-<li>
-<p>其实原理和上面边框处理一样，也是通过重写addSubView进行拦截</p>
-</li>
-</ul>
-<pre><code class="language-swift">// 禁止右键cell 边框
-    override func addSubview(_ view: NSView) {
-        if view.className == &quot;NSMenuHighlightView&quot; { // 右键后cell上的线
-            return
-        } else if view.className == &quot;NSDraggingDestinationView&quot; { // 拖动文件后，cell上的线
-            // 发现无法修改view的背景色，无奈只能覆盖一个color view，以后发现更好的修改方式再改
-            let newLineView = NSView()
-            newLineView.frame = view.bounds
-            newLineView.wantsLayer = true
-            newLineView.layer?.backgroundColor = kRedHighlightColor.cgColor
-            view.addSubview(newLineView)
-            super.addSubview(view)
-        } else {
-            super.addSubview(view)
-        }
-    }
-</code></pre>
-<ul>
-<li>再来看看修改后的样子<br>
-<img src="https://s1.ax1x.com/2020/09/07/wuIi7R.png" alt="示例图" loading="lazy"></li>
-</ul>
-
-                </div>
-            </article>
-        </div>
-
-        
-            <div class="next-post">
-                <div class="next gt-c-content-color-first">下一篇</div>
-                <a href="https://daning.netlify.app/post/custom-nsslider/" class="post-title gt-a-link">
-                    自定义NSSlider
-                </a>
             </div>
         
-
-        
-            <span id="/post/table-view-menu-right-click/" class="leancloud_visitors" data-flag-title="NSMenu右键后，或者拖入文件时，cell的边框和下划线处理">
-                <em class="post-meta-item-text">阅读量 </em>
-                <i class="leancloud-visitors-count">loading...</i>
-            </span>
-        
-
-        
-
-        
-            <script src='https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js'></script>
-
-<style>
-	div#vcomments{
-		width:100%;
-		max-width: 1000px;
-		padding: 2.5%
-	}
-</style>
-
-
-	<div id="vcomments"></div>
-
-<script>
-	new Valine({
-		el: '#vcomments',
-		appId: 'MAAasDLv2NYMtEEAn4QnnU3l-gzGzoHsz',
-		appKey: 'dISXAmwDUYme6vJqsc5HgYw1',
-		avatar: 'mp',
-		pageSize: 5,
-		recordIp: true,
-		placeholder: '设置一个昵称，然后留下你的奇思妙想吧',
-		visitor: true,
-	});
-</script>
-
-        
+    </div>
+</div>
+        <div class="pagination-container">
+    
+    
+</div>
 
         <div class="site-footer gt-c-content-color-first">
     <div class="slogan gt-c-content-color-first">梧高凤必至，花香蝶自来</div>
