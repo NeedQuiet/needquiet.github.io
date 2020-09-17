@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://daning.netlify.app</id>
     <title>鼓捣猫宁</title>
-    <updated>2020-09-14T09:02:51.193Z</updated>
+    <updated>2020-09-17T10:05:39.750Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://daning.netlify.app"/>
     <link rel="self" href="https://daning.netlify.app/atom.xml"/>
@@ -10,6 +10,91 @@
     <logo>https://daning.netlify.app/images/avatar.png</logo>
     <icon>https://daning.netlify.app/favicon.ico</icon>
     <rights>All rights reserved 2020, 鼓捣猫宁</rights>
+    <entry>
+        <title type="html"><![CDATA[HTTP相关协议、概念]]></title>
+        <id>https://daning.netlify.app/post/http-xiang-guan-xie-yi/</id>
+        <link href="https://daning.netlify.app/post/http-xiang-guan-xie-yi/">
+        </link>
+        <updated>2020-09-17T09:15:53.000Z</updated>
+        <summary type="html"><![CDATA[<p>简单介绍下HTTP的相关协议、概念（TCP/IP、DNS、URI/URL、HTTPS、CDN、代理）</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>简单介绍下HTTP的相关协议、概念（TCP/IP、DNS、URI/URL、HTTPS、CDN、代理）</p>
+<!-- more -->
+<h1 id="目录">目录</h1>
+<ul>
+<li><a href="#tcpip">TCP/IP</a>
+<ul>
+<li><a href="#ip-%E5%8D%8F%E8%AE%AE">IP 协议</a></li>
+<li><a href="#tcp-%E5%8D%8F%E8%AE%AE">TCP 协议</a></li>
+</ul>
+</li>
+<li><a href="#dns">DNS</a></li>
+<li><a href="#uriurl">URI/URL</a></li>
+<li><a href="#https">HTTPS</a>
+<ul>
+<li><a href="#ssltls">SSL/TLS</a></li>
+</ul>
+</li>
+<li><a href="#cdn">CDN</a></li>
+<li><a href="#%E4%BB%A3%E7%90%86">代理</a></li>
+</ul>
+<h2 id="tcpip">TCP/IP</h2>
+<p>TCP/IP 协议实际上是一系列网络通信协议的统称，其中最核心的两个协议是 TCP 和 IP，其他的还有 UDP、ICMP、ARP 等等，共同构成了一个复杂但有层次的协议栈。</p>
+<h3 id="ip-协议">IP 协议</h3>
+<p>IP 协议是“Internet Protocol”的缩写，主要目的是解决寻址和路由问题，以及如何在两点间传送数据包。IP 协议使用“IP 地址”的概念来定位互联网上的每一台计算机。</p>
+<p>现在我们使用的 IP 协议大多数是 v4 版，地址是四个用“.”分隔的数字，例如“192.168.0.1”，总共有 2^32，大约 42 亿个可以分配的地址。看上去好像很多，但互联网的快速发展让地址的分配管理很快就“捉襟见肘”。所以，就又出现了 v6 版，使用 8 组“:”分隔的数字作为地址，容量扩大了很多，有 2^128 个，在未来的几十年里应该是足够用了。</p>
+<h3 id="tcp-协议">TCP 协议</h3>
+<p>TCP 协议是“Transmission Control Protocol”的缩写，意思是“传输控制协议”，它位于 IP 协议之上，基于 IP 协议提供可靠的、字节流形式的通信，是 HTTP 协议得以实现的基础。</p>
+<p>“可靠”是指保证数据不丢失，“字节流”是指保证数据完整，所以在 TCP 协议的两端可以如同操作文件一样访问传输的数据，就像是读写在一个密闭的管道里“流动”的字节。</p>
+<h2 id="dns">DNS</h2>
+<p>在 TCP/IP 协议中使用 IP 地址来标识计算机，数字形式的地址对于计算机来说是方便了，但对于人类来说却既难以记忆又难以输入。于是“<strong>域名系统</strong>”（Domain Name System）出现了，用有意义的名字来作为 IP 地址的等价替代.</p>
+<p>在 DNS 中，“域名”（Domain Name）又称为“主机名”（Host），为了更好地标记不同国家或组织的主机，让名字更好记，所以被设计成了一个有层次的结构。</p>
+<p>域名用“.”分隔成多个单词，级别从左到右逐级升高，最右边的被称为“顶级域名”。对于顶级域名，可能你随口就能说出几个，例如表示商业公司的“com”、表示教育机构的“edu”，表示国家的“cn”“uk”等。</p>
+<p>但想要使用 TCP/IP 协议来通信仍然要使用 IP 地址，所以需要把域名做一个转换，“映射”到它的真实 IP，这就是所谓的“域名解析”。</p>
+<p>HTTP 协议中并没有明确要求必须使用 DNS，但实际上为了方便访问互联网上的 Web 服务器，通常都会使用 DNS 来定位或标记主机名，间接地把 DNS 与 HTTP 绑在了一起。</p>
+<h2 id="uriurl">URI/URL</h2>
+<p>有了 TCP/IP 和 DNS，是不足以任意访问网络上的资源的。DNS 和 IP 地址只是标记了互联网上的主机，无法访问主机上具体的资源内容。</p>
+<p>所以就出现了 <strong>URI（Uniform Resource Identifier）</strong>，中文名称是 <strong>统一资源标识符</strong>，使用它就能够唯一地标记互联网上资源。</p>
+<p>URI 另一个更常用的表现形式是 <strong>URL（Uniform Resource Locator）</strong>， <strong>统一资源定位符</strong>，也就是我们俗称的“网址”，它实际上是 URI 的一个子集，不过因为这两者几乎是相同的，差异不大，所以通常不会做严格的区分。</p>
+<p>拿 Nginx 网站来举例</p>
+<pre><code>http://nginx.org/en/download.html
+</code></pre>
+<p>可以看到，URI 主要有三个基本的部分构成：</p>
+<ol>
+<li>协议名：即访问该资源应当使用的协议，在这里是“http”；</li>
+<li>主机名：即互联网上主机的标记，可以是域名或 IP 地址，在这里是“nginx.org”；</li>
+<li>路径：即资源在主机上的位置，使用“/”分隔多级目录，在这里是“/en/download.html”。</li>
+</ol>
+<h2 id="https">HTTPS</h2>
+<p>在 TCP/IP、DNS 和 URI 的“加持”之下，HTTP 协议终于可以自由地访问任意的网页了，但是它并不安全，于是HTTPS出现了。</p>
+<p>HTTPS 的全称是“<strong>HTTP over SSL/TLS</strong>”，也就是运行在 SSL/TLS 协议上的 HTTP。这里是 SSL/TLS，而不是 TCP/IP，它是一个负责加密通信的安全协议，建立在 TCP/IP 之上，所以也是个可靠的传输协议，可以被用作 HTTP 的下层。</p>
+<p>HTTPS 实际上相当于“<strong>HTTP + SSL/TLS + TCP/IP</strong>”</p>
+<h3 id="ssltls">SSL/TLS</h3>
+<p>SSL 的全称是“Secure Socket Layer”，由网景公司发明，当发展到 3.0 时被标准化，改名为 TLS，即“Transport Layer Security”，但由于历史的原因还是有很多人称之为 SSL/TLS，或者直接简称为 SSL。</p>
+<p>SSL 使用了许多密码学最先进的研究成果，综合了对称加密、非对称加密、摘要算法、数字签名、数字证书等技术，能够在不安全的环境中为通信的双方创建出一个秘密的、安全的传输通道，为 HTTP 套上一副坚固的盔甲。</p>
+<h2 id="cdn">CDN</h2>
+<p>浏览器和服务器是 HTTP 协议的两个端点，在它们两个中间有个重要的角色就是 <strong>CDN</strong><br>
+CDN，全称是“Content Delivery Network”，翻译过来就是“内容分发网络”。它应用了 HTTP 协议里的缓存和代理技术，代替源站响应客户端的请求。</p>
+<p>CDN 有什么好处呢？简单来说，它可以缓存源站的数据，让浏览器的请求不用“千里迢迢”地到达源站服务器，直接在“半路”就可以获取响应。如果 CDN 的调度算法很优秀，更可以找到离用户最近的节点，大幅度缩短响应时间。</p>
+<p>CDN 也是现在互联网中的一项重要基础设施，除了基本的网络加速外，还提供负载均衡、安全防护、边缘计算、跨运营商网络等功能，能够成倍地“放大”源站服务器的服务能力，很多云服务商都把 CDN 作为产品的一部分。</p>
+<h2 id="代理">代理</h2>
+<p>代理（Proxy）是 HTTP 协议中请求方和应答方中间的一个环节，作为“中转站”，既可以转发客户端的请求，也可以转发服务器的应答。代理有很多的种类，常见的有：</p>
+<ol>
+<li>匿名代理：完全“隐匿”了被代理的机器，外界看到的只是代理服务器；</li>
+<li>透明代理：顾名思义，它在传输过程中是“透明开放”的，外界既知道代理，也知道客户端；</li>
+<li>正向代理：靠近客户端，代表客户端向服务器发送请求；</li>
+<li>反向代理：靠近服务器端，代表服务器响应客户端的请求；</li>
+</ol>
+<p><a href="#cdn">CDN</a>，实际上就是一种代理，它代替源站服务器响应客户端的请求，通常扮演着透明代理和反向代理的角色。</p>
+<p>由于代理在传输过程中插入了一个“中间层”，所以可以在这个环节做很多有意思的事情，比如：</p>
+<ol>
+<li>负载均衡：把访问请求均匀分散到多台机器，实现访问集群化；</li>
+<li>内容缓存：暂存上下行的数据，减轻后端的压力；</li>
+<li>安全防护：隐匿 IP, 使用 WAF 等工具抵御网络攻击，保护被代理的机器；</li>
+<li>数据处理：提供压缩、加密等额外的功能。</li>
+</ol>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[HTTP协议中的"四层"与"七层"]]></title>
         <id>https://daning.netlify.app/post/http-xie-yi-zhong-de-si-ceng-yu-qi-ceng/</id>
@@ -784,75 +869,6 @@ layer.masksToBounds = true
     }
     NSCAssert(!error, @&quot;Error attempting to open asset catalog (%@): %@&quot;, carPath, error);
 </code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Charles抓包工具介绍]]></title>
-        <id>https://daning.netlify.app/post/ho-to-use-charles/</id>
-        <link href="https://daning.netlify.app/post/ho-to-use-charles/">
-        </link>
-        <updated>2020-05-18T09:13:56.000Z</updated>
-        <summary type="html"><![CDATA[<p>Charles(青花瓷)是HTTP的抓包工具，可以有效地获取HTTP通信信息；此文章使用的是Charles V4.5.6版本</p>
-]]></summary>
-        <content type="html"><![CDATA[<p>Charles(青花瓷)是HTTP的抓包工具，可以有效地获取HTTP通信信息；此文章使用的是Charles V4.5.6版本</p>
-<!-- more -->
-<p>首先展示一下Charles的页面<br>
-<img src="https://s1.ax1x.com/2020/09/07/wur5S1.png" alt="示例" loading="lazy"></p>
-<h1 id="安装">安装</h1>
-<p>安装教程可参考：<a href="http://www.pc6.com/mac/137987.html">链接</a></p>
-<p>Charles下载：</p>
-<ul>
-<li><a href="http://m6.pc6.com/xuh6/Charles456.zip">原下载地址</a></li>
-<li><a href="https://pan.baidu.com/s/14yPJssKhyEh2F44BogkxZA">百度云</a> 密码:a999</li>
-</ul>
-<h2 id="安装步骤">安装步骤</h2>
-<ol>
-<li>按照上述安装包下载后，即可获取破解版的dmg文件</li>
-<li>安装完成后打开Charles，在上方菜单栏的“Help”选择“Register Charles”，会弹出一个Charles for Mac注册界面。<br>
-<img src="https://s1.ax1x.com/2020/09/07/wuroy6.png" alt="示例" loading="lazy"></li>
-<li>打开解压文件夹中的“keygen.jar”</li>
-<li>在运行后的“keygen.jar”上输入“orsoon”然后点击“Generate”生成Charles注册码</li>
-<li>然后将生成的charles注册码复制到注册界面的对应位置上，再点击“Register”。<br>
-<img src="https://s1.ax1x.com/2020/09/07/wurHeO.png" alt="示例" loading="lazy"></li>
-<li>之后会提示注册完成，到这里就可以开始免费使用Charles了。</li>
-</ol>
-<blockquote>
-<p>注意！：在第3步时，可能会提示<code>您需要安装JDK才能使用“java”命令行工具</code>，最简单的安装方式如下：</p>
-</blockquote>
-<pre><code class="language-shell">brew cask install oracle-jdk
-</code></pre>
-<p>当然也可以去<a href="https://www.oracle.com/java/technologies/javase-downloads.html">官网</a>下载JDK</p>
-<h1 id="使用方式">使用方式</h1>
-<p>在此介绍一下如何用Charles抓取手机上的https请求; 参考：<a href="https://www.jianshu.com/p/71dcc417c95a">链接</a></p>
-<h2 id="第一步安装charles证书到mac">第一步：安装Charles证书到Mac</h2>
-<ol>
-<li>启动Charles，选择Help--&gt;SSL Proxying→Install Charles Root Certificate，此时会自动在钥匙串里安装证书</li>
-<li>在钥匙串中找到证书Charles Proxy CA，然后双击或者右键显示简介，点开<code>信任</code>选项，选择<code>始终信任</code><br>
-<img src="https://s1.ax1x.com/2020/09/07/wurqTe.png" alt="示例" loading="lazy"></li>
-<li>移动复制该证书到“系统”里面。此时电脑端的证书就配置完毕了！</li>
-</ol>
-<h2 id="第二步设置https端口抓包">第二步：设置HTTPS端口抓包</h2>
-<ol>
-<li>点击Charles--&gt;Proxy--&gt;SSL Proxying Settings，点击&quot;Enable SSL Proxying&quot;,点击“Add”</li>
-<li>Host填通配符 <code>*</code> ，Port填通用端口 <code>443</code><br>
-<img src="https://s1.ax1x.com/2020/09/07/wurXYd.png" alt="示例" loading="lazy"></li>
-</ol>
-<h2 id="第三步安装charles证书到手机">第三步：安装Charles证书到手机</h2>
-<ol>
-<li>首先查看电脑IP地址，点击Charles--&gt;Help→Local IP Address；<br>也可以在网络偏好设置里看；<br>也可以命令行 <code>fconfig en0</code>查看;</li>
-<li>手机必须和电脑在同一个Wi-Fi下，然后到wifi详情里，选择配置代理</li>
-<li>将代理模式改为<code>手动</code>，填入对应<code>ip</code>，端口号默认<code>8888</code><br>
-<img src="https://s1.ax1x.com/2020/09/07/wurzlt.png" alt="示例" loading="lazy"></li>
-<li>此时会弹出提示，点击<code>Allow</code><br>
-<img src="https://s1.ax1x.com/2020/09/07/wusS6P.png" alt="示例" loading="lazy"></li>
-<li>然后打开Safari浏览器，访问：chls.pro/ssl，下载证书<br>
-<img src="https://s1.ax1x.com/2020/09/07/wusEfs.png" alt="示例" loading="lazy"></li>
-<li>然后再设置--&gt;通用→描述文件，安装刚下载好的文件<br>
-<img src="https://s1.ax1x.com/2020/09/07/wus3tJ.png" alt="示例" loading="lazy"></li>
-<li>安装完成后，点击 设置--&gt;通用→关于本机，下拉到底部，点击证书 信任设置，把刚信任开关打开。<br>
-<img src="https://s1.ax1x.com/2020/09/07/wus8h9.png" alt="示例" loading="lazy"></li>
-<li>大功告成，此时你就可以愉快的抓HTTPS的包了。</li>
-</ol>
 ]]></content>
     </entry>
 </feed>
