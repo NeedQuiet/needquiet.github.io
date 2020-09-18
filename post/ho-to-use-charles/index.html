@@ -6,7 +6,7 @@
 
 <title>Charles抓包工具介绍 | 鼓捣猫宁</title>
 
-<link rel="shortcut icon" href="https://daning.netlify.app/favicon.ico?v=1600338337655">
+<link rel="shortcut icon" href="https://daning.netlify.app/favicon.ico?v=1600414975018">
 
 <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://daning.netlify.app/styles/main.css">
@@ -90,7 +90,7 @@
             
         </div>
         <div style="text-align: center">
-            <form id="gridea-search-form" style="position: relative" data-update="1600338337655" action="/search/index.html">
+            <form id="gridea-search-form" style="position: relative" data-update="1600414975018" action="/search/index.html">
                 <input class="search-input" autocomplete="off" spellcheck="false" name="q" placeholder="搜索文章" />
                 <i class="fas fa-search gt-c-content-color-first" style="position: absolute; top: 9px; left: 10px;"></i>
             </form>
@@ -178,6 +178,21 @@
 
                 </div>
             </article>
+            <div class="toc-container"><ul class="markdownIt-TOC">
+<li><a href="#%E5%AE%89%E8%A3%85">安装</a>
+<ul>
+<li><a href="#%E5%AE%89%E8%A3%85%E6%AD%A5%E9%AA%A4">安装步骤</a></li>
+</ul>
+</li>
+<li><a href="#%E4%BD%BF%E7%94%A8%E6%96%B9%E5%BC%8F">使用方式</a>
+<ul>
+<li><a href="#%E7%AC%AC%E4%B8%80%E6%AD%A5%E5%AE%89%E8%A3%85charles%E8%AF%81%E4%B9%A6%E5%88%B0mac">第一步：安装Charles证书到Mac</a></li>
+<li><a href="#%E7%AC%AC%E4%BA%8C%E6%AD%A5%E8%AE%BE%E7%BD%AEhttps%E7%AB%AF%E5%8F%A3%E6%8A%93%E5%8C%85">第二步：设置HTTPS端口抓包</a></li>
+<li><a href="#%E7%AC%AC%E4%B8%89%E6%AD%A5%E5%AE%89%E8%A3%85charles%E8%AF%81%E4%B9%A6%E5%88%B0%E6%89%8B%E6%9C%BA">第三步：安装Charles证书到手机</a></li>
+</ul>
+</li>
+</ul>
+</div>
         </div>
 
         
@@ -263,5 +278,15 @@
 
     </div>
 </div>
+<script>
+    "use strict";!function(){for(var n=document.getElementsByTagName("pre"),e=n.length,s=0;s<e;s++){n[s].innerHTML='<span class="line-number"></span>'+n[s].innerHTML+'<span class="cl"></span>';for(var a=n[s].innerHTML.split(/\n/).length,r=0;r<a-1;r++){n[s].getElementsByTagName("span")[0].innerHTML+="<span>"+(r+1)+"</span>"}}}();
+    let mainNavLinks=document.querySelectorAll(".markdownIt-TOC a");window.addEventListener("scroll",event=>{let fromTop=window.scrollY;mainNavLinks.forEach((link,index)=>{let section=document.getElementById(decodeURI(link.hash).substring(1));let nextSection=null
+    if(mainNavLinks[index+1]){nextSection=document.getElementById(decodeURI(mainNavLinks[index+1].hash).substring(1));}
+    if(section.offsetTop<=fromTop){if(nextSection){if(nextSection.offsetTop>fromTop){link.classList.add("currentToc");}else{link.classList.remove("currentToc");}}else{link.classList.add("currentToc");}}else{link.classList.remove("currentToc");}});});
+    var list=document.querySelectorAll(".katex");for(var i=0;i<list.length;i++){list[i].style.display="unset"};
+    var h=document.documentElement,b=document.body,st="scrollTop",sh="scrollHeight",progress=document.querySelector(".progress"),scroll;document.addEventListener("scroll",function(){scroll=(h[st]||b[st])/((h[sh]||b[sh])-h.clientHeight)*100;progress.style.setProperty("--scroll",scroll+"%")});
+    var wxScale=new WxScale({fullPage:document.querySelector("#fullPage"),canvas:document.querySelector("#canvas")});var imgBox=document.querySelectorAll("#md_block img");for(var i=0;i<imgBox.length;i++){imgBox[i].onclick=function(e){wxScale.start(this)}};
+    content="本文最后更新于2020-05-18，已超过 1 年没有更新，涉及的内容可能已经失效！";var date1="2020-05-18 17:13:56";date1=date1.replace("-","/");var date2=new Date();var date3=date2.getTime()-new Date(date1).getTime();var days=Math.floor(date3/(24*3600*1000));if(days>=365){document.getElementById("warn").innerHTML=content};
+    </script>
 </body>
 </html>

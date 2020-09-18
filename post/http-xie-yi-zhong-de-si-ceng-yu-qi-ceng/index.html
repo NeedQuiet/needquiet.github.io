@@ -6,7 +6,7 @@
 
 <title>HTTP协议中的&#34;四层&#34;与&#34;七层&#34; | 鼓捣猫宁</title>
 
-<link rel="shortcut icon" href="https://daning.netlify.app/favicon.ico?v=1600338337655">
+<link rel="shortcut icon" href="https://daning.netlify.app/favicon.ico?v=1600414975018">
 
 <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://daning.netlify.app/styles/main.css">
@@ -90,7 +90,7 @@
             
         </div>
         <div style="text-align: center">
-            <form id="gridea-search-form" style="position: relative" data-update="1600338337655" action="/search/index.html">
+            <form id="gridea-search-form" style="position: relative" data-update="1600414975018" action="/search/index.html">
                 <input class="search-input" autocomplete="off" spellcheck="false" name="q" placeholder="搜索文章" />
                 <i class="fas fa-search gt-c-content-color-first" style="position: absolute; top: 9px; left: 10px;"></i>
             </form>
@@ -179,6 +179,18 @@ OSI 模型分七层，部分层次和 TCP/IP 很像，从下到上分别是：<b
 
                 </div>
             </article>
+            <div class="toc-container"><ul class="markdownIt-TOC">
+<li>
+<ul>
+<li><a href="#tcpip-%E7%BD%91%E7%BB%9C%E5%88%86%E5%B1%82%E6%A8%A1%E5%9E%8B">TCP/IP 网络分层模型</a></li>
+<li><a href="#osi-%E7%BD%91%E7%BB%9C%E5%88%86%E5%B1%82%E6%A8%A1%E5%9E%8B">OSI 网络分层模型</a></li>
+<li><a href="#%E4%B8%A4%E4%B8%AA%E5%88%86%E5%B1%82%E6%A8%A1%E5%9E%8B%E7%9A%84%E6%98%A0%E5%B0%84%E5%85%B3%E7%B3%BB">两个分层模型的映射关系</a></li>
+<li><a href="#tcpip-%E5%8D%8F%E8%AE%AE%E6%A0%88%E7%9A%84%E5%B7%A5%E4%BD%9C%E6%96%B9%E5%BC%8F">TCP/IP 协议栈的工作方式</a></li>
+<li><a href="#%E8%A1%A5%E5%85%85">补充</a></li>
+</ul>
+</li>
+</ul>
+</div>
         </div>
 
         
@@ -264,5 +276,15 @@ OSI 模型分七层，部分层次和 TCP/IP 很像，从下到上分别是：<b
 
     </div>
 </div>
+<script>
+    "use strict";!function(){for(var n=document.getElementsByTagName("pre"),e=n.length,s=0;s<e;s++){n[s].innerHTML='<span class="line-number"></span>'+n[s].innerHTML+'<span class="cl"></span>';for(var a=n[s].innerHTML.split(/\n/).length,r=0;r<a-1;r++){n[s].getElementsByTagName("span")[0].innerHTML+="<span>"+(r+1)+"</span>"}}}();
+    let mainNavLinks=document.querySelectorAll(".markdownIt-TOC a");window.addEventListener("scroll",event=>{let fromTop=window.scrollY;mainNavLinks.forEach((link,index)=>{let section=document.getElementById(decodeURI(link.hash).substring(1));let nextSection=null
+    if(mainNavLinks[index+1]){nextSection=document.getElementById(decodeURI(mainNavLinks[index+1].hash).substring(1));}
+    if(section.offsetTop<=fromTop){if(nextSection){if(nextSection.offsetTop>fromTop){link.classList.add("currentToc");}else{link.classList.remove("currentToc");}}else{link.classList.add("currentToc");}}else{link.classList.remove("currentToc");}});});
+    var list=document.querySelectorAll(".katex");for(var i=0;i<list.length;i++){list[i].style.display="unset"};
+    var h=document.documentElement,b=document.body,st="scrollTop",sh="scrollHeight",progress=document.querySelector(".progress"),scroll;document.addEventListener("scroll",function(){scroll=(h[st]||b[st])/((h[sh]||b[sh])-h.clientHeight)*100;progress.style.setProperty("--scroll",scroll+"%")});
+    var wxScale=new WxScale({fullPage:document.querySelector("#fullPage"),canvas:document.querySelector("#canvas")});var imgBox=document.querySelectorAll("#md_block img");for(var i=0;i<imgBox.length;i++){imgBox[i].onclick=function(e){wxScale.start(this)}};
+    content="本文最后更新于2020-09-14，已超过 1 年没有更新，涉及的内容可能已经失效！";var date1="2020-09-14 14:17:57";date1=date1.replace("-","/");var date2=new Date();var date3=date2.getTime()-new Date(date1).getTime();var days=Math.floor(date3/(24*3600*1000));if(days>=365){document.getElementById("warn").innerHTML=content};
+    </script>
 </body>
 </html>

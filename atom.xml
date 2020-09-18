@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://daning.netlify.app</id>
     <title>鼓捣猫宁</title>
-    <updated>2020-09-17T10:25:40.854Z</updated>
+    <updated>2020-09-18T08:08:19.988Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://daning.netlify.app"/>
     <link rel="self" href="https://daning.netlify.app/atom.xml"/>
@@ -20,24 +20,6 @@
 ]]></summary>
         <content type="html"><![CDATA[<p>简单介绍下HTTP的相关协议、概念（TCP/IP、DNS、URI/URL、HTTPS、CDN、代理）</p>
 <!-- more -->
-<h1 id="目录">目录</h1>
-<ul>
-<li><a href="#tcpip">TCP/IP</a>
-<ul>
-<li><a href="#ip-%E5%8D%8F%E8%AE%AE">IP 协议</a></li>
-<li><a href="#tcp-%E5%8D%8F%E8%AE%AE">TCP 协议</a></li>
-</ul>
-</li>
-<li><a href="#dns">DNS</a></li>
-<li><a href="#uriurl">URI/URL</a></li>
-<li><a href="#https">HTTPS</a>
-<ul>
-<li><a href="#ssltls">SSL/TLS</a></li>
-</ul>
-</li>
-<li><a href="#cdn">CDN</a></li>
-<li><a href="#%E4%BB%A3%E7%90%86">代理</a></li>
-</ul>
 <h2 id="tcpip">TCP/IP</h2>
 <p>TCP/IP 协议实际上是一系列网络通信协议的统称，其中最核心的两个协议是 TCP 和 IP，其他的还有 UDP、ICMP、ARP 等等，共同构成了一个复杂但有层次的协议栈。</p>
 <h3 id="ip-协议">IP 协议</h3>
