@@ -622,10 +622,7 @@ h3,
 h4,
 h5,
 h6 {
-  margin: 1em 0 0.8em 0;
-}
-h3.post-subtitle {
-  margin-bottom: 0;
+  margin: 0.8em 0 0.8em 0;
 }
 .tag-list .tag {
   display: inline-block;
@@ -662,6 +659,29 @@ h3.post-subtitle {
 .btn,
 .btn-primary {
   padding: 10px 25px;
+}
+.sticky-top-flag {
+  color: white;
+  padding: 3px 10px;
+  font-size: 12px;
+  border-radius: 5px;
+  margin-right: 10px;
+  vertical-align: middle;
+  background: #5d656d !important;
+}
+.post-preview .post-title-container {
+  display: flex;
+  align-items: center;
+}
+.post-preview .post-title-container a {
+  color: #4A4A4A;
+}
+.post-preview .post-title-container a:hover {
+  color: #0085a1;
+}
+h3.post-subtitle {
+  margin-top: 0;
+  margin-bottom: 0;
 }
 @media (max-width: 1199px) {
   .toc-container {
