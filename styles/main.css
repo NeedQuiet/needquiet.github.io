@@ -844,3 +844,20 @@ code::-webkit-scrollbar-thumb {
 code::-webkit-scrollbar-thumb:hover {
   background-color: #bbb;
 }
+#landlord {
+  left: 0;
+}
+#landlord .message {
+  border: 1px solid rgb(144 115 115);
+  background-color: rgb(240 234 234);
+  box-shadow: 0 3px 15px 2px rgb(183 166 166);
+  color: #695f5f;
+}
+@media (max-width: 1199px) {
+  #landlord {
+    display: none;
+  }
+  #live2d-widget {
+    display: none;
+  }
+}
