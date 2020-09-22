@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta content="yes" name="apple-mobile-web-app-capable" />
 <meta content="black" name="apple-mobile-web-app-status-bar-style" />
@@ -29,19 +30,22 @@
 
 <script>hljs.initHighlightingOnLoad();</script>
 
-    <meta property="og:description" content="Xcode利用shell更改build号"/>
-    <meta property="og:url" content="https://daning.netlify.app/post/use-sh-change-version/"/>
-    <meta property="og:locale" content="zh-CN"/>
-    <meta property="og:type" content="website"/>
-    <meta property="og:site_name" content="鼓捣猫宁"/>
-    <!-- <script src="../assets/styles/scripts/tocScript.js"></script> -->
-  </head>
-  <body>
-  	<!-- Navigation -->
+  <meta property="og:description" content="Xcode利用shell更改build号" />
+  <meta property="og:url" content="https://daning.netlify.app/post/use-sh-change-version/" />
+  <meta property="og:locale" content="zh-CN" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="鼓捣猫宁" />
+  <!-- <script src="../assets/styles/scripts/tocScript.js"></script> -->
+</head>
+
+<body>
+  <!-- Navigation -->
   <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
     <div class="container">
       <a class="navbar-brand" href="https://daning.netlify.app">鼓捣猫宁</a>
-      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+        data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
+        aria-label="Toggle navigation">
         Menu
         <i class="fas fa-bars"></i>
       </button>
@@ -49,27 +53,27 @@
         <ul class="navbar-nav ml-auto">
           
           <li class="nav-item">
-              
-              <a class="nav-link" href="/">首页</a>
-              
+            
+            <a class="nav-link" href="/">首页</a>
+            
           </li>
           
           <li class="nav-item">
-              
-              <a class="nav-link" href="/archives">归档</a>
-              
+            
+            <a class="nav-link" href="/archives">归档</a>
+            
           </li>
           
           <li class="nav-item">
-              
-              <a class="nav-link" href="/tags">标签</a>
-              
+            
+            <a class="nav-link" href="/tags">标签</a>
+            
           </li>
           
           <li class="nav-item">
-              
-              <a class="nav-link" href="/about">关于</a>
-              
+            
+            <a class="nav-link" href="/about">关于</a>
+            
           </li>
           
         </ul>
@@ -77,30 +81,75 @@
     </div>
   </nav>
   <!-- Page Header -->
-  <header class="masthead" style="background-image: url('https://daning.netlify.app/media/images/home-bg.jpg')">
-    <div class="overlay"></div>
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
     <div class="container">
-      <div class="row">
-        <div class="col-lg-8 col-md-10 mx-auto">
-          <div class="post-heading">
-          	<span class="tags">
-          	 
-            <a href="https://daning.netlify.app/tag/nKfqlyX-m/" class="tag">shell</a>
+      <a class="navbar-brand" href="https://daning.netlify.app">鼓捣猫宁</a>
+      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+        data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
+        aria-label="Toggle navigation">
+        Menu
+        <i class="fas fa-bars"></i>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
+          
+          <li class="nav-item">
             
-            <a href="https://daning.netlify.app/tag/ld35A2DOVM/" class="tag">Xcode</a>
+            <a class="nav-link" href="/">首页</a>
             
-        </span>
-            <h1>Xcode利用shell更改build号</h1>
-            <span class="meta">
-            	Posted on
-              2020-03-19，1 min read
-            </span>
-          </div>
-        </div>
+          </li>
+          
+          <li class="nav-item">
+            
+            <a class="nav-link" href="/archives">归档</a>
+            
+          </li>
+          
+          <li class="nav-item">
+            
+            <a class="nav-link" href="/tags">标签</a>
+            
+          </li>
+          
+          <li class="nav-item">
+            
+            <a class="nav-link" href="/about">关于</a>
+            
+          </li>
+          
+        </ul>
       </div>
     </div>
-  </header>
-
+  </nav>
+<header class="masthead" style="background-image: url('https://daning.netlify.app/media/images/home-bg.jpg')">
+  <div class="overlay"></div>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-md-10 mx-auto">
+        
+          <!-- 没Title为其他页面Header -->
+          
+            <!-- 没Title并且有headerType为Post：文章Header -->
+            <div class="post-heading">
+              <span class="tags">
+                
+                <a href="https://daning.netlify.app/tag/nKfqlyX-m/" class="tag">shell</a>
+                
+                <a href="https://daning.netlify.app/tag/ld35A2DOVM/" class="tag">Xcode</a>
+                
+              </span>
+              <h1>Xcode利用shell更改build号</h1>
+              <span class="meta">
+                Posted on
+                2020-03-19，1 min read
+              </span>
+            </div>
+          
+        
+      </div>
+    </div>
+  </div>
+</header>
   <!-- Post Content -->
   <article id="post-content-article">
     <div class="container">
@@ -119,7 +168,7 @@ buildNumber=$(date +%Y%m%d%H%M)
 
           <div class="toc-container"></div>
           
-          <hr/>
+          <hr />
           <p class="next-post">下一篇：
             <a href="https://daning.netlify.app/post/xcode-run-script-shell/">
               <span class="post-title">
@@ -127,17 +176,18 @@ buildNumber=$(date +%Y%m%d%H%M)
               </span>
             </a>
           </p>
-        
-        <div class="comment" style="text-align: center;">
           
-            <span id="/post/use-sh-change-version/" class="leancloud_visitors" data-flag-title="Xcode利用shell更改build号">
-                <em class="post-meta-item-text">阅读量 </em>
-                <i class="leancloud-visitors-count">loading...</i>
+          <div class="comment" style="text-align: center;">
+            
+            <span id="/post/use-sh-change-version/" class="leancloud_visitors"
+              data-flag-title="Xcode利用shell更改build号">
+              <em class="post-meta-item-text">阅读量 </em>
+              <i class="leancloud-visitors-count">loading...</i>
             </span>
-          
+            
 
-          
-          
+            
+            
             <script src='https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js'></script>
 
 <style>
@@ -164,12 +214,12 @@ buildNumber=$(date +%Y%m%d%H%M)
 	});
 </script>
 
-          
+            
+          </div>
         </div>
       </div>
-    </div>
   </article>
- <!-- Footer -->
+  <!-- Footer -->
   <footer>
     <div class="container">
       <div class="row">
@@ -256,8 +306,8 @@ buildNumber=$(date +%Y%m%d%H%M)
       }
     }
   })(this));</script>
- 
-    <div id="landlord-parent">
+  
+  <div id="landlord-parent">
     <div id="landlord">
         <div class="message" style="opacity:0"></div>
         <canvas id="live2d" width="240" height="250" class="live2d"></canvas>
@@ -297,8 +347,8 @@ buildNumber=$(date +%Y%m%d%H%M)
         };
     }
 </script>
- 
- <script src="https://daning.netlify.app/media/scripts/tocScript.js"></script>
-  </body>
-</html>
+  
+  <script src="https://daning.netlify.app/media/scripts/tocScript.js"></script>
+</body>
 
+</html>
