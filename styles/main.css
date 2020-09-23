@@ -620,12 +620,13 @@ h3.post-subtitle p {
 }
 .row .post-row-container .title-floor .post-title-container a:hover:after {
   width: 100%;
+  background: #0085a1;
 }
 .row .post-row-container .title-floor .post-title-container a:after {
   content: "";
   width: 0;
   height: 2px;
-  background: #0085a1;
+  background: #4a4a4a;
   position: absolute;
   left: 0;
   bottom: 4px;
@@ -673,6 +674,26 @@ h3.post-subtitle p {
 .row .post-row-container .post-row-sec-floor .post-tag:hover {
   color: #0085a1;
   border-color: #0085a1;
+}
+/*横屏 | 浏览器*/
+@media all and (orientation: landscape) {
+  header.masthead .row {
+    margin-top: 0px;
+  }
+}
+/*手机竖屏*/
+@media all and (orientation: portrait) {
+  .row .post-row-container {
+    margin: 25px 20px;
+    padding: 4px 23px 14px 23px;
+  }
+  .row .post-row-container .post-row-first-floor .post-feature-image {
+    display: none;
+  }
+  .row .post-row-container .post-row-sec-floor hr {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
 }
 @media (max-width: 1199px) {
   .toc-container {
@@ -998,14 +1019,40 @@ header.masthead .row .site-heading h1 {
     font-size: 30px;
   }
 }
-#post-content-article .container .row div:first-child {
+/*手机竖屏*/
+@media all and (orientation: portrait) {
+  header.masthead {
+    margin-bottom: 5px !important;
+  }
+  header.masthead .row {
+    margin-top: 57px;
+    height: 230px !important;
+  }
+  header.masthead .row .site-heading .user-avatar {
+    width: 75px;
+  }
+  header.masthead .row .site-heading h1 {
+    font-size: 35px !important;
+  }
+  header.masthead .row .site-heading span {
+    font-size: 15px;
+    margin: 15px 0 0;
+  }
+  header.masthead .row .post-heading h1 {
+    font-size: 23px !important;
+  }
+  header.masthead .row .post-heading span {
+    font-size: 12px !important;
+  }
+}
+#post-content-article .container .row .post-content-container {
   display: flex;
   flex-direction: column;
 }
-#post-content-article .container .row div:first-child hr {
+#post-content-article .container .row .post-content-container hr {
   width: 100%;
 }
-#post-content-article .container .row div:first-child p {
+#post-content-article .container .row .post-content-container p {
   margin-bottom: 0;
 }
 #post-content-article .container .post-feature-header-image {
@@ -1015,3 +1062,10 @@ header.masthead .row .site-heading h1 {
   border-radius: 15px;
   box-shadow: 0 3px 15px 2px rgb(80 77 77);
 }
+/*手机竖屏*/
+@media all and (orientation: portrait) {
+  #post-content-article {
+    padding: 20px 10px;
+  }
+}
+/*手机竖屏*/
