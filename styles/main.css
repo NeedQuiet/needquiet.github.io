@@ -993,6 +993,9 @@ header.masthead .row .site-heading h1 {
   }
 }
 /*手机竖屏*/
+#vcomments .vcards .vcard .vh .vcontent p {
+  text-align: left;
+}
 #gridea-search-form .search-input {
   position: relative;
   left: -2px;
