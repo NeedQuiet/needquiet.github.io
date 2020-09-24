@@ -1003,11 +1003,18 @@ header.masthead .row .site-heading h1 {
 #vcomments .vcards .vcard .vh .vcontent p {
   text-align: left;
 }
+.searched-keyword {
+  color: red;
+}
+#gridea-search-form {
+  display: flex;
+  font-size: 10px;
+}
 #gridea-search-form .search-input {
   position: relative;
   left: -2px;
   width: 180px;
-  height: 30px;
+  height: 23px;
   padding: 0 0 2px 35px;
   font-size: 12px;
   background-size: 20px;
@@ -1019,6 +1026,9 @@ header.masthead .row .site-heading h1 {
   outline: 0;
   border-bottom: 2px #495057;
   transition: border-color 0.2s;
+}
+#gridea-search-form .fa-search {
+  top: 6px !important;
 }
 h3.serchedPreview {
   font-size: 13px;
@@ -1038,11 +1048,11 @@ h3.serchedPreview {
   }
   #gridea-search-form .fa-search {
     left: 10px !important;
-    top: 7px !important;
+    top: 6px !important;
   }
   #gridea-search-form .search-input {
     width: 100%;
-    background-color: #efefef;
+    background-color: #dcdcdc;
     padding: 0 0 2px 33px !important;
   }
 }
@@ -1129,6 +1139,7 @@ h3.serchedPreview {
 .page {
   border-top: 1px solid #eee;
   background-color: #fff;
+  margin-top: 15px;
 }
 .page a {
   border: none;
@@ -1141,30 +1152,36 @@ h3.serchedPreview {
   list-style-type: disc;
   margin-inline-start: 0px;
   margin-inline-end: 0px;
-  margin-top: -1px;
+  margin-top: 6px;
 }
 .pagination-ul li {
   list-style-type: none;
   display: inline-block;
   cursor: pointer;
 }
-.pagination-ul a {
-  width: 32px;
+.pagination-ul li a {
+  width: 24px;
+  height: 24px;
+  line-height: 24px;
   font-size: 16px;
-  padding: 1px 0;
   display: inline-block;
-  border-top: 1px solid transparent;
+  text-decoration: none;
+  border-radius: 50%;
+  color: #4a4a4a;
+  margin: 0 5px;
 }
-.pagination-active a {
+.pagination-ul .pagination-active a {
   color: #fff;
-  background: #ccc;
-  border-top-color: #ccc;
+  background-color: #4a4a4a;
+  box-shadow: 0 1px 4px 2px rgb(81 77 77);
 }
 .pagination-ul a:hover {
-  border-top: 1px solid #222;
+  background-color: #817c7c;
+  color: white;
+  box-shadow: 0 1px 4px 2px rgb(81 77 77);
+  transform: scale(1.012);
 }
-.pagination-dir a {
-  width: 32px;
+.pagination-ul .pagination-dir a {
   display: inline-block;
   border-top: 1px solid transparent;
 }
