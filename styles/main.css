@@ -1038,20 +1038,16 @@ h3.serchedPreview {
 }
 #mainNav {
   position: absolute;
-  border-bottom: 1px solid #e9ecef;
-  background-color: #fff;
   font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 #mainNav .navbar-brand {
   font-weight: 800;
-  color: #343a40;
 }
 #mainNav .navbar-toggler {
   font-size: 12px;
   font-weight: 800;
   padding: 13px;
   text-transform: uppercase;
-  color: #343a40;
 }
 #mainNav .navbar-nav > li.nav-item > a {
   font-size: 12px;
@@ -1157,8 +1153,20 @@ h3.serchedPreview {
 			}
 
 			#mainNav.is-fixed {
-				background-color: RGBA(255,255,255,0.9) !important;
+				background-color: RGBA(255,255,255,0.9);
 				border-bottom: 1px solid #ffffff;
+			}
+
+			.fixed-top {
+				background-color: #ffffff;
+			}
+			.fixed-top .navbar-brand,
+			.fixed-top .navbar-nav > li.nav-item > a,
+			.fixed-top .navbar-toggler {
+				color: #4a4a4a;
+			}
+			.navbar-light .navbar-toggler {
+				border-color: RGBA(74,74,74,0.5) !important;;
 			}
 
 			a {
@@ -1183,7 +1191,7 @@ h3.serchedPreview {
 				color: #4a4a4a !important;
 			}
 			.title-floor .post-title-container a:after,
-			.pagination-active a {
+			.pagination-active a{
 				background-color: #4a4a4a !important;
 			}
 
