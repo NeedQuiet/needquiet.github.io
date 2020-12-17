@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://daning.netlify.app</id>
     <title>鼓捣猫宁</title>
-    <updated>2020-11-30T03:15:04.612Z</updated>
+    <updated>2020-12-17T06:37:03.211Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://daning.netlify.app"/>
     <link rel="self" href="https://daning.netlify.app/atom.xml"/>
@@ -10,6 +10,74 @@
     <logo>https://daning.netlify.app/images/avatar.png</logo>
     <icon>https://daning.netlify.app/favicon.ico</icon>
     <rights>All rights reserved 2020, 鼓捣猫宁</rights>
+    <entry>
+        <title type="html"><![CDATA[OC对象的本质]]></title>
+        <id>https://daning.netlify.app/post/oc-dui-xiang-de-ben-zhi/</id>
+        <link href="https://daning.netlify.app/post/oc-dui-xiang-de-ben-zhi/">
+        </link>
+        <updated>2020-12-15T03:09:47.000Z</updated>
+        <summary type="html"><![CDATA[<p>简单了解NSObject的‘底层实现’、‘占用内存’及‘分类’。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>简单了解NSObject的‘底层实现’、‘占用内存’及‘分类’。</p>
+<!-- more -->
+<h2 id="nsobject的底层实现">NSObject的底层实现</h2>
+<p>oc中</p>
+<pre><code class="language-objc">@interface NSObject {
+    Class isa;
+}
+@end
+</code></pre>
+<p>转为c++后</p>
+<pre><code class="language-cpp">struct NSObject_IMPL {
+    Class isa; // 占8个字节
+};
+</code></pre>
+<p>Class实际上是一个指针</p>
+<pre><code>typedef struct objc_class *Class; 
+</code></pre>
+<h2 id="一个nsobject对象占多少内存">一个NSObject对象占多少内存？</h2>
+<p>从上面的<strong>NSObject底层实现</strong>看，既然NSObject的对象本质上是一个isa的Class指针，而Class又占用8个字节，那么一个NSObject对象是不是就占用8个字节呢？实际上不是，一个NSObject实际上占用16个字节。<br>alloc本质是在调用allocWithZone，其函数内部在分配内存时，会判断if( size &lt; 16 ){size = 16}，</p>
+<blockquote>
+<p>总结：系统分配了16个字节给NSObject对象，但NSObject对象内部只使用了8个字节的空间(64bit环境下)。</p>
+</blockquote>
+<pre><code class="language-objc">NSObject *obj = [[NSObject alloc] init];
+// 获得NSObject实例对象的**成员变量**所占用的大小（基于内存对其原则，最大成员内存的倍数）
+NSLog(@&quot;%zd&quot;, class_getInstanceSize([NSObject class])); // 8
+// 获得obj指针所指向的内存大小（16的倍数）
+NSLog(@&quot;%zd&quot;, malloc_size((__bridge const void *)obj)); // 16
+</code></pre>
+<h2 id="oc对象的分类">OC对象的分类</h2>
+<ul>
+<li>instance对象（实例对象）<pre><code class="language-objc">NSObject *object = [[NSObject alloc] init];
+</code></pre>
+</li>
+<li>class对象（类对象）<br>
+每个类在内存中有且只有一个class对象<pre><code class="language-objc">Class objectClass1 = [object class];
+Class objectClass2 = object_getClass(object);
+// -(void)test; 方法是保存在类对象里的
+</code></pre>
+</li>
+<li>meta-class对象（元类对象）<br>
+每个类在内存中有且只有一个meta-class对象<pre><code class="language-objc">// 将类对象传入，获得元类对象（如果传入instance实例对象，则返回的是class对象）
+Class objectMetaClass = object_getClass(objectClass); // 元类对象
+Class objectClass2 = object_getClass(object); // 类对象
+// +(void)test; 类方法是保存在元类对象里的
+</code></pre>
+</li>
+</ul>
+<blockquote>
+<p>object_getClass：</p>
+</blockquote>
+<pre><code class="language-objc">Class object_getClass(id obj){
+    // 如果是instance对象，返回class对象；
+    // 如果是class对象，返回meta-class对象
+    // 如果是meta-class对象，返回NSobject(基类)的meta-class对象；
+    if (obj) return obj-&gt;getIsa();
+    else return Nil;
+}
+</code></pre>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[HTTP相关协议、概念]]></title>
         <id>https://daning.netlify.app/post/http-xiang-guan-xie-yi/</id>
@@ -804,63 +872,6 @@ layer.masksToBounds = true
 </code></pre>
 <h2 id="最终效果">最终效果</h2>
 <figure data-type="image" tabindex="3"><img src="https://s1.ax1x.com/2020/09/07/wu5o6g.png" alt="示例" loading="lazy"></figure>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[获取APP图片资源(破解Assets.car)]]></title>
-        <id>https://daning.netlify.app/post/get-assetscar/</id>
-        <link href="https://daning.netlify.app/post/get-assetscar/">
-        </link>
-        <updated>2020-07-03T09:19:26.000Z</updated>
-        <summary type="html"><![CDATA[<p>在借鉴(抄袭)或学习一个APP的时候，总是情不自禁的想直接使用人家的图片资源，在拿到iPA或者在MAC下的应用程序里，图片资源一般是<code>Assets.car</code>，这里我们介绍下如何打开这个文件</p>
-]]></summary>
-        <content type="html"><![CDATA[<p>在借鉴(抄袭)或学习一个APP的时候，总是情不自禁的想直接使用人家的图片资源，在拿到iPA或者在MAC下的应用程序里，图片资源一般是<code>Assets.car</code>，这里我们介绍下如何打开这个文件</p>
-<!-- more -->
-<h2 id="工具">工具</h2>
-<p>cartool：<a href="https://github.com/steventroughtonsmith/cartool">Github地址</a></p>
-<h2 id="使用方式">使用方式</h2>
-<p>很简单，download到本地后，按照以下步骤，即可直接运行程序获取图片资源:</p>
-<ol>
-<li>找到 cartool -&gt; Edit Scheme -&gt; Run -&gt; Arguments</li>
-<li>在 Ayguments Passed On Launch 配置如下参数：<br>
-<img src="https://s1.ax1x.com/2020/09/07/wuyu8A.png" alt="拖拽" loading="lazy"><br>
-<em><code>第一个是Assets.car文件路径，第二个是图片文件输出的文件夹路径</code></em><br>
-<img src="https://s1.ax1x.com/2020/09/07/wuyMvt.png" alt="参数" loading="lazy"></li>
-<li>运行程序，完成破解</li>
-</ol>
-<h2 id="运行报错">运行报错</h2>
-<p><strong>在macOS系统上，有时可能会报错</strong></p>
-<figure data-type="image" tabindex="1"><img src="https://s1.ax1x.com/2020/09/07/wuylKP.png" alt="报错" loading="lazy"></figure>
-<p><strong>按照以下方式修改即可</strong></p>
-<ol>
-<li>添加初始化方法<br>
-<img src="https://s1.ax1x.com/2020/09/07/wuydvq.png" alt="示例" loading="lazy"></li>
-</ol>
-<pre><code class="language-objectivec">-(id)initWithURL:(NSURL *)URL error:(NSError **)error;
-</code></pre>
-<ol start="2">
-<li>修改代码<br>
-<img src="https://s1.ax1x.com/2020/09/07/wu5SeA.png" alt="示例" loading="lazy"></li>
-</ol>
-<pre><code class="language-objc">//	CUIThemeFacet *facet = [CUIThemeFacet themeWithContentsOfURL:[NSURL fileURLWithPath:carPath] error:&amp;error];
-//
-//	CUICatalog *catalog = [[CUICatalog alloc] init];
-//
-//	/* Override CUICatalog to point to a file rather than a bundle */
-//	[catalog setValue:facet forKey:@&quot;_storageRef&quot;];
-	
-    CUICatalog *catalog = nil;
-    if ([CUICatalog instancesRespondToSelector:@selector(initWithURL:error:)]) {
-        /* If CUICatalog has the URL API (Mojave), use it. */
-        catalog = [[CUICatalog alloc] initWithURL:[NSURL fileURLWithPath:carPath] error:&amp;error];
-    } else {
-        CUIThemeFacet *facet = [CUIThemeFacet themeWithContentsOfURL:[NSURL fileURLWithPath:carPath] error:&amp;error];
-        catalog = [[CUICatalog alloc] init];
-        /* Override CUICatalog to point to a file rather than a bundle */
-        [catalog setValue:facet forKey:@&quot;_storageRef&quot;];
-    }
-    NSCAssert(!error, @&quot;Error attempting to open asset catalog (%@): %@&quot;, carPath, error);
-</code></pre>
 ]]></content>
     </entry>
 </feed>

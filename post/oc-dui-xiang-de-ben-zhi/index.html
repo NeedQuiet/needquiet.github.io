@@ -10,14 +10,14 @@
 <meta name="keywords" content="">
 <meta name="description" content="欢迎访问[鼓捣猫宁]的个人博客">
 <meta name="author" content="kveln">
-<title>MacOS自定义TitleBar | 鼓捣猫宁</title>
+<title>OC对象的本质 | 鼓捣猫宁</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css">
 <link href="https://cdn.bootcss.com/font-awesome/5.11.2/css/all.min.css" rel="stylesheet">
 <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
 <link
   href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800'
   rel='stylesheet' type='text/css'>
-<link rel="alternate" type="application/rss+xml" title="MacOS自定义TitleBar | 鼓捣猫宁 » Feed"
+<link rel="alternate" type="application/rss+xml" title="OC对象的本质 | 鼓捣猫宁 » Feed"
   href="https://daning.netlify.app/atom.xml">
 <link rel="stylesheet"
   href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.15.10/build/styles/androidstudio.min.css">
@@ -30,8 +30,8 @@
 
 <script>hljs.initHighlightingOnLoad();</script>
 
-  <meta property="og:description" content="MacOS自定义TitleBar" />
-  <meta property="og:url" content="https://daning.netlify.app/post/macos-custom-titlebar/" />
+  <meta property="og:description" content="OC对象的本质" />
+  <meta property="og:url" content="https://daning.netlify.app/post/oc-dui-xiang-de-ben-zhi/" />
   <meta property="og:locale" content="zh-CN" />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="鼓捣猫宁" />
@@ -151,13 +151,13 @@
             <div class="post-heading">
               <span class="tags">
                 
-                <a href="https://daning.netlify.app/tag/pqG8Mzlpi/" class="tag">MacOS</a>
+                <a href="https://daning.netlify.app/tag/upAY8wL6E/" class="tag">OC</a>
                 
               </span>
-              <h1>MacOS自定义TitleBar</h1>
+              <h1>OC对象的本质</h1>
               <span class="meta">
                 Posted on
-                2020-07-03，2 min read
+                2020-12-15，2 min read
               </span>
             </div>
           
@@ -172,80 +172,71 @@
       <div class="row">
         <div class="col-lg-8 col-md-10 mx-auto post-content-container">
           
-          <p>简单介绍MacOS开发中如何自定义TitleBar</p>
+          <p>简单了解NSObject的‘底层实现’、‘占用内存’及‘分类’。</p>
 <!-- more -->
-<h2 id="默认样式">默认样式</h2>
-<p>默认的样式如下，无论是可选中的范围还是样式都比较有局限性</p>
-<figure data-type="image" tabindex="1"><img src="https://s1.ax1x.com/2020/09/07/wu5DSO.png" alt="示例" loading="lazy"></figure>
-<h2 id="目标示例样式">目标示例样式</h2>
-<p>期待的样式如下，选中的范围<code>变高</code>，内容更自由和丰富</p>
+<h2 id="nsobject的底层实现">NSObject的底层实现</h2>
+<p>oc中</p>
+<pre><code class="language-objc">@interface NSObject {
+    Class isa;
+}
+@end
+</code></pre>
+<p>转为c++后</p>
+<pre><code class="language-cpp">struct NSObject_IMPL {
+    Class isa; // 占8个字节
+};
+</code></pre>
+<p>Class实际上是一个指针</p>
+<pre><code>typedef struct objc_class *Class; 
+</code></pre>
+<h2 id="一个nsobject对象占多少内存">一个NSObject对象占多少内存？</h2>
+<p>从上面的<strong>NSObject底层实现</strong>看，既然NSObject的对象本质上是一个isa的Class指针，而Class又占用8个字节，那么一个NSObject对象是不是就占用8个字节呢？实际上不是，一个NSObject实际上占用16个字节。<br>alloc本质是在调用allocWithZone，其函数内部在分配内存时，会判断if( size &lt; 16 ){size = 16}，</p>
 <blockquote>
-<p>选中范围变大意味着什么？Mac上可以通过拖拽TitleBar来移动整个Window窗口，范围变大则操作更舒服</p>
+<p>总结：系统分配了16个字节给NSObject对象，但NSObject对象内部只使用了8个字节的空间(64bit环境下)。</p>
 </blockquote>
-<figure data-type="image" tabindex="2"><img src="https://s1.ax1x.com/2020/09/07/wu5g0A.png" alt="示例" loading="lazy"></figure>
-<h2 id="思路">思路</h2>
+<pre><code class="language-objc">NSObject *obj = [[NSObject alloc] init];
+// 获得NSObject实例对象的**成员变量**所占用的大小（基于内存对其原则，最大成员内存的倍数）
+NSLog(@&quot;%zd&quot;, class_getInstanceSize([NSObject class])); // 8
+// 获得obj指针所指向的内存大小（16的倍数）
+NSLog(@&quot;%zd&quot;, malloc_size((__bridge const void *)obj)); // 16
+</code></pre>
+<h2 id="oc对象的分类">OC对象的分类</h2>
 <ul>
-<li>NSWindow上的Titlebar可以被隐藏；</li>
-<li>NSView可以通过重写mouseDownCanMoveWindow来控制长按移动窗口</li>
-</ul>
-<h2 id="步骤">步骤</h2>
-<ul>
-<li>
-<p>自定义CustomWindow，继承自NSWindow，然后在Storyboard中将Window的Class改为CustomWindow</p>
-</li>
-<li>
-<p>重新initWithContentRect方法，并隐藏Titlebar，并设置内容铺满整个window（fullSizeContentView）</p>
-<pre><code class="language-swift">  class CustomWindow: NSWindow {
-      // 个别属性可以在Storyboard里直接设置，这里都用代码写了
-      override init(contentRect: NSRect, styleMask style: NSWindow.StyleMask, backing backingStoreType: NSWindow.BackingStoreType, defer flag: Bool) {
-          // styleMask 默认是 [.titled, .closable, .miniaturizable, .resizable]
-          super.init(contentRect: contentRect,
-                     styleMask:[.titled, .closable, .miniaturizable, .resizable, .fullSizeContentView],
-                     backing: backingStoreType,
-                     defer: flag)
-          // titlebar透明
-          titlebarAppearsTransparent = true
-          // 隐藏title
-          titleVisibility = NSWindow.TitleVisibility.hidden
-          // 点击窗口背景支持鼠标拖动窗口
-          isMovableByWindowBackground = true
-          // 设置透明背景
-          isOpaque = false
-          backgroundColor = NSColor.clear
-      }
-  }
+<li>instance对象（实例对象）<pre><code class="language-objc">NSObject *object = [[NSObject alloc] init];
 </code></pre>
 </li>
-<li>
-<p>自定义一个NSView，设定好高度和位置代替原Titlebar</p>
+<li>class对象（类对象）<br>
+每个类在内存中有且只有一个class对象<pre><code class="language-objc">Class objectClass1 = [object class];
+Class objectClass2 = object_getClass(object);
+// -(void)test; 方法是保存在类对象里的
+</code></pre>
 </li>
-<li>
-<p>此时拖拽窗口的任何位置都可以移动window，那么就要把rootView的mouseDownCanMoveWindow重写为false，CustomTitleBae的mouseDownCanMoveWindow重写为true</p>
-<pre><code class="language-swift">override var mouseDownCanMoveWindow: Bool {
-    return true; // 该属性默认为true
+<li>meta-class对象（元类对象）<br>
+每个类在内存中有且只有一个meta-class对象<pre><code class="language-objc">// 将类对象传入，获得元类对象（如果传入instance实例对象，则返回的是class对象）
+Class objectMetaClass = object_getClass(objectClass); // 元类对象
+Class objectClass2 = object_getClass(object); // 类对象
+// +(void)test; 类方法是保存在元类对象里的
+</code></pre>
+</li>
+</ul>
+<blockquote>
+<p>object_getClass：</p>
+</blockquote>
+<pre><code class="language-objc">Class object_getClass(id obj){
+    // 如果是instance对象，返回class对象；
+    // 如果是class对象，返回meta-class对象
+    // 如果是meta-class对象，返回NSobject(基类)的meta-class对象；
+    if (obj) return obj-&gt;getIsa();
+    else return Nil;
 }
 </code></pre>
-</li>
-<li>
-<p>最后记得给rootView设置圆角，不然默认是没有圆角的(我这里直接Storyboard里设置了)<br>
-<img src="https://s1.ax1x.com/2020/09/07/wu55p8.png" alt="示例" loading="lazy"></p>
-</li>
-</ul>
-<pre><code class="language-swift">wantsLayer = true
-layer.cornerRadius = 7.0
-layer.masksToBounds = true
-</code></pre>
-<h2 id="最终效果">最终效果</h2>
-<figure data-type="image" tabindex="3"><img src="https://s1.ax1x.com/2020/09/07/wu5o6g.png" alt="示例" loading="lazy"></figure>
 
           <div class="toc-container"><ul class="markdownIt-TOC">
 <li>
 <ul>
-<li><a href="#%E9%BB%98%E8%AE%A4%E6%A0%B7%E5%BC%8F">默认样式</a></li>
-<li><a href="#%E7%9B%AE%E6%A0%87%E7%A4%BA%E4%BE%8B%E6%A0%B7%E5%BC%8F">目标示例样式</a></li>
-<li><a href="#%E6%80%9D%E8%B7%AF">思路</a></li>
-<li><a href="#%E6%AD%A5%E9%AA%A4">步骤</a></li>
-<li><a href="#%E6%9C%80%E7%BB%88%E6%95%88%E6%9E%9C">最终效果</a></li>
+<li><a href="#nsobject%E7%9A%84%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0">NSObject的底层实现</a></li>
+<li><a href="#%E4%B8%80%E4%B8%AAnsobject%E5%AF%B9%E8%B1%A1%E5%8D%A0%E5%A4%9A%E5%B0%91%E5%86%85%E5%AD%98">一个NSObject对象占多少内存？</a></li>
+<li><a href="#oc%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%88%86%E7%B1%BB">OC对象的分类</a></li>
 </ul>
 </li>
 </ul>
@@ -253,17 +244,17 @@ layer.masksToBounds = true
           
           <hr />
           <p class="next-post">下一篇：
-            <a href="https://daning.netlify.app/post/get-assetscar/">
+            <a href="https://daning.netlify.app/post/http-xiang-guan-xie-yi/">
               <span class="post-title">
-                获取APP图片资源(破解Assets.car)&rarr;
+                HTTP相关协议、概念&rarr;
               </span>
             </a>
           </p>
           
           <div class="comment" style="text-align: center;">
             
-            <span id="/post/macos-custom-titlebar/" class="leancloud_visitors"
-              data-flag-title="MacOS自定义TitleBar">
+            <span id="/post/oc-dui-xiang-de-ben-zhi/" class="leancloud_visitors"
+              data-flag-title="OC对象的本质">
               <em class="post-meta-item-text">阅读量 </em>
               <i class="leancloud-visitors-count">loading...</i>
             </span>
