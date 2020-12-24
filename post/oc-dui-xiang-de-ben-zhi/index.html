@@ -78,7 +78,7 @@
         
         <li class="nav-item">
           <div class="gridea-search-container">
-            <form id="gridea-search-form" style="position: relative" data-update="1608187021216"
+            <form id="gridea-search-form" style="position: relative" data-update="1608802601446"
               action="/search/index.html">
               <input class="search-input" autocomplete="off" spellcheck="false" name="q" placeholder="搜索文章" />
               <i class="fas fa-search gt-c-content-color-first" style="position: absolute; top: 9px; left: 10px;"></i>
@@ -128,7 +128,7 @@
         
         <li class="nav-item">
           <div class="gridea-search-container">
-            <form id="gridea-search-form" style="position: relative" data-update="1608187021216"
+            <form id="gridea-search-form" style="position: relative" data-update="1608802601446"
               action="/search/index.html">
               <input class="search-input" autocomplete="off" spellcheck="false" name="q" placeholder="搜索文章" />
               <i class="fas fa-search gt-c-content-color-first" style="position: absolute; top: 9px; left: 10px;"></i>
@@ -212,7 +212,8 @@ Class objectClass2 = object_getClass(object);
 </code></pre>
 </li>
 <li>meta-class对象（元类对象）<br>
-每个类在内存中有且只有一个meta-class对象<pre><code class="language-objc">// 将类对象传入，获得元类对象（如果传入instance实例对象，则返回的是class对象）
+每个类在内存中有且只有一个meta-class对象<pre><code class="language-objc"> #import &lt;objc/runtime.h&gt;
+// 将类对象传入，获得元类对象（如果传入instance实例对象，则返回的是class对象）
 Class objectMetaClass = object_getClass(objectClass); // 元类对象
 Class objectClass2 = object_getClass(object); // 类对象
 // +(void)test; 类方法是保存在元类对象里的
