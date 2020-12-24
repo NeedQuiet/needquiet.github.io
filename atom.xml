@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://daning.netlify.app</id>
     <title>鼓捣猫宁</title>
-    <updated>2020-12-24T09:37:17.724Z</updated>
+    <updated>2020-12-24T09:40:23.182Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://daning.netlify.app"/>
     <link rel="self" href="https://daning.netlify.app/atom.xml"/>
@@ -38,7 +38,7 @@ NSKeyValueObservingOptions options = NSKeyValueObservingOptionNew | NSKeyValueOb
 <li>
 <p>依然以Persen对象为例，正常情况下，<strong>self.person</strong>这个实例对象的isa指针，指向的应该是<strong>Person</strong>这个类对象；但是当给其添加KVO监听后，会在self.person这个instance对象和Person class对象之间，生成一个Person class的子类<strong>NSKVONotifying_Person</strong>；这时实例对象的isa指针，就会更改为指向<strong>NSKVONotifying_Person</strong>这个class对象；</p>
 <blockquote>
-<p><strong>NSKVONotifying_Person</strong>是Runtime动态创建的一个类，是Person的子类</p>
+<p><strong>NSKVONotifying_Person</strong>是Runtime动态创建的一个类，是Person的子类; 其内部包含<strong>class</strong>方法，返回值为[Person class]</p>
 </blockquote>
 </li>
 <li>
