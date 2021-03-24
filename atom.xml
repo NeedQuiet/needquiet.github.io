@@ -2,14 +2,69 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://daning.netlify.app</id>
     <title>鼓捣猫宁</title>
-    <updated>2020-12-24T09:40:23.182Z</updated>
+    <updated>2021-03-24T09:08:00.314Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://daning.netlify.app"/>
     <link rel="self" href="https://daning.netlify.app/atom.xml"/>
     <subtitle>梧高凤必至，花香蝶自来</subtitle>
     <logo>https://daning.netlify.app/images/avatar.png</logo>
     <icon>https://daning.netlify.app/favicon.ico</icon>
-    <rights>All rights reserved 2020, 鼓捣猫宁</rights>
+    <rights>All rights reserved 2021, 鼓捣猫宁</rights>
+    <entry>
+        <title type="html"><![CDATA[Category分类]]></title>
+        <id>https://daning.netlify.app/post/category-fen-lei/</id>
+        <link href="https://daning.netlify.app/post/category-fen-lei/">
+        </link>
+        <updated>2021-01-10T08:20:12.000Z</updated>
+        <summary type="html"><![CDATA[<p>以面试题的方式了解Category</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>以面试题的方式了解Category</p>
+<!-- more -->
+<h2 id="category的实现原理">Category的实现原理</h2>
+<ul>
+<li>Category编译之后的底层结构是struct category_t , 里面储存着分类的对象方法、类方法、属性、协议信息</li>
+<li>在程序运行的时候，runtime会将Category的数据合并到类信息中（类对象，元类对象中）</li>
+<li>在合并过程中，是先根据分类的数量拓展对应的内存，然后将类对象的method_list内存地址往后移动对应的长度，再将分类的method_list拷贝至前面空出的内存区(拷贝顺序按照编译顺序来，越晚编译，内存地址越靠前)，所以相同的方法，会先执行分类中的方法（跟继承有本质的区别）；</li>
+</ul>
+<h2 id="category和classextension的区别是什么">Category和ClassExtension的区别是什么？</h2>
+<ul>
+<li>Class Extentsion在编译的时候，它的数据就已经包含再类信息中</li>
+<li>Category是在运行时，才会将数据合并到类信息中</li>
+</ul>
+<h2 id="category中的load方法是什么时候调用的">Category中的load方法是什么时候调用的？</h2>
+<ul>
+<li>load方法再runtime加载类、分类的时候调用</li>
+<li>load方法可以继承，但是一般情况下不会主动去调用load方法，都是让系统自动调用。</li>
+</ul>
+<h2 id="category能否添加成员变量">Category能否添加成员变量？</h2>
+<ul>
+<li>不能直接添加，但是可以间接实现Category有成员变量的效果<br>
+objc_getAssociatedObject(id _Nonnull object, const void * _Nonnull key)<br>
+objc_setAssociatedObject(id _Nonnull object, const void * _Nonnull key, id _Nullable value, objc_AssociationPolicy policy)</li>
+</ul>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[KVC原理]]></title>
+        <id>https://daning.netlify.app/post/kvc-yuan-li/</id>
+        <link href="https://daning.netlify.app/post/kvc-yuan-li/">
+        </link>
+        <updated>2020-12-28T09:50:54.000Z</updated>
+        <summary type="html"><![CDATA[<p>图示KVC赋值、取值的原理</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>图示KVC赋值、取值的原理</p>
+<!-- more -->
+<h3 id="kvc赋值的原理">KVC赋值的原理</h3>
+<figure data-type="image" tabindex="1"><img src="https://s3.ax1x.com/2020/12/28/rTgIG8.png" alt="setValueForKey" loading="lazy"></figure>
+<h3 id="kvc取值的原理">KVC取值的原理</h3>
+<figure data-type="image" tabindex="2"><img src="https://s3.ax1x.com/2020/12/28/rTf4mQ.png" alt="valueForKey" loading="lazy"></figure>
+<h3 id="通过kvc修改成员变量会触发kvo吗">通过KVC修改成员变量会触发KVO吗？</h3>
+<pre><code>1. 答案是**会**触发;
+2. 无论是否存在set方法，都会触发KVO；
+3. 即便没有set方法，KVC也会在内部调用will/didChangeValueForKey
+</code></pre>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[KVO的本质]]></title>
         <id>https://daning.netlify.app/post/kvo-de-ben-zhi/</id>
@@ -38,7 +93,7 @@ NSKeyValueObservingOptions options = NSKeyValueObservingOptionNew | NSKeyValueOb
 <li>
 <p>依然以Persen对象为例，正常情况下，<strong>self.person</strong>这个实例对象的isa指针，指向的应该是<strong>Person</strong>这个类对象；但是当给其添加KVO监听后，会在self.person这个instance对象和Person class对象之间，生成一个Person class的子类<strong>NSKVONotifying_Person</strong>；这时实例对象的isa指针，就会更改为指向<strong>NSKVONotifying_Person</strong>这个class对象；</p>
 <blockquote>
-<p><strong>NSKVONotifying_Person</strong>是Runtime动态创建的一个类，是Person的子类; 其内部包含<strong>class</strong>方法，返回值为[Person class]</p>
+<p><strong>NSKVONotifying_Person</strong>是Runtime动态创建的一个类，是Person的子类; 其内部包含<strong>class</strong>方法，返回值<strong>可能</strong>为[Person class]父类class</p>
 </blockquote>
 </li>
 <li>
@@ -49,7 +104,7 @@ NSKeyValueObservingOptions options = NSKeyValueObservingOptionNew | NSKeyValueOb
 
 - (void)setAge:(int)age {
     // 在执行set方法时，会调用c函数中的下面这个方法
-    _NSSetIntValueAndNotify();
+    _NSSetIntValueAndNotify(); // 当然不仅仅有int的方法，char、long long、double...都有
 } 
 
 void _NSSetIntValueAndNotify() {
@@ -604,255 +659,6 @@ print(&quot;辅助功能:&quot;,AXIsProcessTrusted() ? &quot;信任&quot; : &quo
 <li>再来看看修改后的样子<br>
 <img src="https://s1.ax1x.com/2020/09/07/wuIi7R.png" alt="示例图" loading="lazy"></li>
 </ul>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[自定义NSSlider]]></title>
-        <id>https://daning.netlify.app/post/custom-nsslider/</id>
-        <link href="https://daning.netlify.app/post/custom-nsslider/">
-        </link>
-        <updated>2020-07-22T09:30:16.000Z</updated>
-        <summary type="html"><![CDATA[<p>见名知意，本文介绍如何自定义NSSlider</p>
-]]></summary>
-        <content type="html"><![CDATA[<p>见名知意，本文介绍如何自定义NSSlider</p>
-<!-- more -->
-<blockquote>
-<p>NSSlider由2部分组成，外层的<code>NSSlider</code>以及内部的<code>NSSliderCell</code>。通常我们所说的自定义Slider说的就是自定义<code>NSSliderCell</code>。</p>
-</blockquote>
-<h2 id="自定义nsslidercell">自定义NSSliderCell</h2>
-<p>以我自定定义的DNSliderCell举例</p>
-<h3 id="1-定义实现代理">1. 定义/实现代理</h3>
-<blockquote>
-<p>NSSliderCell继承自NSActionCell，NSActionCell继承自NSCell，有关Tracking的方法都在NSCell中，<br>
-所以我们完全可以通过重写Tracking的相关方法来自定义Slider的点击、拖拽...</p>
-</blockquote>
-<pre><code class="language-swift">@objc protocol DNSliderCellDelegate {
-    // 我这里定义的都是可选代理，代理者可根据需求去实现方法 
-    // 开始拖动
-    @objc optional func startTracking(doubleValue:Double ,sender:DNSliderCell)
-    // 正在拖动
-    @objc optional func continueTracking(doubleValue:Double ,sender:DNSliderCell)
-    // 拖动结束 &amp; 点击结束
-    @objc optional func stopTracking(doubleValue:Double ,sender:DNSliderCell)
-}
-
-extension DNSliderCell {
-    //MARK: 开始拖动
-    override func startTracking(at startPoint: NSPoint, in controlView: NSView) -&gt; Bool {
-        delegate?.startTracking?(doubleValue: doubleValue, sender: self)
-        return super.startTracking(at: startPoint, in: controlView)
-    }
-    //MARK: 拖动中
-    override func continueTracking(last lastPoint: NSPoint, current currentPoint: NSPoint, in controlView: NSView) -&gt; Bool {
-        delegate?.continueTracking?(doubleValue: doubleValue, sender: self)
-        return super.continueTracking(last: lastPoint, current: currentPoint, in: controlView)
-    }
-    //MARK: 结束拖动 &amp; 点击结束
-    override func stopTracking(last lastPoint: NSPoint, current stopPoint: NSPoint, in controlView: NSView, mouseIsUp flag: Bool) {
-        delegate?.stopTracking?(doubleValue: doubleValue, sender: self)
-        super.stopTracking(last: lastPoint, current: stopPoint, in: controlView, mouseIsUp: flag)
-    }
-}
-</code></pre>
-<h3 id="2-定义属性">2. 定义属性</h3>
-<blockquote>
-<p>可以根据需求自己定义常量或者变量，<code>需要注意</code>的是，Swift5、macOS Catalina 10.15.4上，xib创建的NSSlider会向两边各延伸2个px（其他版本是否如此不确定），例如我自己定义长度1000的slider，实际上长度为1004，所以定义了个Offset方便计算。</p>
-</blockquote>
-<pre><code class="language-swift">class DNSliderCell: NSSliderCell {
-    let Offset:CGFloat = 2 // 进度条，实际上向（根据slider方向）左/右 或者 上/下 偏移2
-    let progressColor = kRedHighlightColor // 进度条进度背景色
-    var backgroundColor = NSColor.clear // 进度条整体背景色
-    let knobColor = kRedHighlightColor // 按钮颜色
-    let sliderThickness:CGFloat = 3.0 // 进度条厚度
-    let sliderBarRadius:CGFloat = 0 // 进度条圆角
-    let KnobWidth:CGFloat = 12.0 // 按钮宽度
-    let KnobHeight:CGFloat = 12.0 // 按钮高度
-    var progressRect = NSRect() // 进度的Rect
-    var needControlKnobHidden = false // 是否需要控制旋钮显示隐藏
-    
-    weak var delegate:DNSliderCellDelegate? // 代理
-    
-    // slider是否是竖直
-    lazy var isSliderVertical:Bool = {
-        let isVertical = (controlView as? DNSlider)?.isVertical == true
-        return isVertical
-    }()
-}
-</code></pre>
-<h3 id="3-重绘slider">3. 重绘slider</h3>
-<blockquote>
-<p>要根据其Slider是横着还是竖着的来计算不同的rect</p>
-</blockquote>
-<pre><code class="language-swift">extension DNSliderCell {
-    //MARK: - 重绘slider
-    override func drawBar(inside rect: NSRect, flipped: Bool) {
-        //MARK: 修改进度条'整体'背景色
-        // 1. 获取 slider 的 rect
-        var sliderRect = rect
-        // 2. 更改 slider 厚度
-        if isSliderVertical {
-            sliderRect.size.width = sliderThickness
-        } else {
-            sliderRect.size.height = sliderThickness
-        }
-        // 3. 填充背景色
-        let background = NSBezierPath(roundedRect: sliderRect, xRadius: sliderBarRadius, yRadius: sliderBarRadius)
-        self.backgroundColor.setFill()
-        background.fill()
-        
-        //MARK: 修改进度条'进度'背景色
-        // 1. 计算当前进度的占有比例
-        let value:CGFloat = CGFloat((doubleValue - minValue) / (maxValue - minValue))
-        // 2. 根据比例计算进度应有的长度
-        var viewLength:CGFloat
-        if isSliderVertical {
-            viewLength = (controlView?.frame.size.height)!
-        } else {
-            viewLength = (controlView?.frame.size.width)!
-        }
- 
-        let finalLength:CGFloat = value * (viewLength - Offset * 2)
-        // 3. 计算进度的Rect
-        progressRect = sliderRect
-        if isSliderVertical {
-            progressRect.size.height = finalLength
-            progressRect.origin.y = Offset
-        } else {
-            progressRect.size.width = finalLength
-            progressRect.origin.x = Offset
-        }
-        
-        // 4. 填充进度背景色
-        let active = NSBezierPath(roundedRect: progressRect, xRadius: sliderBarRadius, yRadius: sliderBarRadius)
-        self.progressColor.setFill()
-        active.fill()
-    }
-}
-</code></pre>
-<h3 id="4-重绘旋钮">4. 重绘旋钮</h3>
-<blockquote>
-<p>要根据其Slider是横着还是竖着的来计算不同的rect</p>
-</blockquote>
-<pre><code class="language-swift">//MARK: - 重绘旋钮
-    override func drawKnob() {
-        // 根据比例计算进度应有的OriginX
-        let value:CGFloat = CGFloat((doubleValue - minValue) / (maxValue - minValue))
-        var viewLength:CGFloat
-        if isSliderVertical{
-            viewLength = (controlView?.frame.size.height)!
-        } else {
-            viewLength = (controlView?.frame.size.width)!
-        }
-        
-        var customKnobRect:NSRect
-        
-        if isSliderVertical {
-            //                   Offset +  进度  * ((       实际宽度     ) -  knob宽度 )
-            let finalStart:CGFloat = Offset + value * (viewLength - Offset * 2 - KnobHeight)
-            // 计算Knob的Rect
-            customKnobRect = NSRect(x: progressRect.origin.x + progressRect.size.width / 2 - KnobWidth / 2, y: finalStart, width: KnobWidth , height: KnobHeight)
-        } else {
-            //                   Offset +  进度  * ((       实际宽度      ) -  knob宽度 )
-            let finalStart:CGFloat = Offset + value * (viewLength - Offset * 2 - KnobWidth)
-            // 计算Knob的Rect
-            customKnobRect = NSRect(x: finalStart, y: progressRect.origin.y + progressRect.size.height / 2 - KnobHeight / 2, width: KnobWidth , height: KnobHeight)
-        }
-        
-        
-        // 填充Knob的颜色
-        let background = NSBezierPath(roundedRect: customKnobRect, xRadius: KnobWidth / 2, yRadius: KnobHeight / 2)
-        if needControlKnobHidden == true {
-            if (controlView as? DNSlider)?.shouKnob == true {
-                self.knobColor.setFill()
-            } else {
-                NSColor.clear.setFill()
-            }
-        } else {
-            self.knobColor.setFill()
-        }
-
-        background.fill()
-    }
-</code></pre>
-<h2 id="自定义nsslider">自定义NSSlider</h2>
-<blockquote>
-<p>自定义NSSlider，可以处理鼠标滑过时鼠标指针的状态、控制knob的显示隐藏等; 不废话直接上代码！</p>
-</blockquote>
-<pre><code class="language-swift">class DNSlider: NSSlider {
-    private var trackingArea:NSTrackingArea?
-    // 是否显示knob
-    var shouKnob:Bool = false    
-}
-
-extension DNSlider {
-    override func updateTrackingAreas() {
-        super.updateTrackingAreas()
-        if trackingArea != nil {
-            self.removeTrackingArea(trackingArea!)
-        }
-        
-        // 将设置追踪区域为控件大小
-        // 设置鼠标追踪区域，如果不设置追踪区域，mouseEntered和mouseExited会无效
-        trackingArea = NSTrackingArea(rect: bounds, options: [.mouseEnteredAndExited, .activeAlways], owner: self, userInfo: nil)
-        self.addTrackingArea(trackingArea!)
-    }
-    
-    override func mouseEntered(with event: NSEvent) {
-        super.mouseEntered(with: event)
-        NSCursor.pointingHand.set()
-        /*
-            通过设置 isHighlighted 取反来触发 cell 的 drawKnob 方法;
-            通过 shouKnob 来控制是否显示(因为isHighlighted受其他状态影响，无法精准控制)
-         */
-        shouKnob = true
-        isHighlighted = !isHighlighted
-    }
-    
-    override func mouseExited(with event: NSEvent) {
-        super.mouseExited(with: event)
-        NSCursor.arrow.set()
-        shouKnob = false
-        
-        // 不直接设置true/false是因为如果在mouseExited前isHighlighted已经是true/false，那就无法触发cell重新渲染了
-        isHighlighted = !isHighlighted
-    }
-    // 点击后，状态会刷新，此时如不做更改会默认改回指针状态
-    override func cursorUpdate(with event: NSEvent) {
-        super.cursorUpdate(with: event)
-        NSCursor.pointingHand.set()
-    }
-}
-</code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[MacOS关闭按钮与Reopen]]></title>
-        <id>https://daning.netlify.app/post/mac-close-and-reopen/</id>
-        <link href="https://daning.netlify.app/post/mac-close-and-reopen/">
-        </link>
-        <updated>2020-07-21T09:29:36.000Z</updated>
-        <summary type="html"><![CDATA[<p>在点击Window上的Close按钮后，再在dock栏里重新选中软件，这时软件的各种状态都会重置，一些设置的unowned的地方甚至会crash，这相当于一个半成品的reopen；<code>我们需要的是点击关闭按钮并不会杀掉软件，而是隐藏起来，点击后展示之前软件的显示状态</code>；</p>
-]]></summary>
-        <content type="html"><![CDATA[<p>在点击Window上的Close按钮后，再在dock栏里重新选中软件，这时软件的各种状态都会重置，一些设置的unowned的地方甚至会crash，这相当于一个半成品的reopen；<code>我们需要的是点击关闭按钮并不会杀掉软件，而是隐藏起来，点击后展示之前软件的显示状态</code>；</p>
-<!-- more -->
-<h2 id="步骤">步骤</h2>
-<p>实现方式很简单，一共就需要两步</p>
-<pre><code class="language-swift">//1. 首先定义mainWindow，并在加载后赋值
-var mainWindow: NSWindow!
-    func applicationDidFinishLaunching(_ aNotification: Notification) {
-        mainWindow = NSApplication.shared.windows[0]
-    }
-</code></pre>
-<pre><code class="language-swift">//2. 然后继承NSWindowDelegate，并实现如下方法
-extension AppDelegate: NSWindowDelegate {
-    func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -&gt; Bool {
-        if !flag {
-            mainWindow.makeKeyAndOrderFront(nil) // 这里是核心代码
-        }
-        return false // 这里要设为false，不然会reopen一个窗口
-    }
-}
-</code></pre>
 ]]></content>
     </entry>
 </feed>

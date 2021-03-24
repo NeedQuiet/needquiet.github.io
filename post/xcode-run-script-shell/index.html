@@ -78,7 +78,7 @@
         
         <li class="nav-item">
           <div class="gridea-search-container">
-            <form id="gridea-search-form" style="position: relative" data-update="1608802821302"
+            <form id="gridea-search-form" style="position: relative" data-update="1616576847379"
               action="/search/index.html">
               <input class="search-input" autocomplete="off" spellcheck="false" name="q" placeholder="搜索文章" />
               <i class="fas fa-search gt-c-content-color-first" style="position: absolute; top: 9px; left: 10px;"></i>
@@ -128,7 +128,7 @@
         
         <li class="nav-item">
           <div class="gridea-search-container">
-            <form id="gridea-search-form" style="position: relative" data-update="1608802821302"
+            <form id="gridea-search-form" style="position: relative" data-update="1616576847379"
               action="/search/index.html">
               <input class="search-input" autocomplete="off" spellcheck="false" name="q" placeholder="搜索文章" />
               <i class="fas fa-search gt-c-content-color-first" style="position: absolute; top: 9px; left: 10px;"></i>
@@ -215,19 +215,19 @@ lipo libname.a -replace armv7 libreplace.a -output liboutput.a
 <p>1.1 (): 括号中的命令将会新开一个子shell顺序执行，括号中多个命令之间用分号隔开</p>
 <pre><code class="language-shell">#具体使用场景暂时未了解
 #个人理解了一下，貌似是类似于在终端直接输入，例如下面我本想判断环境变量ACTION的值
-if (&quot;${ACTION}&quot; == &quot;install&quot; )
+if ( &quot;${ACTION}&quot; == &quot;install&quot; )
 #但是输出却是 install: ==: No such file or directory
 </code></pre>
 <p>1.2 (()) : 是一种数学计算命令，它除了可以进行最基本的加减乘除运算，还可以进行大于、小于、等于等关系运算，以及与、或、非逻辑运算。这种扩展计算是整数型的计算，不支持浮点型（<em>没试过</em>）。</p>
 <pre><code class="language-shell">#依然以这个判断为例，这样写就没问题了
-if ((&quot;${ACTION}&quot; == &quot;install&quot; ))
+if (( &quot;${ACTION}&quot; == &quot;install&quot; ))
 #之前为了判断字符串相等，加了双引号，后来试了一下，不加双引号也没问题
-if ((${ACTION} == &quot;install&quot; ))
+if (( ${ACTION} == &quot;install&quot; ))
 </code></pre>
 <p>1.3 []：用来用于字符串比较的，不可用于整数比较</p>
 <pre><code class="language-shell">#同样的，加不加双引号都行，字符串比较的话还是用[]吧
-if [&quot;${ACTION}&quot; == &quot;install&quot; ]
-if [${ACTION} == &quot;install&quot; ]
+if [ &quot;${ACTION}&quot; == &quot;install&quot; ]
+if [ ${ACTION} == &quot;install&quot; ]
 </code></pre>
 <p>1.4 [[]]：在[[和]]之间所有的字符都不会发生文件名扩展或者单词分割，但是会发生参数扩展和命令替换(<em>暂时不理解，留作备注</em>)。</p>
 <pre><code class="language-shell">#支持字符串的模式匹配，例如
@@ -235,7 +235,8 @@ if [${ACTION} == &quot;install&quot; ]
 #[[ ]] 中匹配字符串或通配符，不需要引号
 </code></pre>
 <p>2.if elif else 语法<br>
-if语法其实很简单,写 if 和 else if的时候，后面加个then就完事，写完if整个逻辑后用fi收尾即可</p>
+if语法其实很简单,写 if 和 else if的时候，后面加个then就完事，写完if整个逻辑后用fi收尾即可；<br>
+shell的if语法和C语言等高级语言非常相似，唯一需要注意的地方就是shell的if语句对空格方面的要求比较严格(其实shell对所有语法的空格使用都比较严格)，如果在需要空格的地方没有打上空格，都会报错。</p>
 <pre><code class="language-shell">if (( $a == $b ))
 then
     echo &quot;a和b相等&quot;

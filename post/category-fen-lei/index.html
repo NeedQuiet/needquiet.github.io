@@ -10,14 +10,14 @@
 <meta name="keywords" content="">
 <meta name="description" content="欢迎访问[鼓捣猫宁]的个人博客">
 <meta name="author" content="kveln">
-<title>PS | 鼓捣猫宁</title>
+<title>Category分类 | 鼓捣猫宁</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css">
 <link href="https://cdn.bootcss.com/font-awesome/5.11.2/css/all.min.css" rel="stylesheet">
 <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
 <link
   href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800'
   rel='stylesheet' type='text/css'>
-<link rel="alternate" type="application/rss+xml" title="PS | 鼓捣猫宁 » Feed"
+<link rel="alternate" type="application/rss+xml" title="Category分类 | 鼓捣猫宁 » Feed"
   href="https://daning.netlify.app/atom.xml">
 <link rel="stylesheet"
   href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.15.10/build/styles/androidstudio.min.css">
@@ -30,9 +30,66 @@
 
 <script>hljs.initHighlightingOnLoad();</script>
 
+  <meta property="og:description" content="Category分类" />
+  <meta property="og:url" content="https://daning.netlify.app/post/category-fen-lei/" />
+  <meta property="og:locale" content="zh-CN" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="鼓捣猫宁" />
+  <!-- <script src="../assets/styles/scripts/tocScript.js"></script> -->
 </head>
 
 <body>
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href="https://daning.netlify.app">鼓捣猫宁</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+      data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
+      aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ml-auto">
+        
+        <li class="nav-item">
+          
+          <a class="nav-link" href="/">首页</a>
+          
+        </li>
+        
+        <li class="nav-item">
+          
+          <a class="nav-link" href="/archives">归档</a>
+          
+        </li>
+        
+        <li class="nav-item">
+          
+          <a class="nav-link" href="/tags">标签</a>
+          
+        </li>
+        
+        <li class="nav-item">
+          
+          <a class="nav-link" href="/about">关于</a>
+          
+        </li>
+        
+        <li class="nav-item">
+          <div class="gridea-search-container">
+            <form id="gridea-search-form" style="position: relative" data-update="1616576847379"
+              action="/search/index.html">
+              <input class="search-input" autocomplete="off" spellcheck="false" name="q" placeholder="搜索文章" />
+              <i class="fas fa-search gt-c-content-color-first" style="position: absolute; top: 9px; left: 10px;"></i>
+            </form>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+  <!-- Page Header -->
   <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
   <div class="container">
     <a class="navbar-brand" href="https://daning.netlify.app">鼓捣猫宁</a>
@@ -90,9 +147,16 @@
         
           <!-- 没Title为其他页面Header -->
           
-            <!-- 其他页面（archives、tags、about...）Header -->
-            <div class="sub-site-heading">
-              <h1 class="tag-tl">#PS</h1>
+            <!-- 没Title并且有headerType为Post：文章Header -->
+            <div class="post-heading">
+              <span class="tags">
+                
+              </span>
+              <h1>Category分类</h1>
+              <span class="meta">
+                Posted on
+                2021-01-10，2 min read
+              </span>
             </div>
           
         
@@ -100,60 +164,100 @@
     </div>
   </div>
 </header>
-  <div class="container">
-  <div class="row">
-    <div class="col-lg-8 col-md-10 mx-auto">
-      
-      <!-- 每行的总容器 -->
-      <div class="post-row-container">
-        <!-- 第0层；标题 -->
-        <div class="title-floor">
-          <div class="post-title-container">
-            
-            <a href="https://daning.netlify.app/post/ps-notes/">
-              <h2 class="post-title">
-                PhotoShop操作笔记
-              </h2>
-            </a>
-          </div>
-        </div>
-        <!-- 第一层：包含文章描述、时间信息、封面图 -->
-        <div class="post-row-first-floor">
-          <div class="post-preview">
-            <h3 class="post-subtitle">
-              <p>偶尔会需要使用PS去对图片进行操作，在此记录一下部分操作的方法</p>
+  <!-- Post Content -->
+  <article id="post-content-article">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto post-content-container">
+          
+          <p>以面试题的方式了解Category</p>
+<!-- more -->
+<h2 id="category的实现原理">Category的实现原理</h2>
+<ul>
+<li>Category编译之后的底层结构是struct category_t , 里面储存着分类的对象方法、类方法、属性、协议信息</li>
+<li>在程序运行的时候，runtime会将Category的数据合并到类信息中（类对象，元类对象中）</li>
+<li>在合并过程中，是先根据分类的数量拓展对应的内存，然后将类对象的method_list内存地址往后移动对应的长度，再将分类的method_list拷贝至前面空出的内存区(拷贝顺序按照编译顺序来，越晚编译，内存地址越靠前)，所以相同的方法，会先执行分类中的方法（跟继承有本质的区别）；</li>
+</ul>
+<h2 id="category和classextension的区别是什么">Category和ClassExtension的区别是什么？</h2>
+<ul>
+<li>Class Extentsion在编译的时候，它的数据就已经包含再类信息中</li>
+<li>Category是在运行时，才会将数据合并到类信息中</li>
+</ul>
+<h2 id="category中的load方法是什么时候调用的">Category中的load方法是什么时候调用的？</h2>
+<ul>
+<li>load方法再runtime加载类、分类的时候调用</li>
+<li>load方法可以继承，但是一般情况下不会主动去调用load方法，都是让系统自动调用。</li>
+</ul>
+<h2 id="category能否添加成员变量">Category能否添加成员变量？</h2>
+<ul>
+<li>不能直接添加，但是可以间接实现Category有成员变量的效果<br>
+objc_getAssociatedObject(id _Nonnull object, const void * _Nonnull key)<br>
+objc_setAssociatedObject(id _Nonnull object, const void * _Nonnull key, id _Nullable value, objc_AssociationPolicy policy)</li>
+</ul>
 
-            </h3>
-            <p class="post-meta">
-              <span class="time">2020-05-13</span>
-              <span>,</span>
-              <span class="post-stats">2 min read</span>
-            </p>
+          <div class="toc-container"><ul class="markdownIt-TOC">
+<li>
+<ul>
+<li><a href="#category%E7%9A%84%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86">Category的实现原理</a></li>
+<li><a href="#category%E5%92%8Cclassextension%E7%9A%84%E5%8C%BA%E5%88%AB%E6%98%AF%E4%BB%80%E4%B9%88">Category和ClassExtension的区别是什么？</a></li>
+<li><a href="#category%E4%B8%AD%E7%9A%84load%E6%96%B9%E6%B3%95%E6%98%AF%E4%BB%80%E4%B9%88%E6%97%B6%E5%80%99%E8%B0%83%E7%94%A8%E7%9A%84">Category中的load方法是什么时候调用的？</a></li>
+<li><a href="#category%E8%83%BD%E5%90%A6%E6%B7%BB%E5%8A%A0%E6%88%90%E5%91%98%E5%8F%98%E9%87%8F">Category能否添加成员变量？</a></li>
+</ul>
+</li>
+</ul>
+</div>
+          
+          <hr />
+          <p class="next-post">下一篇：
+            <a href="https://daning.netlify.app/post/kvc-yuan-li/">
+              <span class="post-title">
+                KVC原理&rarr;
+              </span>
+            </a>
+          </p>
+          
+          <div class="comment" style="text-align: center;">
+            
+            <span id="/post/category-fen-lei/" class="leancloud_visitors"
+              data-flag-title="Category分类">
+              <em class="post-meta-item-text">阅读量 </em>
+              <i class="leancloud-visitors-count">loading...</i>
+            </span>
+            
+
+            
+            
+            <script src='https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js'></script>
+
+<style>
+	div#vcomments{
+		width:100%;
+		max-width: 1000px;
+		padding: 2.5%
+	}
+</style>
+
+
+	<div id="vcomments"></div>
+
+<script>
+	new Valine({
+		el: '#vcomments',
+		appId: 'MAAasDLv2NYMtEEAn4QnnU3l-gzGzoHsz',
+		appKey: 'dISXAmwDUYme6vJqsc5HgYw1',
+		avatar: 'robohash',
+		pageSize: 5,
+		recordIp: false,
+		placeholder: '来都来了，不留下点虎狼之词就走吗？',
+		visitor: true,
+	});
+</script>
+
+            
           </div>
-          
-        </div>
-        <!-- 第二层：下划线、占位标签、tags -->
-        <div class="post-row-sec-floor">
-          <hr>
-          <div class="clearfix"></div>
-          
-          <a href="https://daning.netlify.app/tag/Oz1uZA8h6/" class="post-tag">
-            PS
-          </a>
-          
-          <a href="https://daning.netlify.app/tag/VYkxi25Yw/" class="post-tag">
-            Tool
-          </a>
-          
         </div>
       </div>
-      </>
-      
-      <!-- 
-       -->
-    </div>
-  </div>
-</div>
+  </article>
   <!-- Footer -->
   <footer>
     <div class="container">
@@ -242,7 +346,7 @@
     }
   })(this));</script>
   
-    <div id="landlord-parent">
+  <div id="landlord-parent">
     <div id="landlord">
         <div class="message" style="opacity:0"></div>
         <canvas id="live2d" width="240" height="250" class="live2d"></canvas>
@@ -283,6 +387,7 @@
     }
 </script>
   
+  <script src="https://daning.netlify.app/media/scripts/tocScript.js"></script>
 </body>
 
 </html>
