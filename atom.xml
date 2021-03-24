@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://daning.netlify.app</id>
     <title>鼓捣猫宁</title>
-    <updated>2021-03-24T09:08:00.314Z</updated>
+    <updated>2021-03-24T09:09:22.513Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://daning.netlify.app"/>
     <link rel="self" href="https://daning.netlify.app/atom.xml"/>
@@ -38,7 +38,8 @@
 </ul>
 <h2 id="category能否添加成员变量">Category能否添加成员变量？</h2>
 <ul>
-<li>不能直接添加，但是可以间接实现Category有成员变量的效果<br>
+<li>不能直接添加，但是可以间接实现Category有成员变量的效果</li>
+<li>利用runtime实现<br>
 objc_getAssociatedObject(id _Nonnull object, const void * _Nonnull key)<br>
 objc_setAssociatedObject(id _Nonnull object, const void * _Nonnull key, id _Nullable value, objc_AssociationPolicy policy)</li>
 </ul>
