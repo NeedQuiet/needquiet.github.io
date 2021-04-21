@@ -78,7 +78,7 @@
         
         <li class="nav-item">
           <div class="gridea-search-container">
-            <form id="gridea-search-form" style="position: relative" data-update="1618568142225"
+            <form id="gridea-search-form" style="position: relative" data-update="1619003511110"
               action="/search/index.html">
               <input class="search-input" autocomplete="off" spellcheck="false" name="q" placeholder="搜索文章" />
               <i class="fas fa-search gt-c-content-color-first" style="position: absolute; top: 9px; left: 10px;"></i>
@@ -128,7 +128,7 @@
         
         <li class="nav-item">
           <div class="gridea-search-container">
-            <form id="gridea-search-form" style="position: relative" data-update="1618568142225"
+            <form id="gridea-search-form" style="position: relative" data-update="1619003511110"
               action="/search/index.html">
               <input class="search-input" autocomplete="off" spellcheck="false" name="q" placeholder="搜索文章" />
               <i class="fas fa-search gt-c-content-color-first" style="position: absolute; top: 9px; left: 10px;"></i>
@@ -157,7 +157,7 @@
               <h1>block的本质</h1>
               <span class="meta">
                 Posted on
-                2021-03-24，2 min read
+                2021-03-24，3 min read
               </span>
             </div>
           
@@ -314,6 +314,12 @@ block(); // age is 10, height is 200
 <p>block作为GCD API的方法参数时</p>
 </li>
 </ul>
+<h2 id="__block修饰符">__block修饰符</h2>
+<ol>
+<li>__block可以用于解决block内部无法修改auto变量值的问题</li>
+<li>__block不能修饰全局变量、静态变量</li>
+<li>编译器会将__block变量包装成一个对象</li>
+</ol>
 
           <div class="toc-container"><ul class="markdownIt-TOC">
 <li>
@@ -322,6 +328,7 @@ block(); // age is 10, height is 200
 <li><a href="#%E5%8F%98%E9%87%8F%E6%8D%95%E8%8E%B7">变量捕获</a></li>
 <li><a href="#block%E7%9A%84%E7%B1%BB%E5%9E%8B">block的类型</a></li>
 <li><a href="#block%E7%9A%84copy">block的copy</a></li>
+<li><a href="#__block%E4%BF%AE%E9%A5%B0%E7%AC%A6">__block修饰符</a></li>
 </ul>
 </li>
 </ul>
