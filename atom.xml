@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://daning.netlify.app</id>
     <title>鼓捣猫宁</title>
-    <updated>2021-04-22T03:33:12.998Z</updated>
+    <updated>2021-05-11T12:17:27.244Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://daning.netlify.app"/>
     <link rel="self" href="https://daning.netlify.app/atom.xml"/>
@@ -11,14 +11,68 @@
     <icon>https://daning.netlify.app/favicon.ico</icon>
     <rights>All rights reserved 2021, 鼓捣猫宁</rights>
     <entry>
+        <title type="html"><![CDATA[block的内存管理&循环引用]]></title>
+        <id>https://daning.netlify.app/post/block-de-nei-cun-guan-li-andxun-huan-yin-yong/</id>
+        <link href="https://daning.netlify.app/post/block-de-nei-cun-guan-li-andxun-huan-yin-yong/">
+        </link>
+        <updated>2021-05-10T09:58:08.000Z</updated>
+        <content type="html"><![CDATA[<!-- more -->
+<h2 id="内存管理">内存管理</h2>
+<ul>
+<li>当block在栈上时，并不会对__block/__weak变量产生强引用</li>
+<li>当block被copy到堆上时
+<ol>
+<li>会调用block内部的copy函数</li>
+<li>copy函数内部会调用 <strong>_Block_object_assign</strong> 函数 (__block变量/OC对象 传入参数不同)</li>
+<li><strong>_Block_object_assign</strong> 函数会对__block变量形成强引用 (retain)；对__weak变量形成弱引用</li>
+</ol>
+</li>
+<li>当block从堆中移除时
+<ol>
+<li>会调用block内部的dispose函数</li>
+<li>dispose函数内部会调用 <strong>_Block_object_dispose</strong> 函数  (__block变量/OC对象 传入参数不同)</li>
+<li><strong>_Block_object_dispose</strong> 函数会自动释放引用的__block/__weak变量 (release)</li>
+</ol>
+</li>
+</ul>
+<h2 id="循环引用">循环引用</h2>
+<ul>
+<li>
+<p>循环引用示例</p>
+<blockquote>
+<p>person对象不会释放，因为person对象持有着block，block又强引用着person对象；</p>
+</blockquote>
+<pre><code>{
+    MJPerson *person = [[MJPerson alloc] init];
+    person.age = 10;
+    person.block = ^{
+        NSLog(@&quot;%d&quot;,person.age);
+    };
+}
+// 作用域结束后，person并不会被释放
+</code></pre>
+<blockquote>
+<p>此例子self对象本身也不会被释放，self本身实际上是一个局部变量，是作为参数传递进方法里的，循环引用的原理同上；（_age 实际上是 self-&gt;_age，同样引用了self）</p>
+</blockquote>
+<pre><code>-(void)test{
+    self.block = ^{
+        NSLog(@&quot;age is %d - %d&quot;, self.age, _age); 
+    }
+}
+</code></pre>
+</li>
+</ul>
+]]></content>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[block的本质]]></title>
         <id>https://daning.netlify.app/post/block-de-ben-zhi/</id>
         <link href="https://daning.netlify.app/post/block-de-ben-zhi/">
         </link>
         <updated>2021-03-24T09:17:31.000Z</updated>
-        <summary type="html"><![CDATA[<p>目录：block的本质、变量捕获、类型、copy</p>
+        <summary type="html"><![CDATA[<p>目录：block的本质、变量捕获、类型、copy、__block修饰符</p>
 ]]></summary>
-        <content type="html"><![CDATA[<p>目录：block的本质、变量捕获、类型、copy</p>
+        <content type="html"><![CDATA[<p>目录：block的本质、变量捕获、类型、copy、__block修饰符</p>
 <!-- more -->
 <h2 id="本质">本质</h2>
 <ul>
@@ -161,11 +215,24 @@ block(); // age is 10, height is 200
 </li>
 </ul>
 <h2 id="__block修饰符">__block修饰符</h2>
+<ul>
+<li>
+<p>作用：</p>
 <ol>
 <li>__block可以用于解决block内部无法修改auto变量值的问题</li>
 <li>__block不能修饰全局变量、静态变量</li>
 <li>编译器会将__block变量包装成一个对象</li>
 </ol>
+</li>
+<li>
+<p>内存管理：</p>
+<ol>
+<li>当block在栈上时，并不会对 <strong>__block</strong> 产生强引用</li>
+<li>当block被copy到堆时，会调用block内部的copy函数，其内部会对 <strong>__block</strong> 变量形成强引用</li>
+<li>当block从堆中移除时，会调用block内部的dispose函数，其内部会自动释放引用的 <strong>__block</strong> 变量（release）</li>
+</ol>
+</li>
+</ul>
 ]]></content>
     </entry>
     <entry>
@@ -612,137 +679,6 @@ return [namePredicate evaluateWithObject:name];
 <h2 id="netlify加速">Netlify加速</h2>
 <p>如果需要使用Netlify的CDN加速，并免费自定义域名<br>
 可以参考：<a href="https://daning.netlify.app/post/howtousenetlify/">使用Netlify加速Github Pages访问速度(Jekyll)</a></p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Mac监听键盘点击]]></title>
-        <id>https://daning.netlify.app/post/listen-keyboard-event/</id>
-        <link href="https://daning.netlify.app/post/listen-keyboard-event/">
-        </link>
-        <updated>2020-08-28T09:32:06.000Z</updated>
-        <summary type="html"><![CDATA[<p>总结了Swift中，暂时发现的3种键盘(鼠标)点击的监听方式</p>
-]]></summary>
-        <content type="html"><![CDATA[<p>总结了Swift中，暂时发现的3种键盘(鼠标)点击的监听方式</p>
-<!-- more -->
-<blockquote>
-<p>注意，以下方法中，涉及到全局键盘监听的都需要系统提供权限才能正常使用，判断方式：</p>
-</blockquote>
-<pre><code class="language-swift">//系统首选项&gt;安全&amp;隐私权&gt;隐私权&gt;辅助功能 - 请确保您的应用已被选中。
-print(&quot;辅助功能:&quot;,AXIsProcessTrusted() ? &quot;信任&quot; : &quot;不信任&quot;)
-</code></pre>
-<h1 id="一-系统自带的api">一、系统自带的API</h1>
-<blockquote>
-<p>其实这两个监听就可以满足大部分的需求了，唯一的不足是像F7~F9的媒体功能键无法监听</p>
-</blockquote>
-<ul>
-<li>Global监听</li>
-</ul>
-<pre><code class="language-swift">    NSEvent.addGlobalMonitorForEvents(matching: [.keyDown]) { [unowned self] (event) in
-        // flags貌似是获取与常规键无关的按键
-        let flags = event.modifierFlags.intersection(.deviceIndependentFlagsMask)
-        // 常规 option || 带有左右键时的 cmd+option
-        if (flags == NSEvent.ModifierFlags.option || flags.contains([.command,.option])) {
-            self.playControlWithKeyCode(event.keyCode)
-        }
-    }
-</code></pre>
-<ul>
-<li>Local监听</li>
-</ul>
-<pre><code class="language-swift">    NSEvent.addLocalMonitorForEvents(matching: [.keyDown]) { [unowned self] (event) -&gt; NSEvent?  in
-        if self.TextFieldIsEditing == true { return event}
-        let code = event.keyCode
-        let flags = event.modifierFlags.intersection(.deviceIndependentFlagsMask)
-        
-        if (flags.contains([.option])) { // 包含option
-            self.playControlWithKeyCode(code)
-        } else {
-            if flags == NSEvent.ModifierFlags.command {
-                if code == kVK_ANSI_W {
-                    WindowManager.share.currentWindow?.close()
-                }
-            } else {
-                if (code == kVK_ANSI_W || code == kVK_Space){
-                    self.playControlWithKeyCode(code)
-                }
-            }
-        }
-        return nil
-    }
-</code></pre>
-<h1 id="二-子类化nsapplication">二、子类化NSApplication</h1>
-<p>我们可以通过子类化NSApplication，拦截sendEvent来实现获取键盘鼠标的点击事件，就像注释中描述的，虽然可以达到获取媒体键的点击，但是却无法拦截唤起的iTunes，不过用来获取其他按钮的点击事件也是可以的</p>
-<blockquote>
-<p>注意：子类化NSApplication，需更改Info.plist里的NSPrincipalClass，如果是Swift则设置为$(PRODUCT_MODULE_NAME).MyApplication才会有效，如果是OC则直接设置为MyApplication即可，当然类名可以自己随意定义，我这里仅仅举个例子</p>
-</blockquote>
-<pre><code class="language-swift">class MyApplication: NSApplication {
-    // 可以通过重写sendEvent监听媒体功能键，但是会唤起iTunes音乐，无法拦截，所以放弃
-    override func sendEvent(_ event: NSEvent) {
-        if  event.type == .systemDefined &amp;&amp;
-            event.subtype == .screenChanged
-        {
-            let keyCode : Int32 = (Int32((event.data1 &amp; 0xFFFF0000) &gt;&gt; 16))
-            let keyFlags = (event.data1 &amp; 0x0000FFFF)
-            let keyState = ((keyFlags &amp; 0xFF00) &gt;&gt; 8) == 0xA
-
-            mediaKeyEvent(withKeyCode: keyCode, andState: keyState)
-            return
-        }
-        super.sendEvent(event)
-    }
-}
-</code></pre>
-<h1 id="三-cgeventtapcreate拦截">三、CGEvent.tapCreate拦截</h1>
-<blockquote>
-<p>此方法一样可以直接获取键盘事件，比子类化NSApplication高级的是可以拦截事件，例如拦截媒体键对iTunes的控制，不废话，直接上代码</p>
-<blockquote>
-<p>同时，有趣的是这种方式，在首次加载时，会弹出系统提示框，获取隐私服务权限，比较友好</p>
-</blockquote>
-</blockquote>
-<pre><code class="language-swift">// 这个方法也可以拿来监听键盘其他key的点击
-    func startListenCGEventTap() {
-        func myCGEventCallback(proxy: CGEventTapProxy, type: CGEventType, event: CGEvent, refcon: UnsafeMutableRawPointer?) -&gt; Unmanaged&lt;CGEvent&gt;? {
-            if(type == .tapDisabledByTimeout){
-                return Unmanaged.passRetained(event)
-            }
-            
-            if let nsEvent = NSEvent.init(cgEvent: event) {
-                if (nsEvent.type == .systemDefined &amp;&amp; nsEvent.subtype == .screenChanged ) {
-                    let keyCode : Int32 = (Int32((nsEvent.data1 &amp; 0xFFFF0000) &gt;&gt; 16))
-                    let keyFlags = (nsEvent.data1 &amp; 0x0000FFFF)
-                    let keyState = ((keyFlags &amp; 0xFF00) &gt;&gt; 8) == 0xA
-//                    let keyIsRepeat = (keyFlags &amp; 0x1) &gt; 0
-//                    if keyIsRepeat {
-//                        print(&quot;keyIsRepeat&quot;)
-//                        return nil
-//                    }
-                    mediaKeyEvent(withKeyCode: keyCode, andState: keyState)
-                    return nil
-                }
-            }
-
-            return Unmanaged.passRetained(event)
-        }
-        
-        // let eventMask = (1 &lt;&lt; CGEventType.keyDown.rawValue) | (1 &lt;&lt; CGEventType.keyUp.rawValue | (1 &lt;&lt; CGEventType.flagsChanged.rawValue))
-        
-        // 创建eventTap，此时会唤起’打开隐私权限‘弹窗
-        if let eventTap = CGEvent.tapCreate(tap: .cgSessionEventTap,
-                                            place: .headInsertEventTap,
-                                            options: .defaultTap,
-                                            eventsOfInterest: CGEventMask(NX_SYSDEFINEDMASK),
-                                            callback: myCGEventCallback,
-                                            userInfo: nil) {
-            let runLoopSource = CFMachPortCreateRunLoopSource(kCFAllocatorSystemDefault, eventTap, 0)
-            CFRunLoopAddSource(CFRunLoopGetCurrent(), runLoopSource, .commonModes)
-            CGEvent.tapEnable(tap: eventTap, enable: true)
-            CFRunLoopRun()
-        } else {
-            print(&quot;failed to create event tap&quot;)
-//            exit(1)
-        }
-    }
-</code></pre>
 ]]></content>
     </entry>
 </feed>

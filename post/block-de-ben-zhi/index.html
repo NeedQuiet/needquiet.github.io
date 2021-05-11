@@ -78,7 +78,7 @@
         
         <li class="nav-item">
           <div class="gridea-search-container">
-            <form id="gridea-search-form" style="position: relative" data-update="1619062390157"
+            <form id="gridea-search-form" style="position: relative" data-update="1620735422297"
               action="/search/index.html">
               <input class="search-input" autocomplete="off" spellcheck="false" name="q" placeholder="搜索文章" />
               <i class="fas fa-search gt-c-content-color-first" style="position: absolute; top: 9px; left: 10px;"></i>
@@ -128,7 +128,7 @@
         
         <li class="nav-item">
           <div class="gridea-search-container">
-            <form id="gridea-search-form" style="position: relative" data-update="1619062390157"
+            <form id="gridea-search-form" style="position: relative" data-update="1620735422297"
               action="/search/index.html">
               <input class="search-input" autocomplete="off" spellcheck="false" name="q" placeholder="搜索文章" />
               <i class="fas fa-search gt-c-content-color-first" style="position: absolute; top: 9px; left: 10px;"></i>
@@ -172,7 +172,7 @@
       <div class="row">
         <div class="col-lg-8 col-md-10 mx-auto post-content-container">
           
-          <p>目录：block的本质、变量捕获、类型、copy</p>
+          <p>目录：block的本质、变量捕获、类型、copy、__block修饰符</p>
 <!-- more -->
 <h2 id="本质">本质</h2>
 <ul>
@@ -315,11 +315,24 @@ block(); // age is 10, height is 200
 </li>
 </ul>
 <h2 id="__block修饰符">__block修饰符</h2>
+<ul>
+<li>
+<p>作用：</p>
 <ol>
 <li>__block可以用于解决block内部无法修改auto变量值的问题</li>
 <li>__block不能修饰全局变量、静态变量</li>
 <li>编译器会将__block变量包装成一个对象</li>
 </ol>
+</li>
+<li>
+<p>内存管理：</p>
+<ol>
+<li>当block在栈上时，并不会对 <strong>__block</strong> 产生强引用</li>
+<li>当block被copy到堆时，会调用block内部的copy函数，其内部会对 <strong>__block</strong> 变量形成强引用</li>
+<li>当block从堆中移除时，会调用block内部的dispose函数，其内部会自动释放引用的 <strong>__block</strong> 变量（release）</li>
+</ol>
+</li>
+</ul>
 
           <div class="toc-container"><ul class="markdownIt-TOC">
 <li>
