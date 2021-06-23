@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://daning.netlify.app</id>
     <title>鼓捣猫宁</title>
-    <updated>2021-06-23T02:39:24.522Z</updated>
+    <updated>2021-06-23T03:39:13.389Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://daning.netlify.app"/>
     <link rel="self" href="https://daning.netlify.app/atom.xml"/>
@@ -10,6 +10,37 @@
     <logo>https://daning.netlify.app/images/avatar.png</logo>
     <icon>https://daning.netlify.app/favicon.ico</icon>
     <rights>All rights reserved 2021, 鼓捣猫宁</rights>
+    <entry>
+        <title type="html"><![CDATA[解决Github访问速度慢的问题]]></title>
+        <id>https://daning.netlify.app/post/jie-jue-github-fang-wen-su-du-man-de-wen-ti/</id>
+        <link href="https://daning.netlify.app/post/jie-jue-github-fang-wen-su-du-man-de-wen-ti/">
+        </link>
+        <updated>2021-06-23T02:59:42.000Z</updated>
+        <summary type="html"><![CDATA[<p>通过修改hosts文件，改变github的映射IP。<br>(蛋疼的是时灵时不灵，不过好用的时候反应很快，可以解决Gridea同步失败的问题)</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>通过修改hosts文件，改变github的映射IP。<br>(蛋疼的是时灵时不灵，不过好用的时候反应很快，可以解决Gridea同步失败的问题)</p>
+<!-- more -->
+<h2 id="步骤">步骤</h2>
+<ol>
+<li>打开hosts文件，编辑完毕后:wq保存退出即可</li>
+</ol>
+<pre><code>sudo vim /etc/hosts
+</code></pre>
+<ol>
+<li>修改Github相关配置<br>
+追加下面映射关系</li>
+</ol>
+<pre><code>140.82.112.4 github.com
+199.232.69.194 github.global.ssl.fastly.net
+</code></pre>
+<p>3.刷新DNS缓存(可不执行)<br>
+可以先 ping github.com 看看ip是否已经更改成功，如果还未更新，可以刷新DNS</p>
+<pre><code>dscacheutil -flushcache
+</code></pre>
+<h2 id="说明">说明</h2>
+<p>映射关系的IP可以通过 <a href="https://www.ipaddress.com/">https://www.ipaddress.com/</a> 查询</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[block的内存管理&循环引用]]></title>
         <id>https://daning.netlify.app/post/block-de-nei-cun-guan-li-andxun-huan-yin-yong/</id>
@@ -643,42 +674,6 @@ return [namePredicate evaluateWithObject:name];
 </code></pre>
 </li>
 </ul>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[使用 Gridea+Github Pages 搭建个人博客]]></title>
-        <id>https://daning.netlify.app/post/create-blog-with-gridea/</id>
-        <link href="https://daning.netlify.app/post/create-blog-with-gridea/">
-        </link>
-        <updated>2020-09-07T09:36:33.000Z</updated>
-        <summary type="html"><![CDATA[<p>Gridea 是一个静态博客写作客户端，它对比Jekyll、Hexo搭建博客的优势就在于拥有一个独有的客户端，不需要把注意力放在UI的配置上，只需要进行简单的配置即可迅速上手搭建个人博客！</p>
-]]></summary>
-        <content type="html"><![CDATA[<p>Gridea 是一个静态博客写作客户端，它对比Jekyll、Hexo搭建博客的优势就在于拥有一个独有的客户端，不需要把注意力放在UI的配置上，只需要进行简单的配置即可迅速上手搭建个人博客！</p>
-<!-- more -->
-<h2 id="github-pages简介">Github Pages简介</h2>
-<p><a href="https://pages.github.com/">Github Pages官网</a></p>
-<p>Github Pages是一个静态站点托管服务，也就是说你完全可以随便做一个静态网页，来展示你要的东西，最重要的一点，它是免费的！😏</p>
-<p>Github Pages也有自己的主题，如果不依赖其他工具去搭建blog也是可以的，<a href="https://sspai.com/post/54608">GitHub Pages 搭建教程</a>，没尝试过，不做评价；</p>
-<h2 id="gridea">Gridea</h2>
-<p>官网：<a href="https://gridea.dev/">Gridea官网</a></p>
-<p>主题：<a href="https://gridea.dev/themes/">Gridea主题</a></p>
-<h2 id="步骤">步骤</h2>
-<ul>
-<li>
-<p>详细过程：<a href="https://gridea.dev/gridea-start/">官方教程</a></p>
-</li>
-<li>
-<p>大体过程：</p>
-<ol>
-<li>下载<a href="https://gridea.dev/#started">Gridea客户端</a></li>
-<li>创建Github Token，路径：Setting -&gt; Developer settings -&gt; Personal access tokens -&gt; Generate new token; 创建完成后记得保存，如果退出当前页面，token就再也看不到了！</li>
-<li>创建仓库，并在客户端里配置Github信息；</li>
-</ol>
-</li>
-</ul>
-<h2 id="netlify加速">Netlify加速</h2>
-<p>如果需要使用Netlify的CDN加速，并免费自定义域名<br>
-可以参考：<a href="https://daning.netlify.app/post/howtousenetlify/">使用Netlify加速Github Pages访问速度(Jekyll)</a></p>
 ]]></content>
     </entry>
 </feed>
