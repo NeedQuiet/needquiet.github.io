@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://daning.netlify.app</id>
     <title>鼓捣猫宁</title>
-    <updated>2021-06-23T05:56:26.642Z</updated>
+    <updated>2021-06-23T06:04:52.852Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://daning.netlify.app"/>
     <link rel="self" href="https://daning.netlify.app/atom.xml"/>
@@ -16,9 +16,11 @@
         <link href="https://daning.netlify.app/post/jie-jue-github-fang-wen-su-du-man-de-wen-ti/">
         </link>
         <updated>2021-06-23T02:59:42.000Z</updated>
-        <summary type="html"><![CDATA[<p>通过修改hosts文件，改变github的映射IP。<br>(蛋疼的是时灵时不灵，不过好用的时候反应很快)</p>
+        <summary type="html"><![CDATA[<p>通过修改hosts文件，改变github的映射IP。<br>
+发现这样改貌似会影响git push，而且访问时灵时不灵，因此目前<font color=red>已放弃！！！</font></p>
 ]]></summary>
-        <content type="html"><![CDATA[<p>通过修改hosts文件，改变github的映射IP。<br>(蛋疼的是时灵时不灵，不过好用的时候反应很快)</p>
+        <content type="html"><![CDATA[<p>通过修改hosts文件，改变github的映射IP。<br>
+发现这样改貌似会影响git push，而且访问时灵时不灵，因此目前<font color=red>已放弃！！！</font></p>
 <!-- more -->
 <h2 id="步骤">步骤</h2>
 <ul>
