@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta content="yes" name="apple-mobile-web-app-capable" />
+<meta content="black" name="apple-mobile-web-app-status-bar-style" />
+<meta name="referrer" content="never">
+<meta name="keywords" content="">
+<meta name="description" content="欢迎访问[鼓捣猫宁]的个人博客">
+<meta name="author" content="kveln">
+<title>内存管理-Tagged Pointer | 鼓捣猫宁</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css">
+<link href="https://cdn.bootcss.com/font-awesome/5.11.2/css/all.min.css" rel="stylesheet">
+<link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+<link
+  href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800'
+  rel='stylesheet' type='text/css'>
+<link rel="alternate" type="application/rss+xml" title="内存管理-Tagged Pointer | 鼓捣猫宁 » Feed"
+  href="https://daning.netlify.app/atom.xml">
+<link rel="stylesheet"
+  href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.15.10/build/styles/androidstudio.min.css">
+<link href="https://daning.netlify.app/styles/main.css" rel="stylesheet">
+<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/850552586/ericamcdn@0.1/css/live2d.css">
+
+<script>hljs.initHighlightingOnLoad();</script>
+
+  <meta property="og:description" content="内存管理-Tagged Pointer" />
+  <meta property="og:url" content="https://daning.netlify.app/post/nei-cun-guan-li-tagged-pointer/" />
+  <meta property="og:locale" content="zh-CN" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="鼓捣猫宁" />
+  <!-- <script src="../assets/styles/scripts/tocScript.js"></script> -->
+</head>
+
+<body>
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href="https://daning.netlify.app">鼓捣猫宁</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+      data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
+      aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ml-auto">
+        
+        <li class="nav-item">
+          
+          <a class="nav-link" href="/">首页</a>
+          
+        </li>
+        
+        <li class="nav-item">
+          
+          <a class="nav-link" href="/archives">归档</a>
+          
+        </li>
+        
+        <li class="nav-item">
+          
+          <a class="nav-link" href="/tags">标签</a>
+          
+        </li>
+        
+        <li class="nav-item">
+          
+          <a class="nav-link" href="/about">关于</a>
+          
+        </li>
+        
+        <li class="nav-item">
+          <div class="gridea-search-container">
+            <form id="gridea-search-form" style="position: relative" data-update="1770892703131"
+              action="/search/index.html">
+              <input class="search-input" autocomplete="off" spellcheck="false" name="q" placeholder="搜索文章" />
+              <i class="fas fa-search gt-c-content-color-first" style="position: absolute; top: 9px; left: 10px;"></i>
+            </form>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+  <!-- Page Header -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href="https://daning.netlify.app">鼓捣猫宁</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+      data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
+      aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ml-auto">
+        
+        <li class="nav-item">
+          
+          <a class="nav-link" href="/">首页</a>
+          
+        </li>
+        
+        <li class="nav-item">
+          
+          <a class="nav-link" href="/archives">归档</a>
+          
+        </li>
+        
+        <li class="nav-item">
+          
+          <a class="nav-link" href="/tags">标签</a>
+          
+        </li>
+        
+        <li class="nav-item">
+          
+          <a class="nav-link" href="/about">关于</a>
+          
+        </li>
+        
+        <li class="nav-item">
+          <div class="gridea-search-container">
+            <form id="gridea-search-form" style="position: relative" data-update="1770892703131"
+              action="/search/index.html">
+              <input class="search-input" autocomplete="off" spellcheck="false" name="q" placeholder="搜索文章" />
+              <i class="fas fa-search gt-c-content-color-first" style="position: absolute; top: 9px; left: 10px;"></i>
+            </form>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<header class="masthead" style="background-image: url('https://daning.netlify.app/media/images/home-bg.jpg')">
+  <div class="overlay"></div>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-md-10 mx-auto">
+        
+          <!-- 没Title为其他页面Header -->
+          
+            <!-- 没Title并且有headerType为Post：文章Header -->
+            <div class="post-heading">
+              <span class="tags">
+                
+                <a href="https://daning.netlify.app/tag/upAY8wL6E/" class="tag">OC</a>
+                
+              </span>
+              <h1>内存管理-Tagged Pointer</h1>
+              <span class="meta">
+                Posted on
+                2022-01-06，3 min read
+              </span>
+            </div>
+          
+        
+      </div>
+    </div>
+  </div>
+</header>
+  <!-- Post Content -->
+  <article id="post-content-article">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto post-content-container">
+          
+          <p>从64bit开始，iOS引入了Tagged Pointer技术，用于优化NSNumber、NSDate、NSString等小对象的存储</p>
+<!-- more -->
+<hr>
+<h2 id="概述">概述</h2>
+<p>以NSNumber为例，在没有使用Tagged Pointer之前，NSNumber等对象需要动态分配内存、维护引用技术等，NSNumber指针存储的是堆中的NSNumber对象的地址值</p>
+<p>在使用Tagged Pointer之后，NSNumber指针里面存储的数据变成了：Tag + Data，也就是将数据直接存储在了指针中</p>
+<p>当指针不够存储数据时，才会使用动态分配内存的方式来存储数据</p>
+<p>objc_msgSend能识别Tagged Pointer，比如NSNumber的intValue方法，直接从指针提取数据，节省了以前的调佣开销</p>
+<h2 id="例">例</h2>
+<ul>
+<li>
+<p>以下述为例，第二个for循环，会在执行的时候crash！</p>
+<pre><code>dispatch_queue_t queue = dispatch_get_global_queue(0, 0);
+for (int i = 0; i &lt; 1000; i++) {
+    dispatch_async(queue, ^{
+        self.testString =  [NSString stringWithFormat:@&quot;abc&quot;];
+    });
+}
+
+for (int i = 0; i &lt; 1000; i++) {
+    dispatch_async(queue, ^{
+        self.testString =  [NSString stringWithFormat:@&quot;abcdefghijk&quot;];
+    });
+}
+</code></pre>
+</li>
+<li>
+<p>分析：<br>
+ARC的实现原理其实就是MRC，在MRC中，代码类似如下，由于上面的例子中，会异步调用 <strong>[_testString release]</strong> ，因此会导致提前release导致崩溃；</p>
+<pre><code>// 模拟MRC
+- (void)setTestString:(NSString *)testString{
+    if (_testString == testString) {
+        [_testString release]; // 赋值为新对象前，先释放旧对象
+        _testString = [testString copy];
+    }
+}
+
+- (NSString *)testString{
+    return _testString;
+}
+
+- (void)dealloc{
+    [_testString release];
+    _testString = nil;
+    [super deallco];
+}
+</code></pre>
+</li>
+<li>
+<p>那么为什么  <strong>if (_testString == testString)</strong> 没有拦截住呢？<br>
+是因为每次 <strong>[NSString stringWithFormat:@&quot;abcdefghijk&quot;]</strong> 时分配的地址都不一样！</p>
+</li>
+<li>
+<p>那么为什么 <strong>self.testString = [NSString stringWithFormat:@&quot;abc&quot;]</strong> 没有问题呢？<br>
+这就是 <strong>Tagged Pointer</strong> 的原因了！这里<strong>RunTime</strong> 判断到 <strong>Tagged Pointer</strong> 后直接进行赋值，而根本没有调用 set 方法（强调一下这里每次 <strong>[NSString stringWithFormat:@&quot;abc&quot;]</strong> 的值是一样的）</p>
+</li>
+</ul>
+<h2 id="如何判断是否为-tagged-pointer">如何判断是否为 Tagged Pointer</h2>
+<p>翻阅RunTime源码，可以查找到 _objc_isTaggedPointer 方法，我们以OC的方式模拟实现如下：</p>
+<pre><code>// 如果是iOS平台 (指针的最 '高' 有效位是1，就是Tagged Pointer）)
+# define _OBJC_TAG_MASK (1UL&lt;&lt;63)
+
+// 如果是Mac平台（指针的最 '低' 有效位是1，就是Tagged Pointer）
+//# define _OBJC_TAG_MASK 1UL
+
+BOOL isTaggedPointer(id pointer){
+    return ((uintptr_t)pointer &amp; _OBJC_TAG_MASK) == _OBJC_TAG_MASK;
+}
+
+- (void)taggerPointerTest{
+    NSString *str = [NSString stringWithFormat:@&quot;abcdefghijk&quot;];
+    NSString *str1 = [NSString stringWithFormat:@&quot;abc&quot;];
+    NSLog(@&quot;\nstr - %p: isTaggedPointer: %d\nstr1 -  %p isTaggedPointer: %d&quot;,str,isTaggedPointer(str),str1,isTaggedPointer(str1));
+}
+</code></pre>
+<pre><code>str - 0x600002660500: isTaggedPointer: 0
+str1 -  0x81a8f3dc8fa2ffae isTaggedPointer: 1
+</code></pre>
+
+          <div class="toc-container"><ul class="markdownIt-TOC">
+<li>
+<ul>
+<li><a href="#%E6%A6%82%E8%BF%B0">概述</a></li>
+<li><a href="#%E4%BE%8B">例</a></li>
+<li><a href="#%E5%A6%82%E4%BD%95%E5%88%A4%E6%96%AD%E6%98%AF%E5%90%A6%E4%B8%BA-tagged-pointer">如何判断是否为 Tagged Pointer</a></li>
+</ul>
+</li>
+</ul>
+</div>
+          
+          <hr />
+          <p class="next-post">下一篇：
+            <a href="https://daning.netlify.app/post/nei-cun-guan-li-nei-cun-bu-ju/">
+              <span class="post-title">
+                内存管理-内存布局&rarr;
+              </span>
+            </a>
+          </p>
+          
+          <div class="comment" style="text-align: center;">
+            
+            <span id="/post/nei-cun-guan-li-tagged-pointer/" class="leancloud_visitors"
+              data-flag-title="内存管理-Tagged Pointer">
+              <em class="post-meta-item-text">阅读量 </em>
+              <i class="leancloud-visitors-count">loading...</i>
+            </span>
+            
+
+            
+            
+            <script src='https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js'></script>
+
+<style>
+	div#vcomments{
+		width:100%;
+		max-width: 1000px;
+		padding: 2.5%
+	}
+</style>
+
+
+	<div id="vcomments"></div>
+
+<script>
+	new Valine({
+		el: '#vcomments',
+		appId: 'MAAasDLv2NYMtEEAn4QnnU3l-gzGzoHsz',
+		appKey: 'dISXAmwDUYme6vJqsc5HgYw1',
+		avatar: 'robohash',
+		pageSize: 5,
+		recordIp: false,
+		placeholder: '来都来了，不留下点虎狼之词就走吗？',
+		visitor: true,
+	});
+</script>
+
+            
+          </div>
+        </div>
+      </div>
+  </article>
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+          <ul class="list-inline text-center">
+            
+            
+            <li class="list-inline-item">
+              <a href="https://github.com/NeedQuiet" target="_blank">
+                <span class="fa-stack fa-lg">
+                  <i class="fas fa-circle fa-stack-2x"></i>
+                  <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                </span>
+              </a>
+            </li>
+            
+              
+            
+              
+            
+              
+            
+            <li class="list-inline-item">
+              <a href="https://www.zhihu.com/people/da-ning-40" target="_blank">
+                <span class="fa-stack fa-lg">
+                  <i class="fas fa-circle fa-stack-2x"></i>
+                  <i class="fab fa-zhihu fa-stack-1x fa-inverse"></i>
+                </span>
+              </a>
+            </li>
+            
+              
+            
+              
+            
+              
+            
+              
+              <!-- <li class="list-inline-item">
+              <a href="https://daning.netlify.app/atom.xml" target="_blank">
+                <span class="fa-stack fa-lg">
+                  <i class="fas fa-circle fa-stack-2x"></i>
+                  <i class="fas fa-rss fa-stack-1x fa-inverse"></i>
+                </span>
+              </a>
+              </li> -->
+          </ul>
+          <p class="copyright text-muted">Copyright &copy;<span>鼓捣猫宁</span><br><a href="https://github.com/getgridea/gridea" class="Themeinfo">Powered by Gridea</a></p>
+        </div>
+      </div>
+    </div>
+   </footer>
+  <!-- Bootstrap core JavaScript -->
+  <script src="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+  <!-- <script src="https://daning.netlify.app/media/scripts/bootstrap.bundle.min.js"></script> -->
+  <!-- Bootstrap core JavaScript -->
+  <script src="https://cdn.jsdelivr.net/gh/Alanrk/clean-cdn@1.0/scripts/clean-blog.min.js"></script>
+  <!-- <script src="https://daning.netlify.app/media/scripts/clean-blog.min.js"></script> -->
+  <script src="//instant.page/3.0.0" type="module" defer integrity="sha384-OeDn4XE77tdHo8pGtE1apMPmAipjoxUQ++eeJa6EtJCfHlvijigWiJpD7VDPWXV1"></script>
+  <style type="text/css">a.back_to_top{text-decoration:none;position:fixed;bottom:40px;right:30px;background:#f0f0f0;height:40px;width:40px;border-radius:50%;line-height:36px;font-size:18px;text-align:center;transition-duration:.5s;transition-propety:background-color;display:none}a.back_to_top span{color:#888}a.back_to_top:hover{cursor:pointer;background:#dfdfdf}a.back_to_top:hover span{color:#555}@media print,screen and(max-width:580px){.back_to_top{display:none!important}}</style>
+<a id="back_to_top" href="#" class="back_to_top">
+  <span>▲</span></a>
+<script>$(document).ready((function(_this) {
+    return function() {
+      var bt;
+      bt = $('#back_to_top');
+      if ($(document).width() > 480) {
+        $(window).scroll(function() {
+          var st;
+          st = $(window).scrollTop();
+          if (st > 30) {
+            return bt.css('display', 'block')
+          } else {
+            return bt.css('display', 'none')
+          }
+        });
+        return bt.click(function() {
+          $('body,html').animate({
+            scrollTop: 0
+          },
+          800);
+          return false
+        })
+      }
+    }
+  })(this));</script>
+  
+  <div id="landlord-parent">
+    <div id="landlord">
+        <div class="message" style="opacity:0"></div>
+        <canvas id="live2d" width="240" height="250" class="live2d"></canvas>
+    </div>
+</div>
+
+<script type="text/javascript">
+    if (/(iPhone|iPad|iPod|iOS|Android)/i.test(navigator.userAgent)) {
+        //移动端
+        console.log("------ 移动端");
+    } else {
+        console.log("------ PC端 " + navigator.userAgent);
+
+        addScript("https://cdn.jsdelivr.net/gh/850552586/ericamcdn@0.1/js/live2d.js", () => {
+            // 加载完成后再loadlive2d
+            loadlive2d("live2d", "https://daning.netlify.app/media/live2d/assets/hijiki.model.json");
+        });
+
+        var home_Path = "https://daning.netlify.app/";
+        addScript("https://daning.netlify.app/media/live2d/js/message.js", () => { });
+    }
+
+    // 插入js文件，完成后callback
+    function addScript(jsfile, callback) {
+        var landlord_parent = document.getElementById("landlord-parent");
+        var script = document.createElement("script");
+        script.type = "text/javascript";
+        script.src = jsfile;
+        landlord_parent.appendChild(script);
+        script.onload = script.onreadystatechange = function () {
+            if (!this.readyState || this.readyState === "loaded" || this.readyState === "complete") {
+                script.onload = script.onreadystatechange = null;
+                if (callback && typeof callback == "function") {
+                    callback(); //window[callback]();如果传递字符串过来 调用window['函数名']() 调用方法
+                }
+            }
+        };
+    }
+</script>
+  
+  <script src="https://daning.netlify.app/media/scripts/tocScript.js"></script>
+</body>
+
+</html>

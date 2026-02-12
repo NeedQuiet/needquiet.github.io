@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta content="yes" name="apple-mobile-web-app-capable" />
+<meta content="black" name="apple-mobile-web-app-status-bar-style" />
+<meta name="referrer" content="never">
+<meta name="keywords" content="">
+<meta name="description" content="欢迎访问[鼓捣猫宁]的个人博客">
+<meta name="author" content="kveln">
+<title>GitBook常用插件 | 鼓捣猫宁</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css">
+<link href="https://cdn.bootcss.com/font-awesome/5.11.2/css/all.min.css" rel="stylesheet">
+<link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+<link
+  href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800'
+  rel='stylesheet' type='text/css'>
+<link rel="alternate" type="application/rss+xml" title="GitBook常用插件 | 鼓捣猫宁 » Feed"
+  href="https://daning.netlify.app/atom.xml">
+<link rel="stylesheet"
+  href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.15.10/build/styles/androidstudio.min.css">
+<link href="https://daning.netlify.app/styles/main.css" rel="stylesheet">
+<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/850552586/ericamcdn@0.1/css/live2d.css">
+
+<script>hljs.initHighlightingOnLoad();</script>
+
+  <meta property="og:description" content="GitBook常用插件" />
+  <meta property="og:url" content="https://daning.netlify.app/post/gitbook-plugins/" />
+  <meta property="og:locale" content="zh-CN" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="鼓捣猫宁" />
+  <!-- <script src="../assets/styles/scripts/tocScript.js"></script> -->
+</head>
+
+<body>
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href="https://daning.netlify.app">鼓捣猫宁</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+      data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
+      aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ml-auto">
+        
+        <li class="nav-item">
+          
+          <a class="nav-link" href="/">首页</a>
+          
+        </li>
+        
+        <li class="nav-item">
+          
+          <a class="nav-link" href="/archives">归档</a>
+          
+        </li>
+        
+        <li class="nav-item">
+          
+          <a class="nav-link" href="/tags">标签</a>
+          
+        </li>
+        
+        <li class="nav-item">
+          
+          <a class="nav-link" href="/about">关于</a>
+          
+        </li>
+        
+        <li class="nav-item">
+          <div class="gridea-search-container">
+            <form id="gridea-search-form" style="position: relative" data-update="1770892703131"
+              action="/search/index.html">
+              <input class="search-input" autocomplete="off" spellcheck="false" name="q" placeholder="搜索文章" />
+              <i class="fas fa-search gt-c-content-color-first" style="position: absolute; top: 9px; left: 10px;"></i>
+            </form>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+  <!-- Page Header -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href="https://daning.netlify.app">鼓捣猫宁</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+      data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
+      aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ml-auto">
+        
+        <li class="nav-item">
+          
+          <a class="nav-link" href="/">首页</a>
+          
+        </li>
+        
+        <li class="nav-item">
+          
+          <a class="nav-link" href="/archives">归档</a>
+          
+        </li>
+        
+        <li class="nav-item">
+          
+          <a class="nav-link" href="/tags">标签</a>
+          
+        </li>
+        
+        <li class="nav-item">
+          
+          <a class="nav-link" href="/about">关于</a>
+          
+        </li>
+        
+        <li class="nav-item">
+          <div class="gridea-search-container">
+            <form id="gridea-search-form" style="position: relative" data-update="1770892703131"
+              action="/search/index.html">
+              <input class="search-input" autocomplete="off" spellcheck="false" name="q" placeholder="搜索文章" />
+              <i class="fas fa-search gt-c-content-color-first" style="position: absolute; top: 9px; left: 10px;"></i>
+            </form>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<header class="masthead" style="background-image: url('https://daning.netlify.app/media/images/home-bg.jpg')">
+  <div class="overlay"></div>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-md-10 mx-auto">
+        
+          <!-- 没Title为其他页面Header -->
+          
+            <!-- 没Title并且有headerType为Post：文章Header -->
+            <div class="post-heading">
+              <span class="tags">
+                
+                <a href="https://daning.netlify.app/tag/zL-xmZeUD/" class="tag">GitBook</a>
+                
+                <a href="https://daning.netlify.app/tag/VYkxi25Yw/" class="tag">Tool</a>
+                
+              </span>
+              <h1>GitBook常用插件</h1>
+              <span class="meta">
+                Posted on
+                2020-05-18，6 min read
+              </span>
+            </div>
+          
+        
+      </div>
+    </div>
+  </div>
+</header>
+  <!-- Post Content -->
+  <article id="post-content-article">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto post-content-container">
+          
+          <p>整理一下目前发现的GitBook的插件（plugins），各插件具体使用方式请看其对应的官方介绍</p>
+<h2 id="1-时序图">1. 时序图</h2>
+<blockquote>
+<p>插件：<strong><code>js-sequence-diagram-full</code></strong><br><br>
+说明：时序图样式插件</p>
+</blockquote>
+<ul>
+<li>
+<p><a href="https://www.npmjs.com/package/gitbook-plugin-js-sequence-diagram-full">官方介绍</a></p>
+</li>
+<li>
+<p>示例：</p>
+</li>
+</ul>
+<pre><code class="language-json">&quot;plugins&quot;: [&quot;js-sequence-diagram-full@&gt;=0.3.1&quot;] 
+</code></pre>
+<ul>
+<li>书写方式：</li>
+</ul>
+<pre><code class="language-shell">    （```sequence）// 忽略括号
+        participant A
+        participant B
+
+        Note over C: Note over C
+        Note over A: Note over A
+
+        C-&gt;D: C-&gt;D
+        D-&gt;B: D-&gt;B
+        B--&gt;D: B--&gt;D
+        D--&gt;C: D--&gt;C
+        A-&gt;A: A-&gt;A
+    （```）
+</code></pre>
+<ul>
+<li>效果图：<br>
+<img src="https://s1.ax1x.com/2020/09/07/wuDVEQ.png" alt="效果图" loading="lazy"></li>
+</ul>
+<hr>
+<h2 id="2-代码块">2. 代码块</h2>
+<blockquote>
+<p>插件：<strong><code>prism</code></strong><br><br>
+说明：代码块的样式插件</p>
+</blockquote>
+<ul>
+<li>
+<p><a href="https://www.npmjs.com/package/gitbook-plugin-prism">官方介绍</a></p>
+</li>
+<li>
+<p>参数说明：</p>
+<ol>
+<li>css：代码块样式，官方说明上有几种不同的样式</li>
+<li>lang：可以自定义重命名代码块命名，例如 <code>objectivec</code> 有点长，我们就重命名为 <code>oc</code></li>
+<li>ignore：忽略其他可能会引起冲突的代码块插件的代码块名字，如 <code>js-sequence-diagram-full</code> 的 <code>sequence</code></li>
+</ol>
+</li>
+<li>
+<p>示例：</p>
+</li>
+</ul>
+<pre><code class="language-json">&quot;plugins&quot;: [&quot;prism&quot;]
+&quot;pluginsConfig&quot;: {
+    &quot;prism&quot;: {
+          &quot;css&quot;: [&quot;prismjs/themes/prism-okaidia.css&quot;],
+          &quot;lang&quot;: {&quot;oc&quot;: &quot;objectivec&quot;,},
+          &quot;ignore&quot;: [&quot;sequence&quot;]
+        }
+}
+</code></pre>
+<ul>
+<li>效果图：</li>
+</ul>
+<figure data-type="image" tabindex="1"><img src="https://s1.ax1x.com/2020/09/07/wuDnCn.png" alt="效果图" loading="lazy"></figure>
+<hr>
+<h2 id="3-锚点">3. 锚点</h2>
+<blockquote>
+<p>插件：<strong><code>anchors</code></strong><br><br>
+说明：标题带有 github 样式的锚点。(其实就是鼠标hover在对应h标签后，有个链接小图标显示，点击后标题稍微置顶)</p>
+</blockquote>
+<blockquote>
+<p>如果使用了 <code>anchor-navigation-ex</code>，那就不需要这个<code>anchors</code>插件了，已被其包含</p>
+</blockquote>
+<ul>
+<li>
+<p><a href="https://www.npmjs.com/package/gitbook-plugin-anchors">官方介绍</a></p>
+</li>
+<li>
+<p>示例：</p>
+</li>
+</ul>
+<pre><code class="language-json">  &quot;plugins&quot; : [ &quot;anchors&quot; ]
+</code></pre>
+<ul>
+<li>效果图：</li>
+</ul>
+<figure data-type="image" tabindex="2"><img src="https://s1.ax1x.com/2020/09/07/wuDKg0.png" alt="效果图" loading="lazy"></figure>
+<hr>
+<h2 id="4-目录宽度拖拽">4. 目录宽度拖拽</h2>
+<blockquote>
+<p>插件：<strong><code>splitter</code></strong><br><br>
+说明：在左侧目录和右侧内容之间添加一个可以拖拽的栏，用来调整两边的宽度。</p>
+</blockquote>
+<ul>
+<li>
+<p><a href="https://www.npmjs.com/package/gitbook-plugin-splitter">官方介绍</a></p>
+</li>
+<li>
+<p>示例：</p>
+</li>
+</ul>
+<pre><code class="language-json">  &quot;plugins&quot; : [ &quot;splitter&quot; ]
+</code></pre>
+<ul>
+<li>效果图：</li>
+</ul>
+<figure data-type="image" tabindex="3"><img src="https://s1.ax1x.com/2020/09/07/wuDMvV.png" alt="效果图" loading="lazy"></figure>
+<hr>
+<h2 id="5-gtalk-评论">5. gtalk 评论</h2>
+<blockquote>
+<p>插件：<strong><code>gtalk</code></strong><br><br>
+说明：添加gitalk评论插件</p>
+</blockquote>
+<ul>
+<li><a href="https://www.npmjs.com/package/gitbook-plugin-gtalk">官方介绍</a></li>
+</ul>
+<pre><code class="language-json">&quot;plugins&quot;: [&quot;gtalk&quot;]
+&quot;pluginsConfig&quot;: {
+      &quot;gtalk&quot;: {
+        &quot;clientID&quot;: &quot;GitHub Application Client ID&quot;,
+        &quot;clientSecret&quot;: &quot;GitHub Application Client Secret&quot;,
+        &quot;repo&quot;: &quot;GitHub repo&quot;,
+        &quot;owner&quot;: &quot;GitHub repo owner&quot;,
+        &quot;admin&quot;: [&quot;GitHub repo owner and collaborators, only these guys can initialize github issues&quot;]
+      }
+}
+</code></pre>
+<hr>
+<h2 id="6-github">6. github</h2>
+<blockquote>
+<p>插件：<strong><code>github</code></strong><br><br>
+说明：在右上角显示 github 仓库的图标链接。</p>
+</blockquote>
+<ul>
+<li>
+<p><a href="https://www.npmjs.com/package/gitbook-plugin-github">官方介绍</a></p>
+</li>
+<li>
+<p>示例：</p>
+</li>
+</ul>
+<pre><code class="language-json">&quot;plugins&quot;: [ &quot;github&quot; ]
+&quot;pluginsConfig&quot;: {
+    &quot;github&quot;: {
+        &quot;url&quot;: &quot;https://github.com/your/repo&quot;
+    }
+}
+</code></pre>
+<hr>
+<h2 id="7-章节目录">7. 章节目录</h2>
+<blockquote>
+<p>插件：<strong><code>anchor-navigation-ex</code></strong><br><br>
+说明：目录插件</p>
+</blockquote>
+<ul>
+<li>
+<p><a href="https://www.npmjs.com/package/gitbook-plugin-anchor-navigation-ex">官方介绍</a></p>
+</li>
+<li>
+<p><a href="https://github.com/zq99299/gitbook-plugin-anchor-navigation-ex/blob/master/doc/effectScreenshot.md">具体参数介绍</a></p>
+</li>
+<li>
+<p>示例：</p>
+</li>
+</ul>
+<pre><code class="language-json">&quot;plugins&quot;: [
+   &quot;anchor-navigation-ex&quot;
+]
+&quot;pluginsConfig&quot;: {
+    &quot;anchor-navigation-ex&quot;: {
+          &quot;showGoTop&quot;:true, #右下角是否添加“返回顶部”按钮
+          &quot;showLevel&quot;: false, #标题是否显示层级序号（控制页面标题是否被重写）
+          &quot;printLog&quot;: true, #是否打印处理日志,在排查生成book失败的时候很有用
+          &quot;mode&quot;: &quot;float&quot;, #目录的显示模式，目前有三种“float悬浮”、“pageTop文章顶部”、“”不显示，默认float
+          &quot;float&quot;: { #对应floatMode的图标，可以设置目录里标题前面的ICON
+              &quot;floatIcon&quot;: &quot;fa fa-navicon&quot;,
+              &quot;showLevelIcon&quot;: true,
+              &quot;level1Icon&quot;: &quot;fa fa-hand-o-right&quot;,
+              &quot;level2Icon&quot;: &quot;fa fa-hand-o-right&quot;,
+              &quot;level3Icon&quot;: &quot;fa fa-hand-o-right&quot;
+          }
+    }
+}
+</code></pre>
+<hr>
+<h2 id="8-book目录折叠">8. book目录折叠</h2>
+<blockquote>
+<p>插件：<strong><code>expandable-chapters-small</code></strong><br><br>
+说明：左侧的主目录折叠插件</p>
+</blockquote>
+<ul>
+<li>
+<p><a href="https://www.npmjs.com/package/gitbook-plugin-expandable-chapters-small">官方介绍</a></p>
+</li>
+<li>
+<p>示例：</p>
+</li>
+</ul>
+<pre><code class="language-json">&quot;plugins&quot;: [&quot;expandable-chapters-small&quot;] 
+</code></pre>
+<ul>
+<li>效果图：</li>
+</ul>
+<figure data-type="image" tabindex="4"><img src="https://s1.ax1x.com/2020/09/07/wuDNCR.png" alt="效果图" loading="lazy"></figure>
+<hr>
+<h2 id="9-访问数量">9. 访问数量</h2>
+<blockquote>
+<p>插件：<strong><code>pageview-count</code></strong><br><br>
+说明：文档页面阅读数插件，菜单栏增加个小眼睛，显示访问次数</p>
+</blockquote>
+<p>PS: 经查询，是访问 <code>https://hitcounter.pythonanywhere.com/count/文章地址</code> 来查询访问次数的</p>
+<ul>
+<li>
+<p><a href="https://www.npmjs.com/package/gitbook-plugin-pageview-count">官方介绍</a></p>
+</li>
+<li>
+<p>示例：</p>
+</li>
+</ul>
+<pre><code class="language-json">&quot;plugins&quot;: [&quot;pageview-count&quot;] 
+</code></pre>
+<ul>
+<li>效果图：</li>
+</ul>
+<figure data-type="image" tabindex="5"><img src="https://s1.ax1x.com/2020/09/07/wuD0KK.png" alt="效果图" loading="lazy"></figure>
+<hr>
+<h2 id="10-多语言国际化">10. 多语言国际化</h2>
+<blockquote>
+<p>插件：<strong><code>language-picker</code></strong><br><br>
+说明：语言切换插件</p>
+</blockquote>
+<ul>
+<li>
+<p><a href="https://www.npmjs.com/package/gitbook-plugin-language-picker">官方介绍</a></p>
+</li>
+<li>
+<p>示例：</p>
+</li>
+</ul>
+<pre><code class="language-json">&quot;plugins&quot;: [&quot;language-picker&quot;]
+&quot;pluginsConfig&quot;: { 
+        &quot;language-picker&quot;: { #可以不设置，默认两种
+            &quot;grid-columns&quot;: 2 #如果想设置更多种语言，就改这里即可
+        }
+    }
+</code></pre>
+<ul>
+<li>使用细节，以中/英文2种语言为例:
+<ol>
+<li>
+<p>使用此插件后，GitBook的目录结构需要同时调整，删除以前的SUMMARY</p>
+</li>
+<li>
+<p>创建<code>en</code>、<code>zh-hans</code>2个文件夹，分别创建其对应的<code>README.md</code>和<code>SUMMARY.md</code></p>
+</li>
+<li>
+<p>根目录创建<code>LANGS.md</code>，指定中/英文文档入口，例如</p>
+<pre><code class="language-markdown">   * [English](en/)
+   * [简体中文](zh-hans/)
+</code></pre>
+</li>
+<li>
+<p>这样该gitbook的初始页面其实就变成了<code>LANGS.md</code>，并同时提供了中/英文文档入口。例如：</p>
+<figure data-type="image" tabindex="6"><img src="https://s1.ax1x.com/2020/09/07/wurlRI.png" alt="效果图" loading="lazy"></figure>
+</li>
+</ol>
+</li>
+</ul>
+<hr>
+<h2 id="11-插入自定义cssjs">11. 插入自定义css/js</h2>
+<blockquote>
+<p>插件：<strong><code>addcssjs</code></strong><br><br>
+说明：给gitbook添加外部的css、js文件</p>
+</blockquote>
+<ul>
+<li>
+<p><a href="https://www.npmjs.com/package/gitbook-plugin-addcssjs">官方介绍</a></p>
+</li>
+<li>
+<p>示例：</p>
+</li>
+</ul>
+<pre><code class="language-json">&quot;plugins&quot;: [&quot;addcssjs&quot;]
+&quot;pluginsConfig&quot;: { 
+        &quot;addcssjs&quot;: {
+            &quot;css&quot;: [&quot;styles/website.css&quot;],
+            &quot;js&quot;: [&quot;styles/website.js&quot;]
+        }
+    }
+</code></pre>
+<blockquote>
+<p>如果你使用了<code>language-picker</code>，那么在<code>pluginsConfig</code>配置路径时，记得要在路径前加上<code>../</code>;<br>因为国际化后，所有book的html已经不在根目录的上了，而是在对应的语言文件夹下面</p>
+</blockquote>
+<hr>
+<h2 id="12-代码块行号-复制">12. 代码块行号、复制</h2>
+<blockquote>
+<p>插件：<strong><code>code</code></strong><br><br>
+说明：为代码块添加行号和复制按钮，复制按钮可关闭</p>
+</blockquote>
+<ul>
+<li><a href="https://www.npmjs.com/package/gitbook-plugin-code">官方介绍</a></li>
+</ul>
+<pre><code class="language-json">{
+    &quot;plugins&quot; : [ 
+            &quot;code&quot; 
+     ],
+    &quot;pluginsConfig&quot;: {
+      &quot;code&quot;: {
+        &quot;copyButtons&quot;: false #复制按钮可关闭
+      }
+    }
+}
+</code></pre>
+
+          <div class="toc-container"><ul class="markdownIt-TOC">
+<li>
+<ul>
+<li><a href="#1-%E6%97%B6%E5%BA%8F%E5%9B%BE">1. 时序图</a></li>
+<li><a href="#2-%E4%BB%A3%E7%A0%81%E5%9D%97">2. 代码块</a></li>
+<li><a href="#3-%E9%94%9A%E7%82%B9">3. 锚点</a></li>
+<li><a href="#4-%E7%9B%AE%E5%BD%95%E5%AE%BD%E5%BA%A6%E6%8B%96%E6%8B%BD">4. 目录宽度拖拽</a></li>
+<li><a href="#5-gtalk-%E8%AF%84%E8%AE%BA">5. gtalk 评论</a></li>
+<li><a href="#6-github">6. github</a></li>
+<li><a href="#7-%E7%AB%A0%E8%8A%82%E7%9B%AE%E5%BD%95">7. 章节目录</a></li>
+<li><a href="#8-book%E7%9B%AE%E5%BD%95%E6%8A%98%E5%8F%A0">8. book目录折叠</a></li>
+<li><a href="#9-%E8%AE%BF%E9%97%AE%E6%95%B0%E9%87%8F">9. 访问数量</a></li>
+<li><a href="#10-%E5%A4%9A%E8%AF%AD%E8%A8%80%E5%9B%BD%E9%99%85%E5%8C%96">10. 多语言国际化</a></li>
+<li><a href="#11-%E6%8F%92%E5%85%A5%E8%87%AA%E5%AE%9A%E4%B9%89cssjs">11. 插入自定义css/js</a></li>
+<li><a href="#12-%E4%BB%A3%E7%A0%81%E5%9D%97%E8%A1%8C%E5%8F%B7-%E5%A4%8D%E5%88%B6">12. 代码块行号、复制</a></li>
+</ul>
+</li>
+</ul>
+</div>
+          
+          <hr />
+          <p class="next-post">下一篇：
+            <a href="https://daning.netlify.app/post/npm-management/">
+              <span class="post-title">
+                npm镜像管理&rarr;
+              </span>
+            </a>
+          </p>
+          
+          <div class="comment" style="text-align: center;">
+            
+            <span id="/post/gitbook-plugins/" class="leancloud_visitors"
+              data-flag-title="GitBook常用插件">
+              <em class="post-meta-item-text">阅读量 </em>
+              <i class="leancloud-visitors-count">loading...</i>
+            </span>
+            
+
+            
+            
+            <script src='https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js'></script>
+
+<style>
+	div#vcomments{
+		width:100%;
+		max-width: 1000px;
+		padding: 2.5%
+	}
+</style>
+
+
+	<div id="vcomments"></div>
+
+<script>
+	new Valine({
+		el: '#vcomments',
+		appId: 'MAAasDLv2NYMtEEAn4QnnU3l-gzGzoHsz',
+		appKey: 'dISXAmwDUYme6vJqsc5HgYw1',
+		avatar: 'robohash',
+		pageSize: 5,
+		recordIp: false,
+		placeholder: '来都来了，不留下点虎狼之词就走吗？',
+		visitor: true,
+	});
+</script>
+
+            
+          </div>
+        </div>
+      </div>
+  </article>
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+          <ul class="list-inline text-center">
+            
+            
+            <li class="list-inline-item">
+              <a href="https://github.com/NeedQuiet" target="_blank">
+                <span class="fa-stack fa-lg">
+                  <i class="fas fa-circle fa-stack-2x"></i>
+                  <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                </span>
+              </a>
+            </li>
+            
+              
+            
+              
+            
+              
+            
+            <li class="list-inline-item">
+              <a href="https://www.zhihu.com/people/da-ning-40" target="_blank">
+                <span class="fa-stack fa-lg">
+                  <i class="fas fa-circle fa-stack-2x"></i>
+                  <i class="fab fa-zhihu fa-stack-1x fa-inverse"></i>
+                </span>
+              </a>
+            </li>
+            
+              
+            
+              
+            
+              
+            
+              
+              <!-- <li class="list-inline-item">
+              <a href="https://daning.netlify.app/atom.xml" target="_blank">
+                <span class="fa-stack fa-lg">
+                  <i class="fas fa-circle fa-stack-2x"></i>
+                  <i class="fas fa-rss fa-stack-1x fa-inverse"></i>
+                </span>
+              </a>
+              </li> -->
+          </ul>
+          <p class="copyright text-muted">Copyright &copy;<span>鼓捣猫宁</span><br><a href="https://github.com/getgridea/gridea" class="Themeinfo">Powered by Gridea</a></p>
+        </div>
+      </div>
+    </div>
+   </footer>
+  <!-- Bootstrap core JavaScript -->
+  <script src="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+  <!-- <script src="https://daning.netlify.app/media/scripts/bootstrap.bundle.min.js"></script> -->
+  <!-- Bootstrap core JavaScript -->
+  <script src="https://cdn.jsdelivr.net/gh/Alanrk/clean-cdn@1.0/scripts/clean-blog.min.js"></script>
+  <!-- <script src="https://daning.netlify.app/media/scripts/clean-blog.min.js"></script> -->
+  <script src="//instant.page/3.0.0" type="module" defer integrity="sha384-OeDn4XE77tdHo8pGtE1apMPmAipjoxUQ++eeJa6EtJCfHlvijigWiJpD7VDPWXV1"></script>
+  <style type="text/css">a.back_to_top{text-decoration:none;position:fixed;bottom:40px;right:30px;background:#f0f0f0;height:40px;width:40px;border-radius:50%;line-height:36px;font-size:18px;text-align:center;transition-duration:.5s;transition-propety:background-color;display:none}a.back_to_top span{color:#888}a.back_to_top:hover{cursor:pointer;background:#dfdfdf}a.back_to_top:hover span{color:#555}@media print,screen and(max-width:580px){.back_to_top{display:none!important}}</style>
+<a id="back_to_top" href="#" class="back_to_top">
+  <span>▲</span></a>
+<script>$(document).ready((function(_this) {
+    return function() {
+      var bt;
+      bt = $('#back_to_top');
+      if ($(document).width() > 480) {
+        $(window).scroll(function() {
+          var st;
+          st = $(window).scrollTop();
+          if (st > 30) {
+            return bt.css('display', 'block')
+          } else {
+            return bt.css('display', 'none')
+          }
+        });
+        return bt.click(function() {
+          $('body,html').animate({
+            scrollTop: 0
+          },
+          800);
+          return false
+        })
+      }
+    }
+  })(this));</script>
+  
+  <div id="landlord-parent">
+    <div id="landlord">
+        <div class="message" style="opacity:0"></div>
+        <canvas id="live2d" width="240" height="250" class="live2d"></canvas>
+    </div>
+</div>
+
+<script type="text/javascript">
+    if (/(iPhone|iPad|iPod|iOS|Android)/i.test(navigator.userAgent)) {
+        //移动端
+        console.log("------ 移动端");
+    } else {
+        console.log("------ PC端 " + navigator.userAgent);
+
+        addScript("https://cdn.jsdelivr.net/gh/850552586/ericamcdn@0.1/js/live2d.js", () => {
+            // 加载完成后再loadlive2d
+            loadlive2d("live2d", "https://daning.netlify.app/media/live2d/assets/hijiki.model.json");
+        });
+
+        var home_Path = "https://daning.netlify.app/";
+        addScript("https://daning.netlify.app/media/live2d/js/message.js", () => { });
+    }
+
+    // 插入js文件，完成后callback
+    function addScript(jsfile, callback) {
+        var landlord_parent = document.getElementById("landlord-parent");
+        var script = document.createElement("script");
+        script.type = "text/javascript";
+        script.src = jsfile;
+        landlord_parent.appendChild(script);
+        script.onload = script.onreadystatechange = function () {
+            if (!this.readyState || this.readyState === "loaded" || this.readyState === "complete") {
+                script.onload = script.onreadystatechange = null;
+                if (callback && typeof callback == "function") {
+                    callback(); //window[callback]();如果传递字符串过来 调用window['函数名']() 调用方法
+                }
+            }
+        };
+    }
+</script>
+  
+  <script src="https://daning.netlify.app/media/scripts/tocScript.js"></script>
+</body>
+
+</html>

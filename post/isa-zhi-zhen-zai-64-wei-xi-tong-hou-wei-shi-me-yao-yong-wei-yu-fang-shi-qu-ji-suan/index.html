@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta content="yes" name="apple-mobile-web-app-capable" />
+<meta content="black" name="apple-mobile-web-app-status-bar-style" />
+<meta name="referrer" content="never">
+<meta name="keywords" content="">
+<meta name="description" content="欢迎访问[鼓捣猫宁]的个人博客">
+<meta name="author" content="kveln">
+<title>isa指针在64位系统后为什么要用位域方式去计算？ | 鼓捣猫宁</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css">
+<link href="https://cdn.bootcss.com/font-awesome/5.11.2/css/all.min.css" rel="stylesheet">
+<link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+<link
+  href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800'
+  rel='stylesheet' type='text/css'>
+<link rel="alternate" type="application/rss+xml" title="isa指针在64位系统后为什么要用位域方式去计算？ | 鼓捣猫宁 » Feed"
+  href="https://daning.netlify.app/atom.xml">
+<link rel="stylesheet"
+  href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.15.10/build/styles/androidstudio.min.css">
+<link href="https://daning.netlify.app/styles/main.css" rel="stylesheet">
+<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/850552586/ericamcdn@0.1/css/live2d.css">
+
+<script>hljs.initHighlightingOnLoad();</script>
+
+  <meta property="og:description" content="isa指针在64位系统后为什么要用位域方式去计算？" />
+  <meta property="og:url" content="https://daning.netlify.app/post/isa-zhi-zhen-zai-64-wei-xi-tong-hou-wei-shi-me-yao-yong-wei-yu-fang-shi-qu-ji-suan/" />
+  <meta property="og:locale" content="zh-CN" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="鼓捣猫宁" />
+  <!-- <script src="../assets/styles/scripts/tocScript.js"></script> -->
+</head>
+
+<body>
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href="https://daning.netlify.app">鼓捣猫宁</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+      data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
+      aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ml-auto">
+        
+        <li class="nav-item">
+          
+          <a class="nav-link" href="/">首页</a>
+          
+        </li>
+        
+        <li class="nav-item">
+          
+          <a class="nav-link" href="/archives">归档</a>
+          
+        </li>
+        
+        <li class="nav-item">
+          
+          <a class="nav-link" href="/tags">标签</a>
+          
+        </li>
+        
+        <li class="nav-item">
+          
+          <a class="nav-link" href="/about">关于</a>
+          
+        </li>
+        
+        <li class="nav-item">
+          <div class="gridea-search-container">
+            <form id="gridea-search-form" style="position: relative" data-update="1770892703131"
+              action="/search/index.html">
+              <input class="search-input" autocomplete="off" spellcheck="false" name="q" placeholder="搜索文章" />
+              <i class="fas fa-search gt-c-content-color-first" style="position: absolute; top: 9px; left: 10px;"></i>
+            </form>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+  <!-- Page Header -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href="https://daning.netlify.app">鼓捣猫宁</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+      data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
+      aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ml-auto">
+        
+        <li class="nav-item">
+          
+          <a class="nav-link" href="/">首页</a>
+          
+        </li>
+        
+        <li class="nav-item">
+          
+          <a class="nav-link" href="/archives">归档</a>
+          
+        </li>
+        
+        <li class="nav-item">
+          
+          <a class="nav-link" href="/tags">标签</a>
+          
+        </li>
+        
+        <li class="nav-item">
+          
+          <a class="nav-link" href="/about">关于</a>
+          
+        </li>
+        
+        <li class="nav-item">
+          <div class="gridea-search-container">
+            <form id="gridea-search-form" style="position: relative" data-update="1770892703131"
+              action="/search/index.html">
+              <input class="search-input" autocomplete="off" spellcheck="false" name="q" placeholder="搜索文章" />
+              <i class="fas fa-search gt-c-content-color-first" style="position: absolute; top: 9px; left: 10px;"></i>
+            </form>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<header class="masthead" style="background-image: url('https://daning.netlify.app/media/images/home-bg.jpg')">
+  <div class="overlay"></div>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-md-10 mx-auto">
+        
+          <!-- 没Title为其他页面Header -->
+          
+            <!-- 没Title并且有headerType为Post：文章Header -->
+            <div class="post-heading">
+              <span class="tags">
+                
+                <a href="https://daning.netlify.app/tag/_tx0mny0x/" class="tag">runtime</a>
+                
+                <a href="https://daning.netlify.app/tag/upAY8wL6E/" class="tag">OC</a>
+                
+              </span>
+              <h1>isa指针在64位系统后为什么要用位域方式去计算？</h1>
+              <span class="meta">
+                Posted on
+                2021-08-08，5 min read
+              </span>
+            </div>
+          
+        
+      </div>
+    </div>
+  </div>
+</header>
+  <!-- Post Content -->
+  <article id="post-content-article">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto post-content-container">
+          
+          <p>在arm64架构之前，isa就是一个普通的指针，存储着Class、Meta-Class对象的内存地址；<br>
+从arm64架构开始，对isa进行了优化，变成了一个共用体 &quot;union&quot;  结构，还使用位域来存储更多的信息。<br>
+所以，为什么要使用这种方式来优化呢？</p>
+<!-- more -->
+<hr>
+<ul>
+<li>首先我们看下64位系统下isa指针的结构</li>
+</ul>
+<figure data-type="image" tabindex="1"><img src="https://z3.ax1x.com/2021/08/09/f847dA.png" alt="isa指针结构" loading="lazy"></figure>
+<ul>
+<li>结论：使用共用体 <strong>union</strong>，可以在有限的空间内，同样是8个字节，我们可以存储更多的信息</li>
+</ul>
+<hr>
+我们以Person对象为例，来逐步了解 isa 使用 union 的优化方式；
+<h2 id="1-普通的person对象">1. 普通的Person对象</h2>
+<p>我们以Person这个对象为例:假设它有3个成员变量，tail、rich、handsome，那么正常情况下它需要占用16个字节；</p>
+<pre><code>@interface Person : NSObject
+@property (nonatomic, assign) BOOL tall;
+@property (nonatomic, assign) BOOL rich;
+@property (nonatomic, assign) BOOL handsome;
+@end
+</code></pre>
+<p>3个成员变量占用3个字节，isa指针占用8个字节，所以一共占用11个字节，内存对齐后，总共占用16个字节</p>
+<pre><code>NSLog(@&quot;正常的 Person 对象占用：%zd 个字节&quot;,class_getInstanceSize([Person class]));
+// 输出：正常的 Person 对象占用：16 个字节
+</code></pre>
+<h2 id="2-以位运算的方式优化">2. 以位运算的方式优化</h2>
+<p>1个成员变量_tallRichHandsome 占用1个字节，isa指针8个字节，内存对其后，总共占用16个字节；</p>
+<ul>
+<li>
+<p>我们不声明其成员变量，直接创建对应的方法;</p>
+<pre><code>@interface Person : NSObject
+- (void)setTall:(BOOL)tall;
+- (void)setRich:(BOOL)rich;
+- (void)setHandsom:(BOOL)handsome;
+
+- (BOOL)isTall;
+- (BOOL)isRich;
+- (BOOL)isHandsome;
+@end
+</code></pre>
+</li>
+<li>
+<p>声明一个char类型的对象，用来按位存储tall、rich、handsome</p>
+<pre><code>@interface Person(){
+    char _tallRichHandsome; // 0b 0000 0111 ; 占1个字节
+}
+@end
+</code></pre>
+</li>
+<li>
+<p>通过位运算，实现set、get方法</p>
+<pre><code>#define TallMask (1&lt;&lt;0) // 0000 0001 (掩码)
+#define RichMask (1&lt;&lt;1) // 0000 0010
+#define HandsomeMask (1&lt;&lt;2) // 0000 0100
+
+@interface Person(){
+    char _tallRichHandsome; // 0b 0000 0111 ; 占1个字节
+}
+@end
+
+@implementation Person
+- (void)setTall:(BOOL)tall{
+    if (tall) {
+        _tallRichHandsome |= TallMask; // 按位或
+    } else {
+        _tallRichHandsome &amp;= ~TallMask; // 取反后按位与
+    }
+}
+- (void)setRich:(BOOL)rich{
+    // 同setTall方法...
+}
+- (void)setHandsome:(BOOL)handsome{
+    // 同setTall方法...
+}
+
+// 跟掩码进行与运算，再取2次反后，结果即为期待值（只要大于0，则为YES）
+- (BOOL)isTall{
+    return !!(_tallRichHandsome &amp; TallMask);
+}
+- (BOOL)isRich{
+    return !!(_tallRichHandsome &amp; RichMask);
+}
+- (BOOL)isHandsome{
+    return !!(_tallRichHandsome &amp; HandsomeMask);
+}
+@end
+</code></pre>
+</li>
+</ul>
+<h2 id="3-利用结构体继续优化-位域">3. 利用结构体继续优化 (位域)</h2>
+<ul>
+<li>
+<p>利用结构体 代替 char类型的 _tallRichHandsome，然后利用<strong>位域</strong>，保证_tallRichHandsome仅占1个字节（不然的话，每个char都占1个字节，一共又占用3个字节了）；</p>
+<pre><code>@interface Person(){
+    struct {
+        char tall : 1; // :1 位域，代表只占1位
+        char rich : 1;
+        char handsome : 1;
+    } _tallRichHandsome; // 按照先后顺序从右向左排 0b 0000 0000
+}
+@end
+
+@implementation Person
+- (void)setTall:(BOOL)tall{
+    _tallRichHandsome.tall = tall;
+}
+- (void)setRich:(BOOL)rich{
+    _tallRichHandsome.rich = rich;
+}
+- (void)setHandsome:(BOOL)handsome{
+    _tallRichHandsome.handsome = handsome;
+}
+
+- (BOOL)isTall{
+    return _tallRichHandsome.tall;
+}
+- (BOOL)isRich{
+    return _tallRichHandsome.rich;
+}
+- (BOOL)isHandsome{
+    return _tallRichHandsome.handsome;
+}
+@end
+</code></pre>
+</li>
+<li>
+<p>此时输出，会发现BOOL输出了-1，打断点发现其为255；<br>
+原因是 tall  只占1个二进制位，即为0b1，return tall 的时候，强制转为 8位 的 BOOL 类型，程序会默认按照自己的规则转，结果转成了 0b 1111 1111 （255），最高位为1，所以为 -1 的补码，所以输出了 -1 （减1后得反码，再取反后得原码）</p>
+<pre><code>Person *person = [[Person alloc] init];
+person.tall = YES;
+person.rich = YES;
+person.handsome = NO;
+
+NSLog(@&quot;tall: %d ; rich: %d ; handsome: %d&quot;,person.isTall,person.isRich,person.isHandsome); 
+// tall: -1 ; rich: -1 ; handsome: 0
+
+BOOL isTall = person.isTall; // 255
+</code></pre>
+<p>解决方式为：</p>
+<pre><code>- (BOOL)isTall{
+    return !!_tallRichHandsome.tall; // 取值的时候，2次取反即可
+} 
+</code></pre>
+</li>
+</ul>
+<h2 id="4-用-union-共用体-优化">4. 用 union 共用体 优化</h2>
+<p>因为共用体内共用同一块内存，所以 bits 和 struct 结构体 共用 他们最大的内存：1个字节；实际上和  <strong>&quot;2. 以位运算的方式优化&quot;</strong> 是一样的</p>
+<pre><code>@interface Person(){
+    union { // 共用体
+        char bits;
+        struct { // 增加可读性，无任何作用，删除也不影响结果
+            char tall : 1;
+            char rich : 1;
+            char handsome : 1;
+        };
+    } _tallRichHandsome;
+}
+@end
+
+@implementation Person
+- (void)setTall:(BOOL)tall{
+    if (tall) {
+        _tallRichHandsome.bits |= TallMask;
+    } else {
+        _tallRichHandsome.bits &amp;= ~TallMask;
+    }
+}
+- (void)setRich:(BOOL)rich{
+    // 同setTall方法...
+}
+- (void)setHandsome:(BOOL)handsome{
+    // 同setTall方法...
+}
+- (BOOL)isTall{
+    return !!(_tallRichHandsome.bits &amp; TallMask);
+}
+- (BOOL)isRich{
+    return !!(_tallRichHandsome.bits &amp; RichMask);
+}
+- (BOOL)isHandsome{
+    return !!(_tallRichHandsome.bits &amp; HandsomeMask);
+}
+@end
+</code></pre>
+
+          <div class="toc-container"><ul class="markdownIt-TOC">
+<li>
+<ul>
+<li><a href="#1-%E6%99%AE%E9%80%9A%E7%9A%84person%E5%AF%B9%E8%B1%A1">1. 普通的Person对象</a></li>
+<li><a href="#2-%E4%BB%A5%E4%BD%8D%E8%BF%90%E7%AE%97%E7%9A%84%E6%96%B9%E5%BC%8F%E4%BC%98%E5%8C%96">2. 以位运算的方式优化</a></li>
+<li><a href="#3-%E5%88%A9%E7%94%A8%E7%BB%93%E6%9E%84%E4%BD%93%E7%BB%A7%E7%BB%AD%E4%BC%98%E5%8C%96-%E4%BD%8D%E5%9F%9F">3. 利用结构体继续优化 (位域)</a></li>
+<li><a href="#4-%E7%94%A8-union-%E5%85%B1%E7%94%A8%E4%BD%93-%E4%BC%98%E5%8C%96">4. 用 union 共用体 优化</a></li>
+</ul>
+</li>
+</ul>
+</div>
+          
+          <hr />
+          <p class="next-post">下一篇：
+            <a href="https://daning.netlify.app/post/zhong-duan-xiao-lu-gong-ju/">
+              <span class="post-title">
+                终端-效率工具&rarr;
+              </span>
+            </a>
+          </p>
+          
+          <div class="comment" style="text-align: center;">
+            
+            <span id="/post/isa-zhi-zhen-zai-64-wei-xi-tong-hou-wei-shi-me-yao-yong-wei-yu-fang-shi-qu-ji-suan/" class="leancloud_visitors"
+              data-flag-title="isa指针在64位系统后为什么要用位域方式去计算？">
+              <em class="post-meta-item-text">阅读量 </em>
+              <i class="leancloud-visitors-count">loading...</i>
+            </span>
+            
+
+            
+            
+            <script src='https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js'></script>
+
+<style>
+	div#vcomments{
+		width:100%;
+		max-width: 1000px;
+		padding: 2.5%
+	}
+</style>
+
+
+	<div id="vcomments"></div>
+
+<script>
+	new Valine({
+		el: '#vcomments',
+		appId: 'MAAasDLv2NYMtEEAn4QnnU3l-gzGzoHsz',
+		appKey: 'dISXAmwDUYme6vJqsc5HgYw1',
+		avatar: 'robohash',
+		pageSize: 5,
+		recordIp: false,
+		placeholder: '来都来了，不留下点虎狼之词就走吗？',
+		visitor: true,
+	});
+</script>
+
+            
+          </div>
+        </div>
+      </div>
+  </article>
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+          <ul class="list-inline text-center">
+            
+            
+            <li class="list-inline-item">
+              <a href="https://github.com/NeedQuiet" target="_blank">
+                <span class="fa-stack fa-lg">
+                  <i class="fas fa-circle fa-stack-2x"></i>
+                  <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                </span>
+              </a>
+            </li>
+            
+              
+            
+              
+            
+              
+            
+            <li class="list-inline-item">
+              <a href="https://www.zhihu.com/people/da-ning-40" target="_blank">
+                <span class="fa-stack fa-lg">
+                  <i class="fas fa-circle fa-stack-2x"></i>
+                  <i class="fab fa-zhihu fa-stack-1x fa-inverse"></i>
+                </span>
+              </a>
+            </li>
+            
+              
+            
+              
+            
+              
+            
+              
+              <!-- <li class="list-inline-item">
+              <a href="https://daning.netlify.app/atom.xml" target="_blank">
+                <span class="fa-stack fa-lg">
+                  <i class="fas fa-circle fa-stack-2x"></i>
+                  <i class="fas fa-rss fa-stack-1x fa-inverse"></i>
+                </span>
+              </a>
+              </li> -->
+          </ul>
+          <p class="copyright text-muted">Copyright &copy;<span>鼓捣猫宁</span><br><a href="https://github.com/getgridea/gridea" class="Themeinfo">Powered by Gridea</a></p>
+        </div>
+      </div>
+    </div>
+   </footer>
+  <!-- Bootstrap core JavaScript -->
+  <script src="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+  <!-- <script src="https://daning.netlify.app/media/scripts/bootstrap.bundle.min.js"></script> -->
+  <!-- Bootstrap core JavaScript -->
+  <script src="https://cdn.jsdelivr.net/gh/Alanrk/clean-cdn@1.0/scripts/clean-blog.min.js"></script>
+  <!-- <script src="https://daning.netlify.app/media/scripts/clean-blog.min.js"></script> -->
+  <script src="//instant.page/3.0.0" type="module" defer integrity="sha384-OeDn4XE77tdHo8pGtE1apMPmAipjoxUQ++eeJa6EtJCfHlvijigWiJpD7VDPWXV1"></script>
+  <style type="text/css">a.back_to_top{text-decoration:none;position:fixed;bottom:40px;right:30px;background:#f0f0f0;height:40px;width:40px;border-radius:50%;line-height:36px;font-size:18px;text-align:center;transition-duration:.5s;transition-propety:background-color;display:none}a.back_to_top span{color:#888}a.back_to_top:hover{cursor:pointer;background:#dfdfdf}a.back_to_top:hover span{color:#555}@media print,screen and(max-width:580px){.back_to_top{display:none!important}}</style>
+<a id="back_to_top" href="#" class="back_to_top">
+  <span>▲</span></a>
+<script>$(document).ready((function(_this) {
+    return function() {
+      var bt;
+      bt = $('#back_to_top');
+      if ($(document).width() > 480) {
+        $(window).scroll(function() {
+          var st;
+          st = $(window).scrollTop();
+          if (st > 30) {
+            return bt.css('display', 'block')
+          } else {
+            return bt.css('display', 'none')
+          }
+        });
+        return bt.click(function() {
+          $('body,html').animate({
+            scrollTop: 0
+          },
+          800);
+          return false
+        })
+      }
+    }
+  })(this));</script>
+  
+  <div id="landlord-parent">
+    <div id="landlord">
+        <div class="message" style="opacity:0"></div>
+        <canvas id="live2d" width="240" height="250" class="live2d"></canvas>
+    </div>
+</div>
+
+<script type="text/javascript">
+    if (/(iPhone|iPad|iPod|iOS|Android)/i.test(navigator.userAgent)) {
+        //移动端
+        console.log("------ 移动端");
+    } else {
+        console.log("------ PC端 " + navigator.userAgent);
+
+        addScript("https://cdn.jsdelivr.net/gh/850552586/ericamcdn@0.1/js/live2d.js", () => {
+            // 加载完成后再loadlive2d
+            loadlive2d("live2d", "https://daning.netlify.app/media/live2d/assets/hijiki.model.json");
+        });
+
+        var home_Path = "https://daning.netlify.app/";
+        addScript("https://daning.netlify.app/media/live2d/js/message.js", () => { });
+    }
+
+    // 插入js文件，完成后callback
+    function addScript(jsfile, callback) {
+        var landlord_parent = document.getElementById("landlord-parent");
+        var script = document.createElement("script");
+        script.type = "text/javascript";
+        script.src = jsfile;
+        landlord_parent.appendChild(script);
+        script.onload = script.onreadystatechange = function () {
+            if (!this.readyState || this.readyState === "loaded" || this.readyState === "complete") {
+                script.onload = script.onreadystatechange = null;
+                if (callback && typeof callback == "function") {
+                    callback(); //window[callback]();如果传递字符串过来 调用window['函数名']() 调用方法
+                }
+            }
+        };
+    }
+</script>
+  
+  <script src="https://daning.netlify.app/media/scripts/tocScript.js"></script>
+</body>
+
+</html>

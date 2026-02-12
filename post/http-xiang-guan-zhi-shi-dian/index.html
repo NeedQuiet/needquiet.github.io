@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta content="yes" name="apple-mobile-web-app-capable" />
+<meta content="black" name="apple-mobile-web-app-status-bar-style" />
+<meta name="referrer" content="never">
+<meta name="keywords" content="">
+<meta name="description" content="欢迎访问[鼓捣猫宁]的个人博客">
+<meta name="author" content="kveln">
+<title>HTTP相关知识点 | 鼓捣猫宁</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css">
+<link href="https://cdn.bootcss.com/font-awesome/5.11.2/css/all.min.css" rel="stylesheet">
+<link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+<link
+  href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800'
+  rel='stylesheet' type='text/css'>
+<link rel="alternate" type="application/rss+xml" title="HTTP相关知识点 | 鼓捣猫宁 » Feed"
+  href="https://daning.netlify.app/atom.xml">
+<link rel="stylesheet"
+  href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.15.10/build/styles/androidstudio.min.css">
+<link href="https://daning.netlify.app/styles/main.css" rel="stylesheet">
+<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/850552586/ericamcdn@0.1/css/live2d.css">
+
+<script>hljs.initHighlightingOnLoad();</script>
+
+  <meta property="og:description" content="HTTP相关知识点" />
+  <meta property="og:url" content="https://daning.netlify.app/post/http-xiang-guan-zhi-shi-dian/" />
+  <meta property="og:locale" content="zh-CN" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="鼓捣猫宁" />
+  <!-- <script src="../assets/styles/scripts/tocScript.js"></script> -->
+</head>
+
+<body>
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href="https://daning.netlify.app">鼓捣猫宁</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+      data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
+      aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ml-auto">
+        
+        <li class="nav-item">
+          
+          <a class="nav-link" href="/">首页</a>
+          
+        </li>
+        
+        <li class="nav-item">
+          
+          <a class="nav-link" href="/archives">归档</a>
+          
+        </li>
+        
+        <li class="nav-item">
+          
+          <a class="nav-link" href="/tags">标签</a>
+          
+        </li>
+        
+        <li class="nav-item">
+          
+          <a class="nav-link" href="/about">关于</a>
+          
+        </li>
+        
+        <li class="nav-item">
+          <div class="gridea-search-container">
+            <form id="gridea-search-form" style="position: relative" data-update="1770892703131"
+              action="/search/index.html">
+              <input class="search-input" autocomplete="off" spellcheck="false" name="q" placeholder="搜索文章" />
+              <i class="fas fa-search gt-c-content-color-first" style="position: absolute; top: 9px; left: 10px;"></i>
+            </form>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+  <!-- Page Header -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href="https://daning.netlify.app">鼓捣猫宁</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+      data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
+      aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ml-auto">
+        
+        <li class="nav-item">
+          
+          <a class="nav-link" href="/">首页</a>
+          
+        </li>
+        
+        <li class="nav-item">
+          
+          <a class="nav-link" href="/archives">归档</a>
+          
+        </li>
+        
+        <li class="nav-item">
+          
+          <a class="nav-link" href="/tags">标签</a>
+          
+        </li>
+        
+        <li class="nav-item">
+          
+          <a class="nav-link" href="/about">关于</a>
+          
+        </li>
+        
+        <li class="nav-item">
+          <div class="gridea-search-container">
+            <form id="gridea-search-form" style="position: relative" data-update="1770892703131"
+              action="/search/index.html">
+              <input class="search-input" autocomplete="off" spellcheck="false" name="q" placeholder="搜索文章" />
+              <i class="fas fa-search gt-c-content-color-first" style="position: absolute; top: 9px; left: 10px;"></i>
+            </form>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<header class="masthead" style="background-image: url('https://daning.netlify.app/media/images/home-bg.jpg')">
+  <div class="overlay"></div>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-md-10 mx-auto">
+        
+          <!-- 没Title为其他页面Header -->
+          
+            <!-- 没Title并且有headerType为Post：文章Header -->
+            <div class="post-heading">
+              <span class="tags">
+                
+                <a href="https://daning.netlify.app/tag/j4D1W3M3X/" class="tag">HTTP</a>
+                
+              </span>
+              <h1>HTTP相关知识点</h1>
+              <span class="meta">
+                Posted on
+                2020-09-24，16 min read
+              </span>
+            </div>
+          
+        
+      </div>
+    </div>
+  </div>
+</header>
+  <!-- Post Content -->
+  <article id="post-content-article">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto post-content-container">
+          
+          <p>HTTP、HTTPS等相关知识点整理</p>
+<!-- more -->
+<h2 id="前言什么是-http">前言：什么是 HTTP？</h2>
+<ul>
+<li>
+<p><strong>优点</strong><br>
+HTTP 最凸出的优点是「简单、灵活和易于扩展、应⽤⼴泛和跨平台」。</p>
+<ol>
+<li><strong>简单</strong><br>
+HTTP 基本的报⽂格式就是 header + body ，头部信息也是 key-value 简单⽂本的形式，易于理解，<br>
+降低了学习和使⽤的⻔槛。</li>
+<li><strong>灵活和易于扩展</strong><br>
+HTTP协议⾥的各类请求⽅法、URI/URL、状态码、头字段等每个组成要求都没有被固定死，都允许开发⼈员⾃定义和扩充。同时 HTTP 由于是⼯作在应⽤层（ OSI 第七层），则它下层可以随意变化。HTTPS 也就是在 HTTP 与 TCP 层之间增加了 SSL/TLS 安全传输层，HTTP/3 甚⾄把 TCP 层换成了基于 UDP 的 QUIC。</li>
+<li><strong>应⽤⼴泛和跨平台</strong><br>
+互联⽹发展⾄今，HTTP 的应⽤范围⾮常的⼴泛，从台式机的浏览器到⼿机上的各种 APP，从看新闻、<br>
+刷贴吧到购物、理财、吃鸡，HTTP 的应⽤⽚地开花，同时天然具有跨平台的优越性。</li>
+</ol>
+</li>
+<li>
+<p><strong>缺点</strong><br>
+HTTP 协议⾥有优缺点⼀体的双刃剑，分别是「⽆状态、明⽂传输」，同时还有⼀⼤缺点「不安全」。</p>
+</li>
+<li>
+<p><strong>性能如何？</strong></p>
+<ol>
+<li>
+<p><strong>⻓连接</strong><br>
+早期 HTTP/1.0 性能上的⼀个很⼤的问题，那就是每发起⼀个请求，都要新建⼀次 TCP 连接（三次握⼿），⽽且是串⾏请求，做了⽆谓的 TCP 连接建⽴和断开，增加了通信开销。<br><br>
+为了解决上述 TCP 连接问题，HTTP/1.1 提出了⻓连接的通信⽅式，也叫持久连接。这种⽅式的好处在于减少了 TCP 连接的 复建⽴和断开所造成的额外开销，减轻了服务器端的负载。<br><br>
+持久连接的特点是，只要任意⼀端没有明确提出断开连接，则保持 TCP 连接状态。</p>
+</li>
+<li>
+<p><strong>管道⽹络传输</strong><br>
+HTTP/1.1 采⽤了⻓连接的⽅式，这使得管道（pipeline）⽹络传输成为了可能。<br><br>
+即可在同⼀个 TCP 连接⾥⾯，客户端可以发起多个请求，只要第⼀个请求发出去了，不必等其回来，就可以发第⼆个请求出去，可以减少整体的响应时间。</p>
+</li>
+<li>
+<p><strong>队头阻塞</strong><br>
+「请求 - 应答」的模式加剧了 HTTP 的性能问题。<br><br>
+因为当顺序发送的请求序列中的⼀个请求因为某种原因被阻塞时，在后⾯排队的所有请求也⼀同被阻塞了，会招致客户端⼀直请求不到数据，这也就是「队头阻塞」。</p>
+</li>
+</ol>
+</li>
+</ul>
+<h2 id="1-http-与-https-的区别">1. HTTP 与 HTTPS 的区别</h2>
+<ol>
+<li>HTTP 是超⽂本传输协议，信息是明⽂传输，存在安全⻛险的问题。HTTPS 则解决 HTTP 不安全的缺陷，在 TCP 和 HTTP ⽹络层之间加⼊了 SSL/TLS 安全协议，使得报⽂能够加密传输。</li>
+<li>HTTP 连接建⽴相对简单， TCP 三次握⼿之后便可进⾏ HTTP 的报⽂传输。⽽ HTTPS 在 TCP 三<br>
+次握⼿之后，还需进⾏ SSL/TLS 的握⼿过程，才可进⼊加密报⽂传输。</li>
+<li>HTTP 的端⼝号是 80，HTTPS 的端⼝号是 443。</li>
+<li>HTTPS 协议需要向 CA（证书权威机构）申请数字证书，来保证服务器的身份是可信的。</li>
+</ol>
+<h2 id="2-http11-http2-http3-演变">2. HTTP/1.1、HTTP/2、HTTP/3 演变</h2>
+<ul>
+<li>
+<p><strong>HTTP/1.1</strong></p>
+<ol>
+<li><strong>相⽐ HTTP/1.0 性能上的改进：</strong><br>
+使⽤ TCP ⻓连接的⽅式改善了 HTTP/1.0 短连接造成的性能开销。<br>
+⽀持管道（pipeline）⽹络传输，只要第⼀个请求发出去了，不必等其回来，就可以发第⼆个请求出去，可以减少整体的响应时间</li>
+<li><strong>性能瓶颈：</strong>
+<ul>
+<li>请求 / 响应头部（Header）未经压缩就发送，⾸部信息越多延迟越⼤。只能压缩 Body 的部分；</li>
+<li>发送冗⻓的⾸部。每次互相发送相同的⾸部造成的浪费较多；</li>
+<li>服务器是按请求的顺序响应的，如果服务器响应慢，会招致客户端⼀直请求不到数据，也就是队头阻塞；</li>
+<li>没有请求优先级控制；</li>
+<li>请求只能从客户端开始，服务器只能被动响应。</li>
+</ul>
+</li>
+</ol>
+</li>
+<li>
+<p><strong>HTTP/2</strong><br>
+HTTP/2 协议是基于 HTTPS 的，所以 HTTP/2 的安全性也是有保障的。</p>
+<ol>
+<li><strong>相⽐ HTTP/1.1 性能上的改进：</strong>
+<ul>
+<li>头部压缩：HTTP/2 会压缩头（Header）如果你同时发出多个请求，他们的头是⼀样的或是相似的，那么，协议会帮你消除重复的部分。（这就是所谓的 HPACK 算法）</li>
+<li>⼆进制格式：HTTP/2 不再像 HTTP/1.1 ⾥的纯⽂本形式的报⽂，⽽是全⾯采⽤了⼆进制格式，头信息和数据体都是⼆进制，并且统称为帧（frame）：头信息帧和数据帧。增加了数据传输的效率。</li>
+<li>数据流：HTTP/2 的数据包不是按顺序发送的，同⼀个连接⾥⾯连续的数据包，可能属于不同的回应。因此，必须要对数据包做标记，指出它属于哪个回应。每个请求或回应的所有数据包，称为⼀个数据流（ Stream ）。每个数据流都标记着⼀个独⼀⽆⼆的编号，其中规定客户端发出的数据流编号为奇数， 服务器发出的数据流编号为偶数。客户端还可以指定数据流的优先级。优先级⾼的请求，服务器就先响应该请求。</li>
+<li>多路复⽤：HTTP/2 是可以在⼀个连接中并发多个请求或回应，⽽不⽤按照顺序⼀⼀对应。移除了 HTTP/1.1 中的串⾏请求，不需要排队等待，也就不会再出现「队头阻塞」问题，降低了延迟，⼤幅度提⾼了连接的利⽤率。</li>
+<li>服务器推送：HTTP/2 还在⼀定程度上改善了传统的「请求 - 应答」⼯作模式，服务不再是被动地响应，也可以主动向客户端发送消息。例如浏览器刚请求 HTML 的时候，就提前把可能会⽤到的 JS、CSS ⽂件等静态资源主动发给客户端，减少延时的等待，也就是服务器推送（Server Push，也叫 Cache Push）。</li>
+</ul>
+</li>
+<li><strong>缺陷</strong><br>
+HTTP/2 主要的问题在于，多个 HTTP 请求在复⽤⼀个 TCP 连接，下层的 TCP 协议是不知道有多少个 HTTP 请求的。所以⼀旦发⽣了丢包现象，就会触发 TCP 的重传机制，这样在⼀个 TCP 连接中的所有的 HTTP 请求都必须等待这个丢了的包被重传回来</li>
+</ol>
+</li>
+<li>
+<p><strong>HTTP/3</strong><br>
+HTTP/1.1 中的管道（ pipeline）传输中如果有⼀个请求阻塞了，那么队列后请求也统统被阻塞住了<br>
+HTTP/2 多个请求复⽤⼀个TCP连接，⼀旦发⽣丢包，就会阻塞住所有的 HTTP 请求。<br>
+这都是基于 TCP 传输层的问题，所以 HTTP/3 把 HTTP 下层的 TCP 协议改成了 UDP！</p>
+</li>
+</ul>
+<h2 id="3-tcp-和-udp-区别">3. TCP 和 UDP 区别</h2>
+<ol>
+<li>连接
+<ul>
+<li>TCP 是面向连接的传输协议，传输数据前先要建立连接</li>
+<li>UDP 不需要连接，即刻传输数据</li>
+</ul>
+</li>
+<li>服务对象
+<ul>
+<li>TCP 是一对一的两点服务，即一条连接只有两个端点</li>
+<li>UDP 支持一对一，一对多，多对多的交互通信</li>
+</ul>
+</li>
+<li>可靠性
+<ul>
+<li>TCP 是可靠交付数据的，数据可以无差错、不丢失、不重复、按需到达</li>
+<li>UDP 是尽最大努力交付，不保证可靠交付数据</li>
+</ul>
+</li>
+<li>拥塞控制、流量控制
+<ul>
+<li>TCP 有拥塞控制和流量控制机制，保证数据传输的安全性</li>
+<li>UDP 则没有，即使网络非常拥堵，也不会影响 UDP 的发送速率</li>
+</ul>
+</li>
+<li>首部开销
+<ul>
+<li>TCP 首部长度较长，会有一定的开销，首部在没有使用【选项】字段时是 20 个字节，如果使用了【选项】字段则会变长的</li>
+<li>UDO 首部只有 8 个字节，并且是固定不变的，开销较小</li>
+</ul>
+</li>
+<li>传输方式
+<ul>
+<li>TCP 是流式传输，没有边界，但保证顺序和可靠</li>
+<li>UDP 是一个包一个包的发送，是有边界的，但可能会丢包和乱序</li>
+</ul>
+</li>
+<li>分片不同
+<ul>
+<li>TCP 的数据大小如果大于 <strong>MSS</strong> 大小，则会在 <strong>传输层</strong> 进行分片，目标主机收到后，也同样在传输层组装 TCP 数据包，如果中途丢失了一个分片，只需要传输丢失的这个分片。</li>
+<li>UDP 的数据大小如果大于 <strong>MTU</strong> 大小，则会在 <strong>IP</strong> 层进行分片，目标主机收到后，在 IP 层组装完数据，接着再传给传输层，但是如果中途丢了一个分片，则就需要重传所有的数据包，这样传输效率非常差，所以通常 UDP 的报文应小于 MTU。</li>
+</ul>
+</li>
+</ol>
+<ul>
+<li>
+<p>TCP 和 UDP 的应用场景：<br>
+<strong>由于 TCP 是面向连接的，能保证数据的可靠交付，因此经常用于：</strong><br>
+1. FTP 文件传输<br>
+2. HTTP / HTTPS</p>
+<p><strong>由于 UDP 是面向无连接的，它可以随时发送数据，再加上 UDP 本身的处理既简单又高效，因此经常用于：</strong><br>
+1. 包总量较少的通信，如 DNS、SNMP 等<br>
+2. 视频、音频等多媒体通信<br>
+3. 广播通信</p>
+</li>
+</ul>
+<h2 id="3-tcp-3次握手">3. TCP 3次握手</h2>
+<figure data-type="image" tabindex="1"><img src="https://s1.ax1x.com/2022/03/26/qdX4k6.png" alt="TCP3次握手" loading="lazy"></figure>
+<ul>
+<li>⼀开始，客户端和服务端都处于 CLOSED 状态。先是服务端主动监听某个端⼝，处于 LISTEN 状态。</li>
+<li>然后客户端主动发起连接 SYN ，之后处于 SYN-SENT 状态。</li>
+<li>服务端收到发起的连接，返回 SYN ，并且 ACK 客户端的 SYN ，之后处于 SYN-RCVD 状态。</li>
+<li>客户端收到服务端发送的 SYN 和 ACK 之后，发送 ACK 的 ACK ，之后处于 ESTABLISHED 状态，因为它⼀发⼀收成功了。</li>
+<li>服务端收到 ACK 的 ACK 之后，处于 ESTABLISHED 状态，因为它也⼀发⼀收了。</li>
+</ul>
+<h3 id="31-为什么是三次握手不是两次-四次">3.1 为什么是三次握⼿？不是两次、四次？</h3>
+<ul>
+<li>
+<p>可以阻⽌重复历史连接的初始化（主要原因）<br>
+客户端连续发送多次 SYN 建⽴连接的报⽂，在⽹络拥堵情况下：</p>
+<ol>
+<li>⼀个「旧 SYN 报⽂」⽐「最新的 SYN 」 报⽂早到达了服务端；</li>
+<li>那么此时服务端就会回⼀个 SYN + ACK 报⽂给客户端；</li>
+<li>客户端收到后可以根据⾃身的上下⽂，判断这是⼀个历史连接（序列号过期或超时），那么客户端</li>
+<li>就会发送 RST 报⽂给服务端，表示中⽌这⼀次连接。</li>
+<li>如果是两次握⼿连接，就不能判断当前连接是否是历史连接，三次握⼿则可以在客户端（发送⽅）准备</li>
+<li>发送第三次报⽂时，客户端因有⾜够的上下⽂来判断当前连接是否是历史连接：</li>
+<li>如果是历史连接（序列号过期或超时），则第三次握⼿发送的报⽂是 RST 报⽂，以此中⽌历史连接；</li>
+<li>如果不是历史连接，则第三次发送的报⽂是 ACK 报⽂，通信双⽅就会成功建⽴连接；</li>
+</ol>
+<p>所以，TCP 使⽤三次握⼿建⽴连接的最主要原因是防⽌历史连接初始化了连接。</p>
+</li>
+<li>
+<p>可以同步双⽅的初始序列号<br>
+TCP 协议的通信双⽅， 都必须维护⼀个「序列号」， 序列号是可靠传输的⼀个关键因素，它的作⽤：</p>
+<ol>
+<li>接收⽅可以去除 复的数据；</li>
+<li>接收⽅可以根据数据包的序列号按序接收；</li>
+<li>可以标识发送出去的数据包中， 哪些是已经被对⽅收到的；</li>
+</ol>
+</li>
+<li>
+<p>可以避免资源浪费<br>
+如果只有「两次握⼿」，当客户端的 SYN 请求连接在⽹络中阻塞，客户端没有接收到 ACK 报⽂，就会重新发送 SYN ，由于没有第三次握⼿，服务器不清楚客户端是否收到了⾃⼰发送的建⽴连接的ACK 确认信号，所以每收到⼀个 SYN 就只能先主动建⽴⼀个连接，这会造成什么情况呢？<br>
+如果客户端的 SYN 阻塞了， 复发送多次 SYN 报⽂，那么服务器在收到请求后就会建⽴多个冗余的⽆效链接，造成不必要的资源浪费。</p>
+</li>
+<li>
+<p>总结：<br>
+TCP 建⽴连接时，通过三次握⼿能防⽌历史连接的建⽴，能减少双⽅不必要的资源开销，能帮助双⽅同步初始化序列号。序列号能够保证数据包不重复、不丢弃和按序传输。</p>
+</li>
+<li>
+<p>不使⽤「两次握⼿」和「四次握⼿」的原因：</p>
+<ul>
+<li><strong>[两次握⼿]</strong>：⽆法防⽌历史连接的建⽴，会造成双⽅资源的浪费，也⽆法可靠的同步双⽅序列号；</li>
+<li><strong>[四次握⼿]</strong>：三次握⼿就已经理论上最少可靠连接建⽴，所以不需要使⽤更多的通信次数。</li>
+</ul>
+</li>
+</ul>
+<h2 id="4-tcp-4次挥手">4. TCP 4次挥手</h2>
+<figure data-type="image" tabindex="2"><img src="https://s1.ax1x.com/2022/03/26/qwiZNj.png" alt="TCP4次挥手" loading="lazy"></figure>
+<ul>
+<li>客户端打算关闭连接，此时会发送⼀个 TCP ⾸部 FIN 标志位被置为 1 的报⽂，也即 FIN 报⽂，之后客户端进⼊ FIN_WAIT_1 状态。</li>
+<li>服务端收到该报⽂后，就向客户端发送 ACK 应答报⽂，接着服务端进⼊ CLOSED_WAIT 状态。</li>
+<li>客户端收到服务端的 ACK 应答报⽂后，之后进⼊ FIN_WAIT_2 状态。</li>
+<li>等待服务端处理完数据后，也向客户端发送 FIN 报⽂，之后服务端进⼊ LAST_ACK 状态。</li>
+<li>客户端收到服务端的 FIN 报⽂后，回⼀个 ACK 应答报⽂，之后进⼊ TIME_WAIT 状态</li>
+<li>服务器收到了 ACK 应答报⽂后，就进⼊了 CLOSED 状态，⾄此服务端已经完成连接的关闭。</li>
+<li>客户端在经过 2MSL ⼀段时间后，⾃动进⼊ CLOSED 状态，⾄此客户端也完成连接的关闭。<br>
+可以看到，每个⽅向都需要⼀个 FIN 和⼀个 ACK，因此通常被称为四次挥⼿。</li>
+</ul>
+<h3 id="41-为什么四次挥手time_wait-2msl">4.1 为什么四次挥手？TIME_WAIT == 2MSL？</h3>
+<ul>
+<li>
+<p>为什么4次挥手</p>
+<ol>
+<li>关闭连接时，客户端向服务端发送 FIN 时，仅仅表示客户端不再发送数据了但是还能接收数据。</li>
+<li>服务器收到客户端的 FIN 报⽂时，先回⼀个 ACK 应答报⽂，⽽服务端可能还有数据需要处理和发送，等服务端不再发送数据时，才发送 FIN 报⽂给客户端来表示同意现在关闭连接。</li>
+</ol>
+<p>从上⾯过程可知，服务端通常需要等待完成数据的发送和处理，所以服务端的 ACK 和 FIN ⼀般都会分开发送，从⽽⽐三次握⼿导致多了⼀次。</p>
+</li>
+<li>
+<p>为什么 TIME_WAIT 等待的时间是 2MSL？<br>
+TIME_WAIT 等待 2 倍的 MSL，⽐较合理的解释是： ⽹络中可能存在来⾃发送⽅的数据包，当这些发送⽅的数据包被接收⽅处理后⼜会向对⽅发送响应，所以⼀来⼀回需要等待 2 倍的时间。在 Linux 系统⾥ 2MS 默认是 60 秒，那么⼀个 MSL 也就是 30 秒。Linux 系统停留在 TIME_WAIT 的时间为固定的 60 秒。</p>
+</li>
+</ul>
+<h2 id="5-键入网址后都发生了什么">5. 键入网址后都发生了什么？</h2>
+<ol>
+<li>解析 URL，生成 HTTP 的请求信息</li>
+<li>真实地址查询 -- DNS （ 【本地 - 根 - 顶级域 - 权威】 DNS服务器 ）</li>
+<li>协议栈<br>
+通过 DNS 获取到 IP 后，就可以把 HTTP 的传输⼯作交给操作系统中的协议栈。<br>
+<img src="https://s1.ax1x.com/2022/03/27/q00BuR.png" alt="协议栈" loading="lazy">
+<ul>
+<li>3.1 可靠传输：TCP<br>
+协议栈的上半部分有两块，分别是负责收发数据的 TCP 和 UDP 协议，它们两会接受应⽤层的委托执⾏收发数据的操作。</li>
+<li>3.2 远程定位：IP<br>
+协议栈的下⾯⼀半是⽤ IP 协议控制⽹络包收发操作，在互联⽹上传数据时，数据会被切分成⼀块块的⽹络包，⽽将⽹络包发送给对⽅的操作就是由 IP 负责的。此外 IP 中还包括 ICMP（error信息） 协议和 ARP（IP - MAC 映射） 协议。</li>
+<li>3.3 两点传输：MAC<br>
+⽣成了 IP 头部之后，接下来⽹络包还需要在 IP 头部的前⾯加上 MAC 头部。MAC 头部是以太⽹使⽤的头部，它包含了接收⽅和发送⽅的 MAC 地址等信息。</li>
+</ul>
+</li>
+<li>出口 - 网卡<br>
+我们需要将数字信息转换为电信号，才能在⽹线上传输，负责执⾏这⼀操作的是⽹卡，要控制⽹卡还需要靠⽹卡驱动程序。</li>
+<li>送别者 - 交换机<br>
+交换机的设计是将⽹络包原样转发到⽬的地。交换机⼯作在MAC 层，也称为⼆层⽹络设备。</li>
+<li>出境⼤⻔ - 路由器<br>
+⽹络包经过交换机之后，现在到达了路由器，并在此被转发到下⼀个路由器或⽬标设备。</li>
+<li>互相扒⽪ - 服务器 与 客户端<br>
+数据包抵达服务器后，服务器开逐层解包<br>
+<img src="https://s1.ax1x.com/2022/03/27/q0cFG6.png" alt="互相扒⽪ " loading="lazy"></li>
+</ol>
+<h2 id="6-post-get-区别">6. POST / GET 区别</h2>
+<ol>
+<li>Get ⽅法的含义是请求从服务器获取资源; ⽽ POST ⽅法则是相反操作，它向 URI 指定的资源提交数据，数据就放在报⽂的 body ⾥。</li>
+<li>GET: 是<strong>安全且幂等</strong>的，因为它是「只读」操作，⽆论操作多少次，服务器上的数据<br>
+都是安全的，且每次的结果都是相同的。<br>POST: 因为是「新增或提交数据」的操作，会修改服务器上的资源，所以是不安全的，且多次提交数据就会创建多个资源，所以<strong>不是幂等</strong>的。</li>
+</ol>
+<h2 id="7-常见的状态码">7. 常见的状态码</h2>
+<figure data-type="image" tabindex="3"><img src="https://s1.ax1x.com/2022/03/26/qwFEM6.png" alt="五大HTTP状态码" loading="lazy"></figure>
+<h2 id="8-常用字段">8. 常用字段</h2>
+<ul>
+<li>Host<br>
+客户端发送请求时，⽤来指定服务器的域名。【www.A.com】有了 Host 字段，就可以将请求发往「同⼀台」服务器上的不同⽹站。</li>
+<li>Content-Length<br>
+服务器在返回数据时，会有 Content-Length 字段，表明本次回应的数据⻓度。【Content-Length: 1000】</li>
+<li>Connection<br>
+Connection 字段最常⽤于客户端要求服务器使⽤ TCP 持久连接，以便其他请求复⽤。【Connection: keep-alive】</li>
+<li>Content-Type<br>
+Content-Type： ⽤于服务器回应时，告诉客户端，本次数据是什么格式。【Content-Type: text/html; charset=utf-8】<br>
+Accept: 客户端请求的时候，可以使⽤ Accept 字段声明⾃⼰可以接受哪些数据格式。【Accept: ※/※】</li>
+<li>Content-Encoding<br>
+Content-Encoding： 说明数据的压缩⽅法。表示服务器返回的数据使⽤了什么压缩格式 。【Content-Encoding: gzip】<br>
+Accept-Encoding：客户端在请求时，⽤ Accept-Encoding 字段说明⾃⼰可以接受哪些压缩⽅法。【Accept-Encoding: gzip, deflate】</li>
+</ul>
+
+          <div class="toc-container"><ul class="markdownIt-TOC">
+<li>
+<ul>
+<li><a href="#%E5%89%8D%E8%A8%80%E4%BB%80%E4%B9%88%E6%98%AF-http">前言：什么是 HTTP？</a></li>
+<li><a href="#1-http-%E4%B8%8E-https-%E7%9A%84%E5%8C%BA%E5%88%AB">1. HTTP 与 HTTPS 的区别</a></li>
+<li><a href="#2-http11-http2-http3-%E6%BC%94%E5%8F%98">2. HTTP/1.1、HTTP/2、HTTP/3 演变</a></li>
+<li><a href="#3-tcp-%E5%92%8C-udp-%E5%8C%BA%E5%88%AB">3. TCP 和 UDP 区别</a></li>
+<li><a href="#3-tcp-3%E6%AC%A1%E6%8F%A1%E6%89%8B">3. TCP 3次握手</a>
+<ul>
+<li><a href="#31-%E4%B8%BA%E4%BB%80%E4%B9%88%E6%98%AF%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E4%B8%8D%E6%98%AF%E4%B8%A4%E6%AC%A1-%E5%9B%9B%E6%AC%A1">3.1 为什么是三次握⼿？不是两次、四次？</a></li>
+</ul>
+</li>
+<li><a href="#4-tcp-4%E6%AC%A1%E6%8C%A5%E6%89%8B">4. TCP 4次挥手</a>
+<ul>
+<li><a href="#41-%E4%B8%BA%E4%BB%80%E4%B9%88%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8Btime_wait-2msl">4.1 为什么四次挥手？TIME_WAIT == 2MSL？</a></li>
+</ul>
+</li>
+<li><a href="#5-%E9%94%AE%E5%85%A5%E7%BD%91%E5%9D%80%E5%90%8E%E9%83%BD%E5%8F%91%E7%94%9F%E4%BA%86%E4%BB%80%E4%B9%88">5. 键入网址后都发生了什么？</a></li>
+<li><a href="#6-post-get-%E5%8C%BA%E5%88%AB">6. POST / GET 区别</a></li>
+<li><a href="#7-%E5%B8%B8%E8%A7%81%E7%9A%84%E7%8A%B6%E6%80%81%E7%A0%81">7. 常见的状态码</a></li>
+<li><a href="#8-%E5%B8%B8%E7%94%A8%E5%AD%97%E6%AE%B5">8. 常用字段</a></li>
+</ul>
+</li>
+</ul>
+</div>
+          
+          <hr />
+          <p class="next-post">下一篇：
+            <a href="https://daning.netlify.app/post/http-xiang-guan-xie-yi/">
+              <span class="post-title">
+                HTTP相关协议、概念&rarr;
+              </span>
+            </a>
+          </p>
+          
+          <div class="comment" style="text-align: center;">
+            
+            <span id="/post/http-xiang-guan-zhi-shi-dian/" class="leancloud_visitors"
+              data-flag-title="HTTP相关知识点">
+              <em class="post-meta-item-text">阅读量 </em>
+              <i class="leancloud-visitors-count">loading...</i>
+            </span>
+            
+
+            
+            
+            <script src='https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js'></script>
+
+<style>
+	div#vcomments{
+		width:100%;
+		max-width: 1000px;
+		padding: 2.5%
+	}
+</style>
+
+
+	<div id="vcomments"></div>
+
+<script>
+	new Valine({
+		el: '#vcomments',
+		appId: 'MAAasDLv2NYMtEEAn4QnnU3l-gzGzoHsz',
+		appKey: 'dISXAmwDUYme6vJqsc5HgYw1',
+		avatar: 'robohash',
+		pageSize: 5,
+		recordIp: false,
+		placeholder: '来都来了，不留下点虎狼之词就走吗？',
+		visitor: true,
+	});
+</script>
+
+            
+          </div>
+        </div>
+      </div>
+  </article>
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+          <ul class="list-inline text-center">
+            
+            
+            <li class="list-inline-item">
+              <a href="https://github.com/NeedQuiet" target="_blank">
+                <span class="fa-stack fa-lg">
+                  <i class="fas fa-circle fa-stack-2x"></i>
+                  <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                </span>
+              </a>
+            </li>
+            
+              
+            
+              
+            
+              
+            
+            <li class="list-inline-item">
+              <a href="https://www.zhihu.com/people/da-ning-40" target="_blank">
+                <span class="fa-stack fa-lg">
+                  <i class="fas fa-circle fa-stack-2x"></i>
+                  <i class="fab fa-zhihu fa-stack-1x fa-inverse"></i>
+                </span>
+              </a>
+            </li>
+            
+              
+            
+              
+            
+              
+            
+              
+              <!-- <li class="list-inline-item">
+              <a href="https://daning.netlify.app/atom.xml" target="_blank">
+                <span class="fa-stack fa-lg">
+                  <i class="fas fa-circle fa-stack-2x"></i>
+                  <i class="fas fa-rss fa-stack-1x fa-inverse"></i>
+                </span>
+              </a>
+              </li> -->
+          </ul>
+          <p class="copyright text-muted">Copyright &copy;<span>鼓捣猫宁</span><br><a href="https://github.com/getgridea/gridea" class="Themeinfo">Powered by Gridea</a></p>
+        </div>
+      </div>
+    </div>
+   </footer>
+  <!-- Bootstrap core JavaScript -->
+  <script src="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+  <!-- <script src="https://daning.netlify.app/media/scripts/bootstrap.bundle.min.js"></script> -->
+  <!-- Bootstrap core JavaScript -->
+  <script src="https://cdn.jsdelivr.net/gh/Alanrk/clean-cdn@1.0/scripts/clean-blog.min.js"></script>
+  <!-- <script src="https://daning.netlify.app/media/scripts/clean-blog.min.js"></script> -->
+  <script src="//instant.page/3.0.0" type="module" defer integrity="sha384-OeDn4XE77tdHo8pGtE1apMPmAipjoxUQ++eeJa6EtJCfHlvijigWiJpD7VDPWXV1"></script>
+  <style type="text/css">a.back_to_top{text-decoration:none;position:fixed;bottom:40px;right:30px;background:#f0f0f0;height:40px;width:40px;border-radius:50%;line-height:36px;font-size:18px;text-align:center;transition-duration:.5s;transition-propety:background-color;display:none}a.back_to_top span{color:#888}a.back_to_top:hover{cursor:pointer;background:#dfdfdf}a.back_to_top:hover span{color:#555}@media print,screen and(max-width:580px){.back_to_top{display:none!important}}</style>
+<a id="back_to_top" href="#" class="back_to_top">
+  <span>▲</span></a>
+<script>$(document).ready((function(_this) {
+    return function() {
+      var bt;
+      bt = $('#back_to_top');
+      if ($(document).width() > 480) {
+        $(window).scroll(function() {
+          var st;
+          st = $(window).scrollTop();
+          if (st > 30) {
+            return bt.css('display', 'block')
+          } else {
+            return bt.css('display', 'none')
+          }
+        });
+        return bt.click(function() {
+          $('body,html').animate({
+            scrollTop: 0
+          },
+          800);
+          return false
+        })
+      }
+    }
+  })(this));</script>
+  
+  <div id="landlord-parent">
+    <div id="landlord">
+        <div class="message" style="opacity:0"></div>
+        <canvas id="live2d" width="240" height="250" class="live2d"></canvas>
+    </div>
+</div>
+
+<script type="text/javascript">
+    if (/(iPhone|iPad|iPod|iOS|Android)/i.test(navigator.userAgent)) {
+        //移动端
+        console.log("------ 移动端");
+    } else {
+        console.log("------ PC端 " + navigator.userAgent);
+
+        addScript("https://cdn.jsdelivr.net/gh/850552586/ericamcdn@0.1/js/live2d.js", () => {
+            // 加载完成后再loadlive2d
+            loadlive2d("live2d", "https://daning.netlify.app/media/live2d/assets/hijiki.model.json");
+        });
+
+        var home_Path = "https://daning.netlify.app/";
+        addScript("https://daning.netlify.app/media/live2d/js/message.js", () => { });
+    }
+
+    // 插入js文件，完成后callback
+    function addScript(jsfile, callback) {
+        var landlord_parent = document.getElementById("landlord-parent");
+        var script = document.createElement("script");
+        script.type = "text/javascript";
+        script.src = jsfile;
+        landlord_parent.appendChild(script);
+        script.onload = script.onreadystatechange = function () {
+            if (!this.readyState || this.readyState === "loaded" || this.readyState === "complete") {
+                script.onload = script.onreadystatechange = null;
+                if (callback && typeof callback == "function") {
+                    callback(); //window[callback]();如果传递字符串过来 调用window['函数名']() 调用方法
+                }
+            }
+        };
+    }
+</script>
+  
+  <script src="https://daning.netlify.app/media/scripts/tocScript.js"></script>
+</body>
+
+</html>

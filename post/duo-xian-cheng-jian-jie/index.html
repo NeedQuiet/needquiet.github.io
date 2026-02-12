@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta content="yes" name="apple-mobile-web-app-capable" />
+<meta content="black" name="apple-mobile-web-app-status-bar-style" />
+<meta name="referrer" content="never">
+<meta name="keywords" content="">
+<meta name="description" content="欢迎访问[鼓捣猫宁]的个人博客">
+<meta name="author" content="kveln">
+<title>多线程简介 | 鼓捣猫宁</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css">
+<link href="https://cdn.bootcss.com/font-awesome/5.11.2/css/all.min.css" rel="stylesheet">
+<link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+<link
+  href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800'
+  rel='stylesheet' type='text/css'>
+<link rel="alternate" type="application/rss+xml" title="多线程简介 | 鼓捣猫宁 » Feed"
+  href="https://daning.netlify.app/atom.xml">
+<link rel="stylesheet"
+  href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.15.10/build/styles/androidstudio.min.css">
+<link href="https://daning.netlify.app/styles/main.css" rel="stylesheet">
+<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/850552586/ericamcdn@0.1/css/live2d.css">
+
+<script>hljs.initHighlightingOnLoad();</script>
+
+  <meta property="og:description" content="多线程简介" />
+  <meta property="og:url" content="https://daning.netlify.app/post/duo-xian-cheng-jian-jie/" />
+  <meta property="og:locale" content="zh-CN" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="鼓捣猫宁" />
+  <!-- <script src="../assets/styles/scripts/tocScript.js"></script> -->
+</head>
+
+<body>
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href="https://daning.netlify.app">鼓捣猫宁</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+      data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
+      aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ml-auto">
+        
+        <li class="nav-item">
+          
+          <a class="nav-link" href="/">首页</a>
+          
+        </li>
+        
+        <li class="nav-item">
+          
+          <a class="nav-link" href="/archives">归档</a>
+          
+        </li>
+        
+        <li class="nav-item">
+          
+          <a class="nav-link" href="/tags">标签</a>
+          
+        </li>
+        
+        <li class="nav-item">
+          
+          <a class="nav-link" href="/about">关于</a>
+          
+        </li>
+        
+        <li class="nav-item">
+          <div class="gridea-search-container">
+            <form id="gridea-search-form" style="position: relative" data-update="1770892703131"
+              action="/search/index.html">
+              <input class="search-input" autocomplete="off" spellcheck="false" name="q" placeholder="搜索文章" />
+              <i class="fas fa-search gt-c-content-color-first" style="position: absolute; top: 9px; left: 10px;"></i>
+            </form>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+  <!-- Page Header -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href="https://daning.netlify.app">鼓捣猫宁</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+      data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
+      aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ml-auto">
+        
+        <li class="nav-item">
+          
+          <a class="nav-link" href="/">首页</a>
+          
+        </li>
+        
+        <li class="nav-item">
+          
+          <a class="nav-link" href="/archives">归档</a>
+          
+        </li>
+        
+        <li class="nav-item">
+          
+          <a class="nav-link" href="/tags">标签</a>
+          
+        </li>
+        
+        <li class="nav-item">
+          
+          <a class="nav-link" href="/about">关于</a>
+          
+        </li>
+        
+        <li class="nav-item">
+          <div class="gridea-search-container">
+            <form id="gridea-search-form" style="position: relative" data-update="1770892703131"
+              action="/search/index.html">
+              <input class="search-input" autocomplete="off" spellcheck="false" name="q" placeholder="搜索文章" />
+              <i class="fas fa-search gt-c-content-color-first" style="position: absolute; top: 9px; left: 10px;"></i>
+            </form>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<header class="masthead" style="background-image: url('https://daning.netlify.app/media/images/home-bg.jpg')">
+  <div class="overlay"></div>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-md-10 mx-auto">
+        
+          <!-- 没Title为其他页面Header -->
+          
+            <!-- 没Title并且有headerType为Post：文章Header -->
+            <div class="post-heading">
+              <span class="tags">
+                
+                <a href="https://daning.netlify.app/tag/qbQDPKWet/" class="tag">多线程</a>
+                
+                <a href="https://daning.netlify.app/tag/upAY8wL6E/" class="tag">OC</a>
+                
+              </span>
+              <h1>多线程简介</h1>
+              <span class="meta">
+                Posted on
+                2021-10-18，6 min read
+              </span>
+            </div>
+          
+        
+      </div>
+    </div>
+  </div>
+</header>
+  <!-- Post Content -->
+  <article id="post-content-article">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto post-content-container">
+          
+          <p>简单介绍下 多线程的基本概念、GCD、iOS中的线程同步方案、iOS中的读写安全方案</p>
+<!-- more -->
+<hr>
+<h1 id="1-基本概念">1. 基本概念</h1>
+<h2 id="ios中常见多线程方案">iOS中常见多线程方案</h2>
+<figure data-type="image" tabindex="1"><img src="https://z3.ax1x.com/2021/10/18/5Uwjq1.png" alt="常见多线程方案" loading="lazy"></figure>
+<hr>
+<h1 id="2-gcd">2. GCD</h1>
+<h2 id="gcd的常用函数">GCD的常用函数</h2>
+<p>GCD中有2个用来执行任务的函数：</p>
+<ol>
+<li>用<strong>同步</strong>的方式执行任务</li>
+</ol>
+<pre><code>dispatch_sync(dispatch_queue_t queue, dispatch_block_t block);
+</code></pre>
+<ol start="2">
+<li>用<strong>异步</strong>的方式执行任务</li>
+</ol>
+<pre><code>dispatch_async(dispatch_queue_t queue, dispatch_block_t block);
+</code></pre>
+<h2 id="gcd的队列">GCD的队列</h2>
+<p>GCD的队列可以分为2大类型</p>
+<ol>
+<li>
+<p>并发队列（Concurrent Dispatch Queue）<br>
+可以让多个任务并发（同时）执行（自动开启多个线程同时执行任务）<br>
+并发功能只有在异步（dispatch_async）函数下才有效</p>
+</li>
+<li>
+<p>串行队列（Serial Dispatch Queue）<br>
+让任务一个接着一个地执行（一个任务执行完毕后，再执行下一个任务）</p>
+</li>
+</ol>
+<h2 id="容易混淆的术语">容易混淆的术语</h2>
+<p>有4个术语比较容易混淆：<strong>同步</strong>、<strong>异步</strong>、<strong>并发</strong>、<strong>串行</strong></p>
+<ul>
+<li>
+<p><strong>同步</strong>和<strong>异步</strong>主要影响：能不能开启新的线程<br>
+<strong>同步</strong>：在当前线程中执行任务，不具备开启新线程的能力<br>
+<strong>异步</strong>：在新的线程中执行任务，具备开启新线程的能力</p>
+</li>
+<li>
+<p><strong>并发</strong>和<strong>串行</strong>主要影响：任务的执行方式<br>
+<strong>并发</strong>：多个任务并发（同时）执行<br>
+<strong>串行</strong>：一个任务执行完毕后，再执行下一个任务</p>
+</li>
+</ul>
+<h2 id="各种队列的执行效果">各种队列的执行效果</h2>
+<figure data-type="image" tabindex="2"><img src="https://z3.ax1x.com/2021/10/20/5BNwzF.png" alt="各种队列的执行效果" loading="lazy"></figure>
+<blockquote>
+<p>使用sync函数往当前串行队列中添加任务，会卡住当前的串行队列（产生死锁）,</p>
+</blockquote>
+<ul>
+<li>如：sync 在等待 test 执行结束，test 在等待 sync 任务执行，产生死锁<pre><code>- (void)test{
+    NSLog(@&quot;任务1&quot;)；
+    dispatch_sync(dispatch_get_main_queue(), ^{
+        NSLog(@&quot;任务2&quot;)；
+    });
+    NSLog(@&quot;任务3&quot;)；
+}
+</code></pre>
+</li>
+</ul>
+<h2 id="队列组">队列组</h2>
+<ul>
+<li>队列组可以实现异步并发执行任务1、任务2，等任务1、任务2都执行完毕后，再回到主线程执行任务3<br>
+<img src="https://z3.ax1x.com/2021/10/20/5BdKG6.png" alt="队列组" loading="lazy"></li>
+</ul>
+<h2 id="多线程的安全隐患-解决方案">多线程的安全隐患 &amp; 解决方案</h2>
+<h3 id="多线程的安全隐患">多线程的安全隐患</h3>
+<ul>
+<li>资源共享<br>
+1块资源可能会被多个线程共享，也就是“<strong>多个线程可能会访问同一块资源</strong>”<br>
+比如多个线程访问同一个对象、同一个变量、同一个文件</li>
+<li>当多个线程访问同一块资源时，很容易引发数据错乱和数据安全问题</li>
+</ul>
+<h3 id="解决方案">解决方案</h3>
+<ul>
+<li>使用线程同步技术（同步，就是协同步调，按预定的先后次序进行）</li>
+<li>常见的线程同步技术是：加锁</li>
+</ul>
+<hr>
+<h1 id="3-ios中的线程同步方案">3 iOS中的线程同步方案</h1>
+<pre><code>1. OSSpinLock   (自旋锁)
+2. os_unfair_lock (互斥锁；根据底层代码逻辑，加锁时是休眠线程，跟自旋锁不同，所以认为是互斥锁)
+3. pthread_mutex (互斥锁)
+4. dispatch_semaphore
+5. dispatch_queue(DISPATCH_QUEUE_SERIAL)
+6. NSLock、NSRecursiveLock
+7. NSCondition、NSConditionLock
+8. @synchronized
+</code></pre>
+<h2 id="1-osspinlock">1. OSSpinLock</h2>
+<ul>
+<li>OSSpinLock叫做”自旋锁”，等待锁的线程会处于忙等（busy-wait）状态，一直占用着CPU资源
+<ul>
+<li>iOS 已不再推荐使用，已被 os_unfair_lock 替代</li>
+<li>目前已经不再安全，可能会出现优先级反转问题</li>
+<li>如果等待锁的线程优先级较高，它会一直占用着CPU资源，优先级低的线程就无法释放锁</li>
+<li>需要导入头文件#import &lt;libkern/OSAtomic.h&gt;</li>
+</ul>
+</li>
+</ul>
+<figure data-type="image" tabindex="3"><img src="https://z3.ax1x.com/2021/10/20/5B0FHJ.png" alt="OSSpinLock" loading="lazy"></figure>
+<h2 id="2-os_unfair_lock">2. os_unfair_lock</h2>
+<ul>
+<li>os_unfair_lock用于取代不安全的OSSpinLock ，从iOS10开始才支持
+<ul>
+<li>从底层调用看，等待os_unfair_lock锁的线程会处于休眠状态，并非忙等</li>
+<li>需要导入头文件#import &lt;os/lock.h&gt;</li>
+</ul>
+</li>
+</ul>
+<figure data-type="image" tabindex="4"><img src="https://z3.ax1x.com/2021/10/20/5B0b26.png" alt="os_unfair_lock" loading="lazy"></figure>
+<h2 id="3-pthread_mutex">3. pthread_mutex</h2>
+<ul>
+<li>mutex叫做”互斥锁”，等待锁的线程会处于休眠状态
+<ul>
+<li>需要导入头文件#import &lt;pthread.h&gt;</li>
+</ul>
+</li>
+</ul>
+<figure data-type="image" tabindex="5"><img src="https://z3.ax1x.com/2021/10/20/5Brfr8.png" alt="pthread_mutex" loading="lazy"></figure>
+<figure data-type="image" tabindex="6"><img src="https://z3.ax1x.com/2021/10/20/5BrHGn.png" alt="pthread_mutex参数" loading="lazy"></figure>
+<ul>
+<li>pthread_mutex – 递归锁</li>
+</ul>
+<figure data-type="image" tabindex="7"><img src="https://z3.ax1x.com/2021/10/20/5BsQzt.png" alt="pthread_mutex" loading="lazy"></figure>
+<ul>
+<li>pthread_mutex – 条件</li>
+</ul>
+<figure data-type="image" tabindex="8"><img src="https://z3.ax1x.com/2021/10/20/5BsdWn.png" alt="pthread_mutex" loading="lazy"></figure>
+<h2 id="4-dispatch_semaphore">4. dispatch_semaphore</h2>
+<ul>
+<li>semaphore叫做”信号量”</li>
+<li>信号量的初始值，可以用来控制线程并发访问的最大数量</li>
+<li>信号量的初始值为1，代表同时只允许1条线程访问资源，保证线程同步</li>
+</ul>
+<figure data-type="image" tabindex="9"><img src="https://z3.ax1x.com/2021/10/20/5Bc0SA.png" alt="dispatch_semaphore" loading="lazy"></figure>
+<h2 id="5-dispatch_queue">5. dispatch_queue</h2>
+<p>直接使用GCD的串行队列，也是可以实现线程同步的<br>
+<img src="https://z3.ax1x.com/2021/10/20/5BcvlR.png" alt="dispatch_queue" loading="lazy"></p>
+<h2 id="6-nslock-nsrecursivelock">6. NSLock、NSRecursiveLock</h2>
+<ul>
+<li>NSLock是对mutex普通锁的封装</li>
+</ul>
+<figure data-type="image" tabindex="10"><img src="https://z3.ax1x.com/2021/10/20/5B6N2n.png" alt="NSLock" loading="lazy"></figure>
+<ul>
+<li>NSRecursiveLock也是对mutex递归锁的封装，API跟NSLock基本一致</li>
+</ul>
+<h2 id="7-nscondition-nsconditionlock">7. NSCondition、 NSConditionLock</h2>
+<ul>
+<li>NSCondition是对mutex和cond的封装</li>
+</ul>
+<figure data-type="image" tabindex="11"><img src="https://z3.ax1x.com/2021/10/20/5B67PH.png" alt="NSCondition" loading="lazy"></figure>
+<ul>
+<li>NSConditionLock是对NSCondition的进一步封装，可以设置具体的条件值</li>
+</ul>
+<figure data-type="image" tabindex="12"><img src="https://z3.ax1x.com/2021/10/20/5BcELV.png" alt="NSConditionLock" loading="lazy"></figure>
+<h2 id="8-synchronized">8. @synchronized</h2>
+<ul>
+<li>
+<p>@synchronized是对mutex递归锁的封装</p>
+</li>
+<li>
+<p>@synchronized(obj)内部会生成obj对应的递归锁，然后进行加锁、解锁操作</p>
+</li>
+<li>
+<p>简洁 但是 比较 耗内存</p>
+<pre><code>@synchronized(obj){
+    // 任务
+}
+</code></pre>
+</li>
+</ul>
+<h2 id="ios线程同步方案性能比较">iOS线程同步方案性能比较</h2>
+<p>性能从高到低排序</p>
+<pre><code>os_unfair_lock
+OSSpinLock
+dispatch_semaphore
+pthread_mutex
+dispatch_queue(DISPATCH_QUEUE_SERIAL)
+NSLock
+NSCondition
+pthread_mutex(recursive)
+NSRecursiveLock
+NSConditionLock
+@synchronized
+</code></pre>
+<h2 id="自旋锁-互斥锁比较">自旋锁、互斥锁比较</h2>
+<h3 id="什么情况使用自旋锁比较划算">什么情况使用自旋锁比较划算？</h3>
+<ol>
+<li>预计线程等待锁的时间很短</li>
+<li>加锁的代码（临界区）经常被调用，但竞争情况很少发生</li>
+<li>CPU资源不紧张</li>
+<li>多核处理器</li>
+</ol>
+<h3 id="什么情况使用互斥锁比较划算">什么情况使用互斥锁比较划算？</h3>
+<ol>
+<li>预计线程等待锁的时间较长</li>
+<li>单核处理器</li>
+<li>临界区有IO操作</li>
+<li>临界区代码复杂或者循环量大</li>
+<li>临界区竞争非常激烈</li>
+</ol>
+<hr>
+<h1 id="4-ios中的读写安全方案">4 iOS中的读写安全方案</h1>
+<ul>
+<li>思考如何实现以下场景
+<ol>
+<li>同一时间，只能有1个线程进行写的操作</li>
+<li>同一时间，允许有多个线程进行读的操作</li>
+<li>同一时间，不允许既有写的操作，又有读的操作</li>
+</ol>
+</li>
+<li>上面的场景就是典型的“多读单写”，经常用于文件等数据的读写操作，iOS中的实现方案有
+<ol>
+<li>pthread_rwlock：读写锁</li>
+<li>dispatch_barrier_async：异步栅栏调用</li>
+</ol>
+</li>
+</ul>
+<h2 id="pthread_rwlock">pthread_rwlock</h2>
+<ul>
+<li>等待锁的线程会进入休眠<br>
+<img src="https://z3.ax1x.com/2021/10/20/5BR9iD.png" alt="pthread_rwlock" loading="lazy"></li>
+</ul>
+<h2 id="dispatch_barrier_async">dispatch_barrier_async</h2>
+<ul>
+<li>这个函数传入的并发队列必须是自己通过dispatch_queue_cretate创建的</li>
+<li>如果传入的是一个串行或是一个全局的并发队列，那这个函数便等同于dispatch_async函数的效果<br>
+<img src="https://z3.ax1x.com/2021/10/20/5BR8Lq.png" alt="dispatch_barrier_async" loading="lazy"></li>
+</ul>
+
+          <div class="toc-container"><ul class="markdownIt-TOC">
+<li><a href="#1-%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5">1. 基本概念</a>
+<ul>
+<li><a href="#ios%E4%B8%AD%E5%B8%B8%E8%A7%81%E5%A4%9A%E7%BA%BF%E7%A8%8B%E6%96%B9%E6%A1%88">iOS中常见多线程方案</a></li>
+</ul>
+</li>
+<li><a href="#2-gcd">2. GCD</a>
+<ul>
+<li><a href="#gcd%E7%9A%84%E5%B8%B8%E7%94%A8%E5%87%BD%E6%95%B0">GCD的常用函数</a></li>
+<li><a href="#gcd%E7%9A%84%E9%98%9F%E5%88%97">GCD的队列</a></li>
+<li><a href="#%E5%AE%B9%E6%98%93%E6%B7%B7%E6%B7%86%E7%9A%84%E6%9C%AF%E8%AF%AD">容易混淆的术语</a></li>
+<li><a href="#%E5%90%84%E7%A7%8D%E9%98%9F%E5%88%97%E7%9A%84%E6%89%A7%E8%A1%8C%E6%95%88%E6%9E%9C">各种队列的执行效果</a></li>
+<li><a href="#%E9%98%9F%E5%88%97%E7%BB%84">队列组</a></li>
+<li><a href="#%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%AE%89%E5%85%A8%E9%9A%90%E6%82%A3-%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88">多线程的安全隐患 &amp; 解决方案</a>
+<ul>
+<li><a href="#%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%AE%89%E5%85%A8%E9%9A%90%E6%82%A3">多线程的安全隐患</a></li>
+<li><a href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88">解决方案</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#3-ios%E4%B8%AD%E7%9A%84%E7%BA%BF%E7%A8%8B%E5%90%8C%E6%AD%A5%E6%96%B9%E6%A1%88">3 iOS中的线程同步方案</a>
+<ul>
+<li><a href="#1-osspinlock">1. OSSpinLock</a></li>
+<li><a href="#2-os_unfair_lock">2. os_unfair_lock</a></li>
+<li><a href="#3-pthread_mutex">3. pthread_mutex</a></li>
+<li><a href="#4-dispatch_semaphore">4. dispatch_semaphore</a></li>
+<li><a href="#5-dispatch_queue">5. dispatch_queue</a></li>
+<li><a href="#6-nslock-nsrecursivelock">6. NSLock、NSRecursiveLock</a></li>
+<li><a href="#7-nscondition-nsconditionlock">7. NSCondition、 NSConditionLock</a></li>
+<li><a href="#8-synchronized">8. @synchronized</a></li>
+<li><a href="#ios%E7%BA%BF%E7%A8%8B%E5%90%8C%E6%AD%A5%E6%96%B9%E6%A1%88%E6%80%A7%E8%83%BD%E6%AF%94%E8%BE%83">iOS线程同步方案性能比较</a></li>
+<li><a href="#%E8%87%AA%E6%97%8B%E9%94%81-%E4%BA%92%E6%96%A5%E9%94%81%E6%AF%94%E8%BE%83">自旋锁、互斥锁比较</a>
+<ul>
+<li><a href="#%E4%BB%80%E4%B9%88%E6%83%85%E5%86%B5%E4%BD%BF%E7%94%A8%E8%87%AA%E6%97%8B%E9%94%81%E6%AF%94%E8%BE%83%E5%88%92%E7%AE%97">什么情况使用自旋锁比较划算？</a></li>
+<li><a href="#%E4%BB%80%E4%B9%88%E6%83%85%E5%86%B5%E4%BD%BF%E7%94%A8%E4%BA%92%E6%96%A5%E9%94%81%E6%AF%94%E8%BE%83%E5%88%92%E7%AE%97">什么情况使用互斥锁比较划算？</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#4-ios%E4%B8%AD%E7%9A%84%E8%AF%BB%E5%86%99%E5%AE%89%E5%85%A8%E6%96%B9%E6%A1%88">4 iOS中的读写安全方案</a>
+<ul>
+<li><a href="#pthread_rwlock">pthread_rwlock</a></li>
+<li><a href="#dispatch_barrier_async">dispatch_barrier_async</a></li>
+</ul>
+</li>
+</ul>
+</div>
+          
+          <hr />
+          <p class="next-post">下一篇：
+            <a href="https://daning.netlify.app/post/runloop/">
+              <span class="post-title">
+                RunLoop&rarr;
+              </span>
+            </a>
+          </p>
+          
+          <div class="comment" style="text-align: center;">
+            
+            <span id="/post/duo-xian-cheng-jian-jie/" class="leancloud_visitors"
+              data-flag-title="多线程简介">
+              <em class="post-meta-item-text">阅读量 </em>
+              <i class="leancloud-visitors-count">loading...</i>
+            </span>
+            
+
+            
+            
+            <script src='https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js'></script>
+
+<style>
+	div#vcomments{
+		width:100%;
+		max-width: 1000px;
+		padding: 2.5%
+	}
+</style>
+
+
+	<div id="vcomments"></div>
+
+<script>
+	new Valine({
+		el: '#vcomments',
+		appId: 'MAAasDLv2NYMtEEAn4QnnU3l-gzGzoHsz',
+		appKey: 'dISXAmwDUYme6vJqsc5HgYw1',
+		avatar: 'robohash',
+		pageSize: 5,
+		recordIp: false,
+		placeholder: '来都来了，不留下点虎狼之词就走吗？',
+		visitor: true,
+	});
+</script>
+
+            
+          </div>
+        </div>
+      </div>
+  </article>
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+          <ul class="list-inline text-center">
+            
+            
+            <li class="list-inline-item">
+              <a href="https://github.com/NeedQuiet" target="_blank">
+                <span class="fa-stack fa-lg">
+                  <i class="fas fa-circle fa-stack-2x"></i>
+                  <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                </span>
+              </a>
+            </li>
+            
+              
+            
+              
+            
+              
+            
+            <li class="list-inline-item">
+              <a href="https://www.zhihu.com/people/da-ning-40" target="_blank">
+                <span class="fa-stack fa-lg">
+                  <i class="fas fa-circle fa-stack-2x"></i>
+                  <i class="fab fa-zhihu fa-stack-1x fa-inverse"></i>
+                </span>
+              </a>
+            </li>
+            
+              
+            
+              
+            
+              
+            
+              
+              <!-- <li class="list-inline-item">
+              <a href="https://daning.netlify.app/atom.xml" target="_blank">
+                <span class="fa-stack fa-lg">
+                  <i class="fas fa-circle fa-stack-2x"></i>
+                  <i class="fas fa-rss fa-stack-1x fa-inverse"></i>
+                </span>
+              </a>
+              </li> -->
+          </ul>
+          <p class="copyright text-muted">Copyright &copy;<span>鼓捣猫宁</span><br><a href="https://github.com/getgridea/gridea" class="Themeinfo">Powered by Gridea</a></p>
+        </div>
+      </div>
+    </div>
+   </footer>
+  <!-- Bootstrap core JavaScript -->
+  <script src="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+  <!-- <script src="https://daning.netlify.app/media/scripts/bootstrap.bundle.min.js"></script> -->
+  <!-- Bootstrap core JavaScript -->
+  <script src="https://cdn.jsdelivr.net/gh/Alanrk/clean-cdn@1.0/scripts/clean-blog.min.js"></script>
+  <!-- <script src="https://daning.netlify.app/media/scripts/clean-blog.min.js"></script> -->
+  <script src="//instant.page/3.0.0" type="module" defer integrity="sha384-OeDn4XE77tdHo8pGtE1apMPmAipjoxUQ++eeJa6EtJCfHlvijigWiJpD7VDPWXV1"></script>
+  <style type="text/css">a.back_to_top{text-decoration:none;position:fixed;bottom:40px;right:30px;background:#f0f0f0;height:40px;width:40px;border-radius:50%;line-height:36px;font-size:18px;text-align:center;transition-duration:.5s;transition-propety:background-color;display:none}a.back_to_top span{color:#888}a.back_to_top:hover{cursor:pointer;background:#dfdfdf}a.back_to_top:hover span{color:#555}@media print,screen and(max-width:580px){.back_to_top{display:none!important}}</style>
+<a id="back_to_top" href="#" class="back_to_top">
+  <span>▲</span></a>
+<script>$(document).ready((function(_this) {
+    return function() {
+      var bt;
+      bt = $('#back_to_top');
+      if ($(document).width() > 480) {
+        $(window).scroll(function() {
+          var st;
+          st = $(window).scrollTop();
+          if (st > 30) {
+            return bt.css('display', 'block')
+          } else {
+            return bt.css('display', 'none')
+          }
+        });
+        return bt.click(function() {
+          $('body,html').animate({
+            scrollTop: 0
+          },
+          800);
+          return false
+        })
+      }
+    }
+  })(this));</script>
+  
+  <div id="landlord-parent">
+    <div id="landlord">
+        <div class="message" style="opacity:0"></div>
+        <canvas id="live2d" width="240" height="250" class="live2d"></canvas>
+    </div>
+</div>
+
+<script type="text/javascript">
+    if (/(iPhone|iPad|iPod|iOS|Android)/i.test(navigator.userAgent)) {
+        //移动端
+        console.log("------ 移动端");
+    } else {
+        console.log("------ PC端 " + navigator.userAgent);
+
+        addScript("https://cdn.jsdelivr.net/gh/850552586/ericamcdn@0.1/js/live2d.js", () => {
+            // 加载完成后再loadlive2d
+            loadlive2d("live2d", "https://daning.netlify.app/media/live2d/assets/hijiki.model.json");
+        });
+
+        var home_Path = "https://daning.netlify.app/";
+        addScript("https://daning.netlify.app/media/live2d/js/message.js", () => { });
+    }
+
+    // 插入js文件，完成后callback
+    function addScript(jsfile, callback) {
+        var landlord_parent = document.getElementById("landlord-parent");
+        var script = document.createElement("script");
+        script.type = "text/javascript";
+        script.src = jsfile;
+        landlord_parent.appendChild(script);
+        script.onload = script.onreadystatechange = function () {
+            if (!this.readyState || this.readyState === "loaded" || this.readyState === "complete") {
+                script.onload = script.onreadystatechange = null;
+                if (callback && typeof callback == "function") {
+                    callback(); //window[callback]();如果传递字符串过来 调用window['函数名']() 调用方法
+                }
+            }
+        };
+    }
+</script>
+  
+  <script src="https://daning.netlify.app/media/scripts/tocScript.js"></script>
+</body>
+
+</html>

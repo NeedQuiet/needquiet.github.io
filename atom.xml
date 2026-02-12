@@ -1,0 +1,1112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <id>https://daning.netlify.app</id>
+    <title>鼓捣猫宁</title>
+    <updated>2026-02-12T10:38:28.988Z</updated>
+    <generator>https://github.com/jpmonette/feed</generator>
+    <link rel="alternate" href="https://daning.netlify.app"/>
+    <link rel="self" href="https://daning.netlify.app/atom.xml"/>
+    <subtitle>梧高凤必至，花香蝶自来</subtitle>
+    <logo>https://daning.netlify.app/images/avatar.png</logo>
+    <icon>https://daning.netlify.app/favicon.ico</icon>
+    <rights>All rights reserved 2026, 鼓捣猫宁</rights>
+    <entry>
+        <title type="html"><![CDATA[Framework Archive ]]></title>
+        <id>https://daning.netlify.app/post/framework-archive/</id>
+        <link href="https://daning.netlify.app/post/framework-archive/">
+        </link>
+        <updated>2022-07-20T10:44:04.000Z</updated>
+        <summary type="html"><![CDATA[<p>记录下Run Script：合并真机armv7 arm64 模拟器i386 x86_64 为新的framework；同时创建xcframework</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>记录下Run Script：合并真机armv7 arm64 模拟器i386 x86_64 为新的framework；同时创建xcframework</p>
+<!-- more -->
+<hr/>
+<pre><code># 编译产物
+# ~Library/Developer/Xcode/DerivedData/LinkPlayLogRecordDemo-cnaglpbkttarzjgcbeksqtomgylq/Build/Products/Debug-universal
+UNIVERSAL_OUTPUTFOLDER=${BUILD_DIR}/${CONFIGURATION}-universal
+# Products 路径
+INSTALL_DIR=${SRCROOT}/Products
+# framework 名字
+PROJECT_IOT=&quot;LinkPlayLogRecord&quot;
+# 创建 Debug-universal
+mkdir -p &quot;${UNIVERSAL_OUTPUTFOLDER}&quot;
+# 如果有 Products 文件夹，则删除重建
+if [ -d &quot;${INSTALL_DIR}&quot; ]; then
+rm -rf &quot;${INSTALL_DIR}&quot;
+fi
+mkdir -p &quot;${INSTALL_DIR}&quot;
+
+echo &quot;[FW Script] ---------------- start -----------------&quot;
+echo &quot;[FW Script] TARGET_BUILD_DIR: ${TARGET_BUILD_DIR}&quot;
+echo &quot;[FW Script] CONFIGURATION: ${CONFIGURATION}&quot;
+echo &quot;[FW Script] ACTION: ${ACTION}&quot;
+# 防止递归
+if [ &quot;false&quot; == ${ALREADYINVOKED:-false} ]; then
+    # action 为 install, 并且 TARGET_BUILD_DIR 中包含 LinkPlayLogRecordDemo
+    IPHONEOS_FRAMEWORK_DIR=&quot;${BUILD_DIR}/${CONFIGURATION}-iphoneos/${PROJECT_IOT}.framework&quot;
+    IPHONESIMULATOR_FRAMEWORK_DIR=&quot;${BUILD_DIR}/${CONFIGURATION}-iphonesimulator/${PROJECT_IOT}.framework&quot;
+    if [ &quot;${ACTION}&quot; = &quot;install&quot; ] &amp;&amp; [[ &quot;${TARGET_BUILD_DIR}&quot; == *&quot;LinkPlayLogRecordDemo&quot;* ]]; then
+        export ALREADYINVOKED=&quot;true&quot;
+        # 编译模拟器 i386 x86_64 架构的 framework 包
+        echo &quot;[FW Script] xcodebuild: i386 x86_64&quot;
+        xcodebuild -target &quot;${PROJECT_IOT}&quot; -configuration ${CONFIGURATION} -sdk iphonesimulator -arch i386 -arch x86_64 ONLY_ACTIVE_ARCH=NO BUILD_DIR=&quot;${BUILD_DIR}&quot; BUILD_ROOT=&quot;${BUILD_ROOT}&quot; clean build
+        # copy BUILD_DIR 下 真机包到 universal 文件夹下
+        echo &quot;[FW Script] copy iphoneos to universal&quot;
+        cp -R &quot;${IPHONEOS_FRAMEWORK_DIR}/&quot; &quot;${UNIVERSAL_OUTPUTFOLDER}/${PROJECT_IOT}.framework&quot;
+
+        # 合并 模拟器 和  真机 framework，并输出到 universal 文件夹下
+        IPHONEOS_FILE_DIR=&quot;${IPHONEOS_FRAMEWORK_DIR}/${PROJECT_IOT}&quot;
+        IPHONESIMULATOR_FLIE_DIR=&quot;${IPHONESIMULATOR_FRAMEWORK_DIR}/${PROJECT_IOT}&quot;
+        echo &quot;[FW Script] 合并framework&quot;
+        lipo -create -output &quot;${UNIVERSAL_OUTPUTFOLDER}/${PROJECT_IOT}.framework/${PROJECT_IOT}&quot; ${IPHONESIMULATOR_FLIE_DIR} ${IPHONEOS_FILE_DIR}
+        
+        # 净化代码用的，本地没安装过，暂时注释了
+        # coan spin &quot;${BUILD_DIR}/${CONFIGURATION}-iphoneos/${PROJECT_IOT}.framework/Headers&quot; --recurse --discard drop --keepgoing --implicit --gag error --define LINKPLAY_PUBLIC_HEADER=1 --define LINKPLAY_CAR_PUBLIC_HEADER=1
+
+        # 顺便生成下 xcframework
+        echo &quot;[FW Script] 创建xcframework&quot;
+        xcodebuild -create-xcframework -framework ${IPHONEOS_FRAMEWORK_DIR} -framework ${IPHONESIMULATOR_FRAMEWORK_DIR} -output &quot;${UNIVERSAL_OUTPUTFOLDER}/${PROJECT_IOT}.xcframework&quot;
+
+        # 打开 Products 文件夹
+        open &quot;${UNIVERSAL_OUTPUTFOLDER}&quot;
+        # 将其 真机framework copy 到 Products 文件夹下面
+        cp -R &quot;${IPHONEOS_FRAMEWORK_DIR}/&quot; &quot;${INSTALL_DIR}/${PROJECT_IOT}.framework&quot;
+    else
+        echo &quot;[FW Script] PLATFORM_NAME: ${PLATFORM_NAME}&quot;
+        # 根据 platform 是iphoneos 还是 iphonesimulator 找到对应的 framework 文件
+        SOURCE_DIR=${IPHONEOS_FRAMEWORK_DIR}
+        if [ ${PLATFORM_NAME} = &quot;iphonesimulator&quot; ]; then
+            SOURCE_DIR=${IPHONESIMULATOR_FRAMEWORK_DIR}
+        fi
+        # 将其 copy 到 Products 文件夹下面
+        cp -R ${SOURCE_DIR} &quot;${INSTALL_DIR}/${PROJECT_IOT}.framework&quot;
+    fi
+else
+    echo &quot;[FW Script] 递归 - 跳过&quot;
+fi
+echo &quot;[FW Script] ---------------- end -----------------&quot;
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[将OC转为 C/C++]]></title>
+        <id>https://daning.netlify.app/post/jiang-oc-zhuan-wei-cc/</id>
+        <link href="https://daning.netlify.app/post/jiang-oc-zhuan-wei-cc/">
+        </link>
+        <updated>2022-03-08T02:03:00.000Z</updated>
+        <content type="html"><![CDATA[<!-- more -->
+<h2 id="例">例</h2>
+<p>以 <strong>main.m</strong> 文件为例</p>
+<pre><code>xcrun -sdk iphoneos  clang -arch arm64 -rewrite-objc main.m -o main-arm64.cpp
+</code></pre>
+<blockquote>
+<p>xcrun :Xcode 工具，-sdk: 平台 iphoneos就是iOS平台， -arch: 基于什么架构 苹果手机是基于arm64的，-rewrite-objc :重写oc文件，-o：输出到那个文件，文件名自定义</p>
+</blockquote>
+<h2 id="执行失败">执行失败</h2>
+<p>如果被转换的代码中的对象有用到__weak修饰，可能会执行失败</p>
+<pre><code>cannot create __weak reference in file using manual reference 
+</code></pre>
+<p>解决方式: 支持ARC、更改runtime版本</p>
+<pre><code>xcrun -sdk iphoneos clang -arch arm64 -rewrite-objc -fobjc-arc -fobjc-runtime=ios-8.0.0 main.m
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[WKWebview模拟PC浏览器形式加载url]]></title>
+        <id>https://daning.netlify.app/post/wkwebview-mo-ni-pc-liu-lan-qi-xing-shi-jia-zai-url/</id>
+        <link href="https://daning.netlify.app/post/wkwebview-mo-ni-pc-liu-lan-qi-xing-shi-jia-zai-url/">
+        </link>
+        <updated>2022-02-14T09:07:59.000Z</updated>
+        <summary type="html"><![CDATA[<p>iPad、Catalyst、MacOS 中的WkWebview 在加载部分url时，会遇到部分按钮点击无效（a标签target = _blank），或者加载不出来的问题（无限重定向）</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>iPad、Catalyst、MacOS 中的WkWebview 在加载部分url时，会遇到部分按钮点击无效（a标签target = _blank），或者加载不出来的问题（无限重定向）</p>
+<!-- more -->
+<hr>
+<h2 id="加载白屏">加载白屏</h2>
+<p>在使用模拟器 iPad、Catalyst、MacOS端的WKWebview时，例如请求url <strong>https://www.baidu.com</strong> ，那么会发现无法加载页面，调试发现其后台在不停的重定向，无法正常加载url</p>
+<pre><code>&lt;head&gt;
+ &lt;script&gt;
+  location.replace(location.href.replace(&quot;https://&quot;,&quot;http://&quot;));
+ &lt;/script&gt;
+&lt;/head&gt;
+</code></pre>
+<p>此时我们可以用修改userAgent的方式来避免这个问题：</p>
+<pre><code> NSString *userAgent；
+ // iPhone
+userAgent = @&quot;Mozilla/5.0 (iPhone; CPU iPhone OS 8_0_2 like Mac OS X) AppleWebKit/600.1.4 (KHTML, like Gecko) Version/8.0 Mobile/12A366 Safari/600.1.4&quot;; 
+
+// Chrome
+ userAgent = @&quot; Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.80 Safari/537.36&quot;;
+
+ // Safari
+ userAgent = Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.1 Safari/605.1.15
+</code></pre>
+<p>直接赋值</p>
+<pre><code>_wkWebView.customUserAgent = userAgent;
+</code></pre>
+<p>或者</p>
+<pre><code>WKUserContentController *userContentController = [[WKUserContentController alloc] init];
+WKWebViewConfiguration *configuration = [[WKWebViewConfiguration alloc] init];
+configuration.userContentController = userContentController;
+configuration.applicationNameForUserAgent = userAgent;
+self.webView = [[WKWebView alloc] initWithFrame:[UIScreen mainScreen].bounds configuration:configuration];
+</code></pre>
+<h2 id="_blank-点击无效">_blank 点击无效</h2>
+<p><strong>参考</strong>：<a href="https://blog.csdn.net/chenyong05314/article/details/80453939">WKWebView遇到_blank的处理方法</a></p>
+<h3 id="解决方式">解决方式</h3>
+<p>核心点在于点击按钮后的 回调 decidePolicyForNavigationAction，有2种修改方式</p>
+<ol>
+<li>
+<p>删除所有a标签的 target属性</p>
+<pre><code>- (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler{
+    // WKNavigationAction 中有两个属性：sourceFrame和targetFrame，分别代表这个action的出处和目标。
+    // WKFrameInfo有一个 mainFrame 的属性，正是这个属性标记着这个frame是在主frame里还是新开一个frame。
+    if (!navigationAction.targetFrame.isMainFrame) {
+        [webView evaluateJavaScript:@&quot;var a = document.getElementsByTagName('a');for(var i=0;i&lt;a.length;i++){a[i].setAttribute('target','');}&quot; completionHandler:nil];
+    }
+    decisionHandler(WKNavigationActionPolicyAllow);
+}
+</code></pre>
+</li>
+<li>
+<p>根据点击的url 重新加载webview</p>
+<pre><code>- (WKWebView *)webView:(WKWebView *)webView createWebViewWithConfiguration:(WKWebViewConfiguration *)configuration forNavigationAction:(WKNavigationAction *)navigationAction windowFeatures:(WKWindowFeatures *)windowFeatures {
+    WKFrameInfo *frameInfo = navigationAction.targetFrame;
+    if (![frameInfo isMainFrame]) {
+        [webView loadRequest:navigationAction.request];
+    }
+    return nil;
+}
+</code></pre>
+</li>
+</ol>
+<h3 id="注意点">注意点</h3>
+<p>需要处理自动弹出的视频、返回键等问题</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[性能优化]]></title>
+        <id>https://daning.netlify.app/post/xing-neng-you-hua/</id>
+        <link href="https://daning.netlify.app/post/xing-neng-you-hua/">
+        </link>
+        <updated>2022-01-31T09:44:26.000Z</updated>
+        <content type="html"><![CDATA[<!-- more -->
+<h1 id="性能优化">性能优化</h1>
+<h2 id="cpu-gpu">CPU &amp; GPU</h2>
+<p><strong>CPU（Central Processing Unit，中央处理器）</strong></p>
+<p>对象的创建和销毁、对象属性的调整、布局计算、文本的计算和排版、图片的格式转换和解码、图像的绘制（Core Graphics）</p>
+<p><strong>GPU（Graphics Processing Unit，图形处理器）</strong></p>
+<p>纹理渲染</p>
+<figure data-type="image" tabindex="1"><img src="https://s1.ax1x.com/2022/04/06/qvVcSH.png" alt="屏幕成像流程图" loading="lazy"></figure>
+<p><strong>iOS是双缓冲机制，分为前帧缓存 和 后帧缓存</strong></p>
+<h2 id="卡顿产生的原因">卡顿产生的原因</h2>
+<figure data-type="image" tabindex="2"><img src="https://s1.ax1x.com/2022/04/06/qvVBTK.png" alt="卡顿现象" loading="lazy"></figure>
+<p>按照60fps的刷帧率，每隔16ms就会有一次VSync信号（上图中每两个VSync之间的时间长度 = 16ms）</p>
+<p>解决卡顿的主要思路就是：尽可能的减少CPU、GPU的资源消耗</p>
+<h2 id="卡顿优化-cpu">卡顿优化 - CPU</h2>
+<ul>
+<li>
+<p>尽量用轻量级的对象，比如用不到事件处理的地方，可以考虑使用CALayer取代UIView</p>
+</li>
+<li>
+<p>不要频繁地调用UIView的相关属性，比如frame、bounds、transform等属性，尽量减少不必要的修改</p>
+</li>
+<li>
+<p>尽量提前计算好布局，在有需要时一次性调整对应的属性，不要多次修改属性</p>
+</li>
+<li>
+<p>Autolayout会比直接设置frame消耗更多的CPU资源</p>
+</li>
+<li>
+<p>图片的size最好刚好跟UIImageView的size保持一致</p>
+</li>
+<li>
+<p>控制一下线程的最大并发数量</p>
+</li>
+<li>
+<p>尽量把耗时的操作放到子线程</p>
+<ul>
+<li>文本处理（尺寸计算、绘制）</li>
+<li>图片处理（解码、绘制）</li>
+</ul>
+</li>
+</ul>
+<p>图片异步解码 - 代码</p>
+<pre><code>- (void)image
+{
+    UIImageView *imageView = [[UIImageView alloc] init];
+    imageView.frame = CGRectMake(100, 100, 100, 56);
+    [self.view addSubview:imageView];
+    self.imageView = imageView;
+
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        // 获取CGImage
+        CGImageRef cgImage = [UIImage imageNamed:@&quot;timg&quot;].CGImage;
+
+        // alphaInfo
+        CGImageAlphaInfo alphaInfo = CGImageGetAlphaInfo(cgImage) &amp; kCGBitmapAlphaInfoMask;
+        BOOL hasAlpha = NO;
+        if (alphaInfo == kCGImageAlphaPremultipliedLast ||
+            alphaInfo == kCGImageAlphaPremultipliedFirst ||
+            alphaInfo == kCGImageAlphaLast ||
+            alphaInfo == kCGImageAlphaFirst) {
+            hasAlpha = YES;
+        }
+
+        // bitmapInfo
+        CGBitmapInfo bitmapInfo = kCGBitmapByteOrder32Host;
+        bitmapInfo |= hasAlpha ? kCGImageAlphaPremultipliedFirst : kCGImageAlphaNoneSkipFirst;
+
+        // size
+        size_t width = CGImageGetWidth(cgImage);
+        size_t height = CGImageGetHeight(cgImage);
+
+        // context
+        CGContextRef context = CGBitmapContextCreate(
+                                                NULL, 
+                                                width, 
+                                                height, 
+                                                8, 
+                                                0, 
+                                                CGColorSpaceCreateDeviceRGB(), 
+                                                bitmapInfo);
+
+        // draw
+        CGContextDrawImage(context, CGRectMake(0, 0, width, height), cgImage);
+
+        // get CGImage
+        cgImage = CGBitmapContextCreateImage(context);
+
+        // into UIImage
+        UIImage *newImage = [UIImage imageWithCGImage:cgImage];
+
+        // release
+        CGContextRelease(context);
+        CGImageRelease(cgImage);
+
+        // back to the main thread
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.imageView.image = newImage;
+        });
+    });
+}
+</code></pre>
+<h2 id="卡顿优化-gpu">卡顿优化 - GPU</h2>
+<ul>
+<li>尽量避免短时间内大量图片的显示，尽可能将多张图片合成一张进行显示</li>
+<li>GPU能处理的最大纹理尺寸是4096x4096，一旦超过这个尺寸，就会占用CPU资源进行处理，所以纹理尽量不要超过这个尺寸</li>
+<li>尽量减少视图数量和层次</li>
+<li>减少透明的视图（alpha&lt;1），不透明的就设置opaque为YES</li>
+<li>尽量避免出现离屏渲染</li>
+</ul>
+<h2 id="离屏渲染">离屏渲染</h2>
+<ul>
+<li>
+<p>在OpenGL中，GPU有2种渲染方式</p>
+<p>On-Screen Rendering：当前屏幕渲染，在当前用于显示的屏幕缓冲区进行渲染操作</p>
+<p>Off-Screen Rendering：离屏渲染，在当前屏幕缓冲区以外新开辟一个缓冲区进行渲染操作</p>
+</li>
+<li>
+<p>离屏渲染消耗性能的原因</p>
+<p>需要创建新的缓冲区</p>
+<p>离屏渲染的整个过程，需要多次切换上下文环境，先是从当前屏幕（On-Screen）切换到离屏（Off-Screen）；等到离屏渲染结束以后，将离屏缓冲区的渲染结果显示到屏幕上，又需要将上下文环境从离屏切换到当前屏幕</p>
+</li>
+<li>
+<p>哪些操作会触发离屏渲染？</p>
+<ul>
+<li>光栅化，layer.shouldRasterize = YES</li>
+<li>遮罩，layer.mask</li>
+<li>圆角，同时设置layer.masksToBounds = YES、layer.cornerRadius大于0
+<ul>
+<li>考虑通过CoreGraphics绘制裁剪圆角</li>
+<li>或者叫美工提供圆角图片</li>
+</ul>
+</li>
+<li>阴影，layer.shadowXXX 如果设置了layer.shadowPath就不会产生离屏渲染</li>
+</ul>
+</li>
+</ul>
+<h2 id="卡顿检测">卡顿检测</h2>
+<p>平时所说的“卡顿”主要是因为在主线程执行了比较耗时的操作</p>
+<p>可以添加Observer到主线程RunLoop中，通过监听RunLoop状态切换的耗时，以达到监控卡顿的目的</p>
+<blockquote>
+<p>代码示例：LXDAppFluecyMonitor</p>
+</blockquote>
+<h2 id="耗电优化">耗电优化</h2>
+<p><strong>尽可能降低CPU、GPU功耗</strong></p>
+<p><strong>少用定时器</strong></p>
+<p><strong>优化I/O操作</strong></p>
+<ul>
+<li>尽量不要频繁写入小数据，最好批量一次性写入</li>
+<li>读写大量重要数据时，考虑用dispatch_io，其提供了基于GCD的异步操作文件I/O的API。用dispatch_io系统会优化磁盘访问</li>
+<li>数据量比较大的，建议使用数据库（比如SQLite、CoreData）</li>
+</ul>
+<p><strong>网络优化</strong></p>
+<ul>
+<li>减少、压缩网络数据</li>
+<li>如果多次请求的结果是相同的，尽量使用缓存</li>
+<li>使用断点续传，否则网络不稳定时可能多次传输相同的内容</li>
+<li>网络不可用时，不要尝试执行网络请求</li>
+<li>让用户可以取消长时间运行或者速度很慢的网络操作，设置合适的超时时间</li>
+<li>批量传输，比如，下载视频流时，不要传输很小的数据包，直接下载整个 文件或者一大块一大块地下载。如果下载广告，一次性多下载一些，然后再慢慢展示。如果下载电子邮件，一次下载多封，不要一封一封地下载</li>
+</ul>
+<p><strong>定位优化</strong></p>
+<ul>
+<li>如果只是需要快速确定用户位置，最好用CLLocationManager的requestLocation方法。定位完成后，会自动让定位硬件断电</li>
+<li>如果不是导航应用，尽量不要实时更新位置，定位完毕就关掉定位服务</li>
+<li>尽量降低定位精度，比如尽量不要使用精度最高的kCLLocationAccuracyBest</li>
+<li>需要后台定位时，尽量设置pausesLocationUpdatesAutomatically为YES，如果用户不太可能移动的时候系统会自动暂停位置更新</li>
+<li>尽量不要使用startMonitoringSignificantLocationChanges，优先考虑startMonitoringForRegion:</li>
+</ul>
+<p><strong>硬件检测优化</strong></p>
+<p>用户移动、摇晃、倾斜设备时，会产生动作(motion)事件，这些事件由加速度计、陀螺仪、磁力计等硬件检测。在不需要检测的场合，应该及时关闭这些硬件</p>
+<h2 id="app的启动">App的启动</h2>
+<p><strong>APP的启动可以分为2种</strong></p>
+<ul>
+<li>冷启动（Cold Launch）：从零开始启动APP</li>
+<li>热启动（Warm Launch）：APP已经在内存中，在后台存活着，再次点击图标启动APP</li>
+</ul>
+<p><strong>APP启动时间的优化，主要是针对冷启动进行优化</strong></p>
+<p>通过添加环境变量可以打印出APP的启动时间分析（Edit scheme -&gt; Run -&gt; Arguments）</p>
+<ul>
+<li>DYLD_PRINT_STATISTICS设置为1</li>
+<li>如果需要更详细的信息，那就将DYLD_PRINT_STATISTICS_DETAILS设置为1</li>
+</ul>
+<p><strong>App冷启动可以概括为3大阶段</strong></p>
+<ul>
+<li>dyld</li>
+<li>runtime</li>
+<li>main</li>
+</ul>
+<h3 id="app启动-dyld">App启动 - dyld</h3>
+<p>dyld（dynamic link editor），Apple的动态链接器，可以用来装载Mach-O文件（可执行文件、动态库等）</p>
+<p>启动APP时，dyld所做的事情有</p>
+<ul>
+<li>装载APP的可执行文件，同时会递归加载所有依赖的动态库</li>
+<li>当dyld把可执行文件、动态库都装载完毕后，会通知Runtime进行下一步的处理</li>
+</ul>
+<h3 id="app启动-runtime">App启动 - runtime</h3>
+<p>启动APP时，runtime所做的事情有</p>
+<ul>
+<li>调用map_images进行可执行文件内容的解析和处理</li>
+<li>在load_images中调用call_load_methods，调用所有Class和Category的+load方法</li>
+<li>进行各种objc结构的初始化（注册Objc类 、初始化类对象等等）</li>
+<li>调用C++静态初始化器和__attribute__((constructor))修饰的函数</li>
+</ul>
+<p><strong>到此为止，可执行文件和动态库中所有的符号(Class，Protocol，Selector，IMP，…)都已经按格式成功加载到内存中，被runtime 所管理</strong></p>
+<h3 id="app启动-main">App启动 - main</h3>
+<ul>
+<li>APP的启动由dyld主导，将可执行文件加载到内存，顺便加载所有依赖的动态库</li>
+<li>并由runtime负责加载成objc定义的结构</li>
+<li>所有初始化工作结束后，dyld就会调用main函数</li>
+<li>接下来就是UIApplicationMain函数，AppDelegate的application:didFinishLaunchingWithOptions:方法</li>
+</ul>
+<h2 id="app的启动优化">App的启动优化</h2>
+<ol>
+<li>无用代码、无用的图片（资源）的删除</li>
+<li>发挥多线程的优势</li>
+<li>启动之后要显示的页面，尽量用纯代码写</li>
+<li>业务逻辑的简化</li>
+<li>二进制重排</li>
+</ol>
+<p>启动优化通常指的都是pre-main的优化，按照不同的阶段可以大致分为</p>
+<h3 id="dyld">dyld</h3>
+<ul>
+<li>减少动态库、合并一些动态库（定期清理不必要的动态库）</li>
+<li>减少Objc类、分类的数量、减少Selector数量（定期清理不必要的类、分类）</li>
+<li>减少C++虚函数数量</li>
+<li>Swift尽量使用struct</li>
+</ul>
+<h3 id="runtime">runtime</h3>
+<p>用+initialize方法和dispatch_once取代所有的__attribute__((constructor))、C++静态构造器、ObjC的+load</p>
+<h3 id="main">main</h3>
+<p>在不影响用户体验的前提下，尽可能将一些操作延迟，不要全部都放在finishLaunching方法中<br>
+按需加载</p>
+<hr>
+<img src="https://s1.ax1x.com/2022/04/06/qvVotS.png" alt="微信启动时间log" style="zoom:150%;" />
+<p><strong>dylib loading - 动态库加载</strong></p>
+<p>优化：减少动态库的使用</p>
+<p><strong>rebase / binding - 偏移修正 / 符号绑定</strong></p>
+<ul>
+<li>
+<p>偏移修正</p>
+<ul>
+<li>在MachO二进制文件里函数的实现地址 eg：0x0001</li>
+<li>运行到内存中，利用<strong>ASLR（安全机制随机的值）</strong> eg：0x1000</li>
+<li>运行时：函数实现真实地址 = 0x0001 + 0x1000 = 0x1001</li>
+</ul>
+</li>
+<li>
+<p>符号绑定</p>
+<ul>
+<li>MachO文件存在磁盘当中，当程序运行时，通过laodImage镜像到内存中（copy）</li>
+<li>dyld进行符号绑定</li>
+</ul>
+<p>优化：减少动态库的使用</p>
+</li>
+</ul>
+<p><strong>ObjC setup - OC创建</strong></p>
+<p><strong>initializer - load函数 &amp; 构造函数</strong></p>
+<p><strong>二进制重排</strong></p>
+<p>将所有启动时需要调用的方法，排列在一起 - 二进制重排</p>
+<h2 id="安装包瘦身">安装包瘦身</h2>
+<p>安装包（IPA）主要由<strong>可执行文件</strong>、<strong>资源文件</strong>组成</p>
+<p><strong>资源（图片、音频、视频等）</strong></p>
+<ul>
+<li>采取无损压缩</li>
+<li>去除没有用到的资源： https://github.com/tinymind/LSUnusedResources</li>
+</ul>
+<p><strong>可执行文件瘦身</strong></p>
+<ul>
+<li>
+<p>编译器优化</p>
+<ul>
+<li>Strip Linked Product、Make Strings Read-Only、Symbols Hidden by Default设置为YES</li>
+<li>去掉异常支持，Enable C++ Exceptions、Enable Objective-C Exceptions设置为NO， Other C Flags添加-fno-exceptions</li>
+</ul>
+</li>
+<li>
+<p>利用AppCode（https://www.jetbrains.com/objc/）检测未使用的代码：菜单栏 -&gt; Code -&gt; Inspect Code</p>
+</li>
+<li>
+<p>编写LLVM插件检测出重复代码、未被调用的代码</p>
+</li>
+</ul>
+<h2 id="linkmap">LinkMap</h2>
+<ul>
+<li>生成LinkMap文件，可以查看可执行文件的具体组成（Build Settings -&gt; Linking -&gt; Path to Link Map File - 本地路径）</li>
+<li>可借助第三方工具解析LinkMap文件： https://github.com/huanxsd/LinkMap</li>
+</ul>
+<h2 id="优化工具">优化工具</h2>
+<ul>
+<li>WSL_FPS (FPS检测)</li>
+<li>LinkMap (每个文件大小)</li>
+<li>LSUnusedResources (无用的文件)</li>
+<li>appCode (同上)</li>
+<li>MLeaksFinder</li>
+<li>YYKit (异步渲染功能强大)</li>
+<li>网络优化</li>
+</ul>
+<h2 id="循环引用">循环引用</h2>
+<h2 id="1导致内存泄漏的几种方式">1.导致内存泄漏的几种方式？</h2>
+<ul>
+<li>野指针</li>
+<li>循环引用</li>
+<li>强引用</li>
+<li>非OC对象的影响</li>
+</ul>
+<h2 id="2解决循环应用的方式">2.解决循环应用的方式？</h2>
+<ul>
+<li>__weak typeof(self) weakdSelf = self; 业务逻辑复杂的情况下，例如延迟操作容易引起对象提前释放，所以不建议这种方式</li>
+<li>强引用、弱引用一起使用</li>
+</ul>
+<pre><code class="language-objc">self.name = @&quot;大宁宁&quot;;
+__weak typeof(self) weakSelf = self;
+self.block = ^{
+  __strong typeof(self) strongSelf = weakSelf;
+  dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    NSLog(@&quot;%@&quot;,strongSelf.name); // self - nil name - nil
+  });
+};
+
+self.block();
+</code></pre>
+<ul>
+<li>中间变量，将self设置为局部变量，再block结束时置为nil</li>
+</ul>
+<pre><code class="language-objc">self.name = @&quot;大宁宁&quot;;
+__block LGViewController *vc = self;
+self.block = ^(){
+  dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    NSLog(@&quot;%@&quot;,vc.name);
+      vc = nil;
+  });
+};
+self.block();
+</code></pre>
+<ul>
+<li>上一个方法改进（性能最高的一种方法）</li>
+</ul>
+<pre><code class="language-objc">self.name = @&quot;大宁宁&quot;;
+    
+self.blockVc = ^(LGViewController * vc) {
+  dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    NSLog(@&quot;%@&quot;,vc.name);
+  });
+};
+self.blockVc(self);
+</code></pre>
+<h2 id="3强引用">3.强引用</h2>
+<p>例如项目中遇到的NSTimer的使用，会导致强引用问题。（页面释放不掉，timer停不下来）</p>
+<pre><code class="language-objc">@interface ViewController ()
+
+@property (nonatomic, strong) NSTimer *timer;
+
+@end
+
+@implementation ViewController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    
+    self.timer = [NSTimer scheduledTimerWithTimeInterval:2
+                                                  target:self
+                                                selector:@selector(fireHome)
+                                                userInfo:nil
+                                                 repeats:YES];
+    [self.timer fireDate];
+}
+
+- (void)fireHome {
+    NSLog(@&quot;来了&quot;);
+}
+
+- (void)dealloc{
+    
+    [self.timer invalidate];
+    self.timer = nil;
+    NSLog(@&quot;%s&quot;,__func__);
+}
+</code></pre>
+<ul>
+<li>
+<p>第一种方法，调用iOS API</p>
+<pre><code class="language-objc">  - (void)didMoveToParentViewController:(UIViewController *)parent {
+  if (parent == nil) {
+      [self.timer invalidate];
+      self.timer = nil;
+  }
+}
+</code></pre>
+</li>
+<li>
+<p>第二种方法，中间变量，利用创建一个临时变量target，打破self持有timer，则self会被释放，随即timer在析构函数里也可被释放</p>
+</li>
+<li>
+<p>第三种方法，iOS已经优化过的timerblockAPI</p>
+<pre><code class="language-objc">self.timer = [NSTimer scheduledTimerWithTimeInterval:2 repeats:YES block:^(NSTimer * _Nonnull timer) {
+      NSLog(@&quot;来了来了&quot;);
+  }];
+[self.timer fireDate];
+// 析构函数里释放掉timer即可
+</code></pre>
+</li>
+<li>
+<p>第四种方法，NSProxy，利用消息转发机制</p>
+</li>
+</ul>
+<h2 id="内存泄漏检测方式">内存泄漏检测方式</h2>
+<ul>
+<li>Xcode 设置Analyze during 'build' 为yes</li>
+<li>Instruement</li>
+<li>SDK MleakFind</li>
+<li>dealloc</li>
+</ul>
+<h2 id="自定义-mleakfind">自定义 MleakFind</h2>
+<blockquote>
+<p>目标：监听UIViewContrller是否发生内存泄漏，（只考虑 push、pop）<br><br>
+思路：我们在视图控制器弹出栈，并在这个视图完全销毁时，检测对象是否还活着<br><br>
+步骤：<br></p>
+<ul>
+<li>1.交换视图控制器的viewWillAppear与swizzled_viewWillAppear方法，viewDidDisappear与swizzled_viewDidDisappear方法</li>
+<li>2.使用关联方法，获取和设置视图控制进出栈状态</li>
+<li>3.且在界面完全消失，并控制器的状态是出栈状态，这时，观察延时观察对象是否存活</li>
+</ul>
+</blockquote>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[iOS 卡顿、耗电等优化]]></title>
+        <id>https://daning.netlify.app/post/ios-qia-dun-hao-dian-deng-you-hua/</id>
+        <link href="https://daning.netlify.app/post/ios-qia-dun-hao-dian-deng-you-hua/">
+        </link>
+        <updated>2022-01-30T02:59:25.000Z</updated>
+        <summary type="html"><![CDATA[<p>iOS 性能优化</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>iOS 性能优化</p>
+<!-- more -->
+<hr>
+<h2 id="屏幕成像原理">屏幕成像原理</h2>
+<figure data-type="image" tabindex="1"><img src="https://s4.ax1x.com/2022/01/30/H9DzcV.png" alt="H9DzcV.png" loading="lazy"></figure>
+<hr>
+<h2 id="优化">优化</h2>
+<h3 id="cpu-优化">CPU 优化</h3>
+<figure data-type="image" tabindex="2"><img src="https://s4.ax1x.com/2022/01/30/H9BVa9.png" alt="H9BVa9.png" loading="lazy"></figure>
+<h3 id="gpu-优化">GPU 优化</h3>
+<figure data-type="image" tabindex="3"><img src="https://s4.ax1x.com/2022/01/30/H9DSdH.png" alt="H9DSdH.png" loading="lazy"></figure>
+<h3 id="耗电优化">耗电优化</h3>
+<p><img src="https://s4.ax1x.com/2022/01/30/H9sjyV.png" alt="H9sjyV.png" loading="lazy"><br>
+<img src="https://s4.ax1x.com/2022/01/30/H9ymwD.png" alt="H9ymwD.png" loading="lazy"></p>
+<h3 id="启动优化">启动优化</h3>
+<p><img src="https://s4.ax1x.com/2022/01/30/H96LrV.png" alt="H96LrV.png" loading="lazy"><br>
+<img src="https://s4.ax1x.com/2022/01/30/H9gCFg.png" alt="H9gCFg.png" loading="lazy"></p>
+<h3 id="安装包瘦身">安装包瘦身</h3>
+<p><img src="https://s4.ax1x.com/2022/01/30/H92FAO.png" alt="H92FAO.png" loading="lazy">]</p>
+<h2 id="什么是离屏渲染">什么是离屏渲染?</h2>
+<figure data-type="image" tabindex="4"><img src="https://s4.ax1x.com/2022/01/30/H9rec6.png" alt="H9rec6.png" loading="lazy"></figure>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[OC 富文本添加多个图片]]></title>
+        <id>https://daning.netlify.app/post/oc-fu-wen-ben-tian-jia-duo-ge-tu-pian/</id>
+        <link href="https://daning.netlify.app/post/oc-fu-wen-ben-tian-jia-duo-ge-tu-pian/">
+        </link>
+        <updated>2022-01-26T10:32:43.000Z</updated>
+        <summary type="html"><![CDATA[<p>富文本中计算多个占位符的range，然后替换成对应图片</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>富文本中计算多个占位符的range，然后替换成对应图片</p>
+<!-- more -->
+<hr>
+<p>用 ^^^^ 占位，然后逆序替换成对应的图片</p>
+<pre><code>    NSString *note;
+    NSArray *imageArr;
+    if (_page_type == Outdoor_Guide_Page_Type_1) {
+        note = LOCALSTRING(@&quot;1. Select a speaker as outdoor master speaker.\n2. Long press “^^^^” button to enter outdoor master mode.&quot;);
+        imageArr = @[@&quot;OutdoorGuide_btn_001&quot;];
+    } else {
+        note = LOCALSTRING(@&quot;Long press “^^^^” button and “^^^^” on your expected speakers that would connected to outdoor master speaker.&quot;);
+        imageArr = @[@&quot;OutdoorGuide_btn_001&quot;,@&quot;OutdoorGuide_btn_002&quot;];
+    }
+    [self setupNoteLabel:note imageArray:imageArr];
+</code></pre>
+<pre><code>- (void)setupNoteLabel:(NSString *)note imageArray:(NSArray *)imageArr {
+    NSMutableArray *imgStrArr = [NSMutableArray array];
+    for (int i = 0; i &lt; imageArr.count; i++) {
+        NSTextAttachment *textAttachment = [[NSTextAttachment alloc] init];
+        textAttachment.image = [UIImage imageNamed:imageArr[i]];
+        NSAttributedString *imgStr = [NSAttributedString attributedStringWithAttachment:textAttachment];
+        [imgStrArr addObject:imgStr];
+    }
+    
+    NSMutableParagraphStyle *pStyle = [[NSMutableParagraphStyle alloc]init];
+    pStyle.lineSpacing = 8;
+    
+    NSMutableAttributedString *noteStr = [[NSMutableAttributedString alloc] initWithString:note];
+    [noteStr addAttributes:@{NSForegroundColorAttributeName: THEME_LIGHT_COLOR,
+                             NSFontAttributeName: [UIFont systemFontOfSize:14],
+                             NSParagraphStyleAttributeName:pStyle}
+                     range:NSMakeRange(0, noteStr.length)];
+    
+    
+    // 正则匹配 占位符
+    NSString *regexStr = @&quot;(\\^\\^\\^\\^)&quot;;
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:regexStr options:0 error:nil];
+    NSArray *matches = [regex matchesInString:note options:0 range:NSMakeRange(0, note.length)];
+    
+    NSMutableArray *rangeArr = [NSMutableArray array];
+    // 倒序获取 占位符ranges (防止正序替换的时候，由于图片replace后造成的整体location错误)
+    [matches enumerateObjectsWithOptions:NSEnumerationReverse usingBlock:^(NSTextCheckingResult *result, NSUInteger idx, BOOL * _Nonnull stop) {
+        NSRange range = result.range;
+        [rangeArr addObject:[NSValue valueWithRange:range]];
+    }];
+    
+    // 替换
+    for (int i = 0; i &lt; rangeArr.count; i++) {
+        NSValue *value = rangeArr[i];
+        NSRange range = value.rangeValue;
+        [noteStr replaceCharactersInRange:range withAttributedString:imgStrArr[rangeArr.count - 1 - i]];
+    }
+    
+    _noteLabel.attributedText = noteStr;
+}
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[内存管理-Tagged Pointer]]></title>
+        <id>https://daning.netlify.app/post/nei-cun-guan-li-tagged-pointer/</id>
+        <link href="https://daning.netlify.app/post/nei-cun-guan-li-tagged-pointer/">
+        </link>
+        <updated>2022-01-06T09:37:31.000Z</updated>
+        <summary type="html"><![CDATA[<p>从64bit开始，iOS引入了Tagged Pointer技术，用于优化NSNumber、NSDate、NSString等小对象的存储</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>从64bit开始，iOS引入了Tagged Pointer技术，用于优化NSNumber、NSDate、NSString等小对象的存储</p>
+<!-- more -->
+<hr>
+<h2 id="概述">概述</h2>
+<p>以NSNumber为例，在没有使用Tagged Pointer之前，NSNumber等对象需要动态分配内存、维护引用技术等，NSNumber指针存储的是堆中的NSNumber对象的地址值</p>
+<p>在使用Tagged Pointer之后，NSNumber指针里面存储的数据变成了：Tag + Data，也就是将数据直接存储在了指针中</p>
+<p>当指针不够存储数据时，才会使用动态分配内存的方式来存储数据</p>
+<p>objc_msgSend能识别Tagged Pointer，比如NSNumber的intValue方法，直接从指针提取数据，节省了以前的调佣开销</p>
+<h2 id="例">例</h2>
+<ul>
+<li>
+<p>以下述为例，第二个for循环，会在执行的时候crash！</p>
+<pre><code>dispatch_queue_t queue = dispatch_get_global_queue(0, 0);
+for (int i = 0; i &lt; 1000; i++) {
+    dispatch_async(queue, ^{
+        self.testString =  [NSString stringWithFormat:@&quot;abc&quot;];
+    });
+}
+
+for (int i = 0; i &lt; 1000; i++) {
+    dispatch_async(queue, ^{
+        self.testString =  [NSString stringWithFormat:@&quot;abcdefghijk&quot;];
+    });
+}
+</code></pre>
+</li>
+<li>
+<p>分析：<br>
+ARC的实现原理其实就是MRC，在MRC中，代码类似如下，由于上面的例子中，会异步调用 <strong>[_testString release]</strong> ，因此会导致提前release导致崩溃；</p>
+<pre><code>// 模拟MRC
+- (void)setTestString:(NSString *)testString{
+    if (_testString == testString) {
+        [_testString release]; // 赋值为新对象前，先释放旧对象
+        _testString = [testString copy];
+    }
+}
+
+- (NSString *)testString{
+    return _testString;
+}
+
+- (void)dealloc{
+    [_testString release];
+    _testString = nil;
+    [super deallco];
+}
+</code></pre>
+</li>
+<li>
+<p>那么为什么  <strong>if (_testString == testString)</strong> 没有拦截住呢？<br>
+是因为每次 <strong>[NSString stringWithFormat:@&quot;abcdefghijk&quot;]</strong> 时分配的地址都不一样！</p>
+</li>
+<li>
+<p>那么为什么 <strong>self.testString = [NSString stringWithFormat:@&quot;abc&quot;]</strong> 没有问题呢？<br>
+这就是 <strong>Tagged Pointer</strong> 的原因了！这里<strong>RunTime</strong> 判断到 <strong>Tagged Pointer</strong> 后直接进行赋值，而根本没有调用 set 方法（强调一下这里每次 <strong>[NSString stringWithFormat:@&quot;abc&quot;]</strong> 的值是一样的）</p>
+</li>
+</ul>
+<h2 id="如何判断是否为-tagged-pointer">如何判断是否为 Tagged Pointer</h2>
+<p>翻阅RunTime源码，可以查找到 _objc_isTaggedPointer 方法，我们以OC的方式模拟实现如下：</p>
+<pre><code>// 如果是iOS平台 (指针的最 '高' 有效位是1，就是Tagged Pointer）)
+# define _OBJC_TAG_MASK (1UL&lt;&lt;63)
+
+// 如果是Mac平台（指针的最 '低' 有效位是1，就是Tagged Pointer）
+//# define _OBJC_TAG_MASK 1UL
+
+BOOL isTaggedPointer(id pointer){
+    return ((uintptr_t)pointer &amp; _OBJC_TAG_MASK) == _OBJC_TAG_MASK;
+}
+
+- (void)taggerPointerTest{
+    NSString *str = [NSString stringWithFormat:@&quot;abcdefghijk&quot;];
+    NSString *str1 = [NSString stringWithFormat:@&quot;abc&quot;];
+    NSLog(@&quot;\nstr - %p: isTaggedPointer: %d\nstr1 -  %p isTaggedPointer: %d&quot;,str,isTaggedPointer(str),str1,isTaggedPointer(str1));
+}
+</code></pre>
+<pre><code>str - 0x600002660500: isTaggedPointer: 0
+str1 -  0x81a8f3dc8fa2ffae isTaggedPointer: 1
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[内存管理-内存布局]]></title>
+        <id>https://daning.netlify.app/post/nei-cun-guan-li-nei-cun-bu-ju/</id>
+        <link href="https://daning.netlify.app/post/nei-cun-guan-li-nei-cun-bu-ju/">
+        </link>
+        <updated>2022-01-06T07:25:37.000Z</updated>
+        <summary type="html"><![CDATA[<p>简述内存布局的基本规则</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>简述内存布局的基本规则</p>
+<!-- more -->
+<h2 id="示意图">示意图</h2>
+<figure data-type="image" tabindex="1"><img src="https://s4.ax1x.com/2022/01/06/Tz9Cvj.png" alt="Tz9Cvj.png" loading="lazy"></figure>
+<h2 id="例">例</h2>
+<pre><code>int a = 10;
+int b;
+
+- (void)test{
+    static int c = 20;
+    static int d;
+    
+    int e;
+    int f = 20;
+    
+    NSString *str = @&quot;test&quot;;
+    NSObject *obj = [[NSObject alloc]init];
+    
+    NSLog(@&quot;\n&amp;a = %p\n&amp;b = %p\n&amp;c = %p\n&amp;d = %p\n&amp;e = %p\n&amp;f = %p\nstr = %p\nobj = %p\n&quot;,&amp;a,&amp;b,&amp;c,&amp;d,&amp;e,&amp;f,str,obj);
+}
+</code></pre>
+<pre><code>// 内存地址从小到大排序
+/**
+ 字符串常量
+ str = 0x10dd440f8
+ 
+ 已初始化的全局变量、静态变量
+ &amp;a = 0x10dd49d68
+ &amp;c = 0x10dd49d6c
+ 
+ 未初始化的全局变量、静态变量
+ &amp;b = 0x10dd49f10
+ &amp;d = 0x10dd49ef0
+ 
+ 堆
+ obj = 0x6000029f4230
+ 
+ 栈 ↑
+ &amp;f = 0x7ff7b21bd658
+ &amp;e = 0x7ff7b21bd65c
+*/
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[内存管理-GCD定时器]]></title>
+        <id>https://daning.netlify.app/post/gcd-ding-shi-qi/</id>
+        <link href="https://daning.netlify.app/post/gcd-ding-shi-qi/">
+        </link>
+        <updated>2022-01-04T07:14:42.000Z</updated>
+        <summary type="html"><![CDATA[<p>NSTimer依赖于RunLoop。如果RunLoop的任务过于繁重，可能会导致NSTimer不准时；<br>
+所以我们有时就需要更准时的GCD定时器</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>NSTimer依赖于RunLoop。如果RunLoop的任务过于繁重，可能会导致NSTimer不准时；<br>
+所以我们有时就需要更准时的GCD定时器</p>
+<!-- more -->
+<h2 id="基本使用方式">基本使用方式</h2>
+<pre><code>    // 队列
+    dispatch_queue_t queue = dispatch_get_global_queue(0, 0);
+    
+    // 创建定时器
+    dispatch_source_t timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, queue);
+    
+    // 设置时间
+    NSTimeInterval start = 2.0; // 2秒后开始
+    NSTimeInterval interval = 1.0; // 间隔
+    dispatch_source_set_timer(timer,
+                              dispatch_time(DISPATCH_TIME_NOW, start * NSEC_PER_SEC),
+                              interval * NSEC_PER_SEC, 0);
+    
+    // 设置回调
+    dispatch_source_set_event_handler(timer, ^{
+        NSLog(@&quot;currentThread %@&quot; ,[NSThread currentThread]);
+    });
+    
+    // 启动定时器
+    dispatch_resume(timer);
+    self.gcdTimer = timer; // 需要用强引用保留此定时器对象
+</code></pre>
+<h2 id="自定义封装">自定义封装</h2>
+<ul>
+<li>MyGCDTimer.h</li>
+</ul>
+<pre><code>@interface MyGCDTimer : NSObject
+
+/// block 形式开启 task 任务
+/// @param task task事件
+/// @param start 几秒后开始
+/// @param interval 时间间隔
+/// @param repeats 是否重复
+/// @param async 异步 or 同步
++ (NSString *)doTask:(void(^)(void))task
+               start:(NSTimeInterval)start
+            interval:(NSTimeInterval)interval
+             repeats:(BOOL)repeats
+               async:(BOOL)async;
+
+/// target seletor 形式开始 task任务
++ (NSString *)doTask:(id)target
+            selector:(SEL)selector
+               start:(NSTimeInterval)start
+            interval:(NSTimeInterval)interval
+             repeats:(BOOL)repeats
+               async:(BOOL)async;
+
++ (void)cancelTask:(NSString *)taskName;
+
+@end
+</code></pre>
+<ul>
+<li>MyGCDTimer.m</li>
+</ul>
+<pre><code>@implementation MyGCDTimer
+
+static NSMutableDictionary *timers_; // timers 字典 {name : timer}
+static dispatch_semaphore_t semaphore_; // 信号量保证线程安全
+
++ (void)initialize{
+    static dispatch_once_t onceToken;
+    dispatch_once(&amp;onceToken, ^{
+        timers_ = [NSMutableDictionary dictionary];
+        semaphore_ = dispatch_semaphore_create(1);
+    });
+}
+
++ (NSString *)doTask:(void (^)(void))task start:(NSTimeInterval)start interval:(NSTimeInterval)interval repeats:(BOOL)repeats async:(BOOL)async{
+    if (!task || start &lt; 0 || (interval &lt;= 0 &amp;&amp; repeats)) return nil;
+    
+    
+    // 队列
+    dispatch_queue_t queue = async ? dispatch_get_global_queue(0, 0) : dispatch_get_main_queue();
+    
+    // 创建定时器
+    dispatch_source_t timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, queue);
+    
+    // 设置时间
+    dispatch_source_set_timer(timer,
+                              dispatch_time(DISPATCH_TIME_NOW, start * NSEC_PER_SEC),
+                              interval * NSEC_PER_SEC, 0);
+    
+    
+    // 信号量保证线程安全
+    dispatch_semaphore_wait(semaphore_, DISPATCH_TIME_FOREVER);
+    // 定时器唯一标识
+    NSString *name = [NSString stringWithFormat:@&quot;%zd&quot;,timers_.count];
+    // 存放到字典中(强引用)
+    timers_[name] = timer;
+    dispatch_semaphore_signal(semaphore_);
+    
+    // 设置回调
+    dispatch_source_set_event_handler(timer, ^{
+        task();
+        if (!repeats) { // 不重复则取消
+            [self cancelTask:name];
+        }
+    });
+    
+    // 启动定时器
+    dispatch_resume(timer);
+    
+    return name;
+}
+
++ (NSString *)doTask:(id)target selector:(SEL)selector start:(NSTimeInterval)start interval:(NSTimeInterval)interval repeats:(BOOL)repeats async:(BOOL)async{
+    if (!target || !selector) return nil;
+    return [self doTask:^{
+        if ([target respondsToSelector:selector]) {
+            [target performSelector:selector withObject:nil];
+        }
+    } start:start interval:interval repeats:repeats async:async];
+}
+
++ (void)cancelTask:(NSString *)taskName{
+    if (taskName.length == 0) return;
+    
+    dispatch_semaphore_wait(semaphore_, DISPATCH_TIME_FOREVER);
+    
+    dispatch_source_t timer = timers_[taskName];
+    if (timer) {
+        dispatch_source_cancel(timer);
+        [timers_ removeObjectForKey:taskName];
+    }
+    
+    dispatch_semaphore_signal(semaphore_);
+}
+
+@end
+</code></pre>
+<ul>
+<li>调用方式：</li>
+</ul>
+<pre><code>@property (nonatomic, strong) dispatch_source_t gcdTimer;
+@property (nonatomic, copy) NSString *taskName;
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    self.taskName = [MyGCDTimer doTask:^{
+        NSLog(@&quot;currentThread %@&quot; ,[NSThread currentThread]);
+    } start:2.0 interval:1.0 repeats:YES async:YES];
+}
+
+- (void)dealloc{
+    NSLog(@&quot;%s&quot;,__func__);
+    [MyGCDTimer cancelTask:_taskName];
+}
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[内存管理-定时器]]></title>
+        <id>https://daning.netlify.app/post/nei-cun-guan-li-ding-shi-qi/</id>
+        <link href="https://daning.netlify.app/post/nei-cun-guan-li-ding-shi-qi/">
+        </link>
+        <updated>2022-01-04T06:08:41.000Z</updated>
+        <summary type="html"><![CDATA[<p>NSTimer在使用过程中可能会引发内存泄露，如何利用NSProxy来处理这个问题？</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>NSTimer在使用过程中可能会引发内存泄露，如何利用NSProxy来处理这个问题？</p>
+<!-- more -->
+<hr>
+<h2 id="场景">场景</h2>
+<p>例如下述场景，我们希望在当前 viewController dealloc 后，自动销毁 NSTimer 和 CADisplayLink 的实例对象。</p>
+<blockquote>
+<p>结论：无法执行 dealloc ，timer 和 displayLick 无法停止</p>
+</blockquote>
+<pre><code>- (void)viewDidLoad {
+    [super viewDidLoad];
+    
+    self.link = [CADisplayLink displayLinkWithTarget:self selector:@selector(test)];
+    [self.link addToRunLoop:[NSRunLoop mainRunLoop] forMode:NSDefaultRunLoopMode];
+    
+    _timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(test) userInfo:nil repeats:YES];
+}
+
+- (void)test{
+    NSLog(@&quot;%s&quot;,__func__);
+}
+
+- (void)dealloc{
+    NSLog(@&quot;%s&quot;,__func__);
+    [self.timer invalidate];
+    [self.link invalidate];
+}
+</code></pre>
+<ul>
+<li>分析<br>
+CADisplayLink、NSTimer 会对 target 产生强引用，如果 target 又对它们产生了强引用，那么就会引发循环引用</li>
+</ul>
+<hr>
+<h2 id="解决方案">解决方案</h2>
+<h3 id="1-提前手动释放">1. 提前手动释放</h3>
+<p>通常我们会在 viewWillDisappear 方法里 调用 [self.timer invalidate] 提前释放 timer</p>
+<h3 id="2-自定义代理类">2. 自定义代理类</h3>
+<p>虽然手动管理很方便，但是不优雅，因此我们想从 <strong>强引用</strong> 的 target 入手，只要实现了弱引用，就可以打破这层循环；实现方式很简单，创建一个 <strong>协议类</strong> ，协议类 弱引用 self，再将其传给 timer 的 target 即可；</p>
+<pre><code>@interface DNProxy : NSObject
+@property (nonatomic, weak) id target;
++ (instancetype)proxyWithTarget:(id)target;
+@end
+</code></pre>
+<pre><code>@implementation DNProxy
++ (instancetype)proxyWithTarget:(id)target{
+    DNProxy *proxy = [[DNProxy alloc] init];
+    proxy.target = target; // 弱引用传进来的target
+    return proxy;
+}
+// 由于NDProxy没有&quot;self&quot;对象的的实例方法，因此需要消息转发实现 self 的方法调用
+- (id)forwardingTargetForSelector:(SEL)aSelector{
+    // 此处return _target后，会立刻进行 objc_msgSend(_target, aSelector);
+    return _target;
+}
+@end
+</code></pre>
+<p>调用方式也很简单：</p>
+<pre><code> _timer = [NSTimer scheduledTimerWithTimeInterval:1 target:[DNProxy proxyWithTarget:self] selector:@selector(test) userInfo:nil repeats:YES];
+</code></pre>
+<h3 id="3-nsproxy">3. NSProxy</h3>
+<p>和 方式2 很像，不过是系统自带的 NSProxy 类，专门用来处理类似的情况，虽然看起来比 方式2 要麻烦一点，但是实际上，我们略过了去父类中进行 <strong>方法查找</strong> 这一过程，不需要 <strong>动态方法解析</strong>，直接进行 <strong>方法签名</strong> 以及 <strong>方法调用</strong></p>
+<pre><code>@interface MyProxy : NSProxy
+@property (nonatomic, weak) id target;
++ (instancetype)proxyWithTarget:(id)target;
+@end
+</code></pre>
+<pre><code>@implementation MyProxy
++ (instancetype)proxyWithTarget:(id)target{
+    // NSProxy对象不需要调用init，因为它本来就没有init方法
+    MyProxy *proxy = [MyProxy alloc];
+    proxy.target = target; // 弱引用传进来的target
+    return proxy;
+}
+// 方法签名
+- (NSMethodSignature *)methodSignatureForSelector:(SEL)sel{
+    return [_target methodSignatureForSelector:sel];
+}
+// 调用
+- (void)forwardInvocation:(NSInvocation *)invocation{
+    [invocation invokeWithTarget:_target];
+}
+@end
+</code></pre>
+<hr>
+]]></content>
+    </entry>
+</feed>

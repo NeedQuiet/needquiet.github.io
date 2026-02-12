@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta content="yes" name="apple-mobile-web-app-capable" />
+<meta content="black" name="apple-mobile-web-app-status-bar-style" />
+<meta name="referrer" content="never">
+<meta name="keywords" content="">
+<meta name="description" content="欢迎访问[鼓捣猫宁]的个人博客">
+<meta name="author" content="kveln">
+<title>block的本质 | 鼓捣猫宁</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css">
+<link href="https://cdn.bootcss.com/font-awesome/5.11.2/css/all.min.css" rel="stylesheet">
+<link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+<link
+  href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800'
+  rel='stylesheet' type='text/css'>
+<link rel="alternate" type="application/rss+xml" title="block的本质 | 鼓捣猫宁 » Feed"
+  href="https://daning.netlify.app/atom.xml">
+<link rel="stylesheet"
+  href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.15.10/build/styles/androidstudio.min.css">
+<link href="https://daning.netlify.app/styles/main.css" rel="stylesheet">
+<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/850552586/ericamcdn@0.1/css/live2d.css">
+
+<script>hljs.initHighlightingOnLoad();</script>
+
+  <meta property="og:description" content="block的本质" />
+  <meta property="og:url" content="https://daning.netlify.app/post/block-de-ben-zhi/" />
+  <meta property="og:locale" content="zh-CN" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="鼓捣猫宁" />
+  <!-- <script src="../assets/styles/scripts/tocScript.js"></script> -->
+</head>
+
+<body>
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href="https://daning.netlify.app">鼓捣猫宁</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+      data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
+      aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ml-auto">
+        
+        <li class="nav-item">
+          
+          <a class="nav-link" href="/">首页</a>
+          
+        </li>
+        
+        <li class="nav-item">
+          
+          <a class="nav-link" href="/archives">归档</a>
+          
+        </li>
+        
+        <li class="nav-item">
+          
+          <a class="nav-link" href="/tags">标签</a>
+          
+        </li>
+        
+        <li class="nav-item">
+          
+          <a class="nav-link" href="/about">关于</a>
+          
+        </li>
+        
+        <li class="nav-item">
+          <div class="gridea-search-container">
+            <form id="gridea-search-form" style="position: relative" data-update="1770892703131"
+              action="/search/index.html">
+              <input class="search-input" autocomplete="off" spellcheck="false" name="q" placeholder="搜索文章" />
+              <i class="fas fa-search gt-c-content-color-first" style="position: absolute; top: 9px; left: 10px;"></i>
+            </form>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+  <!-- Page Header -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href="https://daning.netlify.app">鼓捣猫宁</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+      data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
+      aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ml-auto">
+        
+        <li class="nav-item">
+          
+          <a class="nav-link" href="/">首页</a>
+          
+        </li>
+        
+        <li class="nav-item">
+          
+          <a class="nav-link" href="/archives">归档</a>
+          
+        </li>
+        
+        <li class="nav-item">
+          
+          <a class="nav-link" href="/tags">标签</a>
+          
+        </li>
+        
+        <li class="nav-item">
+          
+          <a class="nav-link" href="/about">关于</a>
+          
+        </li>
+        
+        <li class="nav-item">
+          <div class="gridea-search-container">
+            <form id="gridea-search-form" style="position: relative" data-update="1770892703131"
+              action="/search/index.html">
+              <input class="search-input" autocomplete="off" spellcheck="false" name="q" placeholder="搜索文章" />
+              <i class="fas fa-search gt-c-content-color-first" style="position: absolute; top: 9px; left: 10px;"></i>
+            </form>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<header class="masthead" style="background-image: url('https://daning.netlify.app/media/images/home-bg.jpg')">
+  <div class="overlay"></div>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-md-10 mx-auto">
+        
+          <!-- 没Title为其他页面Header -->
+          
+            <!-- 没Title并且有headerType为Post：文章Header -->
+            <div class="post-heading">
+              <span class="tags">
+                
+                <a href="https://daning.netlify.app/tag/upAY8wL6E/" class="tag">OC</a>
+                
+              </span>
+              <h1>block的本质</h1>
+              <span class="meta">
+                Posted on
+                2021-03-24，3 min read
+              </span>
+            </div>
+          
+        
+      </div>
+    </div>
+  </div>
+</header>
+  <!-- Post Content -->
+  <article id="post-content-article">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto post-content-container">
+          
+          <p>目录：block的本质、变量捕获、类型、copy、__block修饰符</p>
+<!-- more -->
+<h2 id="本质">本质</h2>
+<ul>
+<li>block本质上也是一个OC对象，它内部也有个isa指针</li>
+<li>block是封装了函数调用（函数地址）以及函数调用环境（参数、外部局部变量等）的OC对象</li>
+<li>图示：<br>
+<img src="https://z3.ax1x.com/2021/03/24/6qk6nP.png" alt="block的底层实现.png" loading="lazy"></li>
+</ul>
+<h2 id="变量捕获">变量捕获</h2>
+<ul>
+<li>
+<p>局部变量</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">类型</th>
+<th style="text-align:center">捕获到block内部</th>
+<th style="text-align:center">访问问方式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">auto</td>
+<td style="text-align:center">✅</td>
+<td style="text-align:center">值传递</td>
+</tr>
+<tr>
+<td style="text-align:center">static</td>
+<td style="text-align:center">✅</td>
+<td style="text-align:center">指针传递</td>
+</tr>
+</tbody>
+</table>
+<pre><code>auto int age = 10; // auto: 自动变量，离开作用域就销毁
+static int height = 100;
+void (^block)(void) = ^{
+    NSLog(@&quot;age is %d, height is %d&quot;,age ,height); // 捕获变量(capture)
+};
+
+age = 20;
+height = 200;
+block(); // age is 10, height is 200
+</code></pre>
+</li>
+<li>
+<p>全局变量</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">类型</th>
+<th style="text-align:center">捕获到block内部</th>
+<th style="text-align:center">访问问方式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">全局变量</td>
+<td style="text-align:center">❌</td>
+<td style="text-align:center">直接访问</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p>self</p>
+<blockquote>
+<p>self也会被捕获到block内部，注意，self实际上是局部变量！！！指针传递</p>
+</blockquote>
+<p>oc当中，函数方法实际上有2个隐藏参数，例（MyPerson *self，SEL _cmd），其中，self是作为局部变量传递进来的</p>
+</li>
+</ul>
+<h2 id="block的类型">block的类型</h2>
+<blockquote>
+<p>block有3种类型，可以通过调用class方法或者isa指针查看具体类型，最终都是继承自NSBlock类型。</p>
+</blockquote>
+<ol>
+<li><strong>NSGlobalBlock</strong> ( _NSConcreteGlobalBlock )  没有访问auto变量的</li>
+<li><strong>NSStackBlock</strong> ( _NSConcreteStackBlock ) 访问了auto变量(需在非ARC)</li>
+<li><strong>NSMallocBlock</strong> ( _NSConcreteMallocBlock ) <strong>NSStackBlock</strong> 调用了copy(需在非ARC)<br>
+<img src="https://z3.ax1x.com/2021/03/30/cFCI0O.png" alt="block类型" loading="lazy"></li>
+</ol>
+<blockquote>
+<p>每一种类型的block调用copy后的结果如下：</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">block类型</th>
+<th style="text-align:center">副本源的配置存储域</th>
+<th style="text-align:center">复制效果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><strong>NSGlobalBlock</strong></td>
+<td style="text-align:center">程序的数据区域</td>
+<td style="text-align:center">什么也不做</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>NSStackBlock</strong></td>
+<td style="text-align:center">栈</td>
+<td style="text-align:center">从栈复制到堆</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>NSMallocBlock</strong></td>
+<td style="text-align:center">堆</td>
+<td style="text-align:center">引用计数增加</td>
+</tr>
+</tbody>
+</table>
+<h2 id="block的copy">block的copy</h2>
+<blockquote>
+<p>在ARC环境下，编译器会根据情况自动将栈上的block复制到堆上，比如：</p>
+</blockquote>
+<ul>
+<li>
+<p>blcok作为函数返回值时</p>
+<pre><code>    MJBlock block() {
+        int age = 10;
+        return ^{
+            NSLog(@&quot;age = %d&quot;,age);
+        };
+    }
+</code></pre>
+</li>
+<li>
+<p>将block赋值给 <strong>__strong</strong> 指针时</p>
+<pre><code>    int age = 10;
+    void (^blcok)(void) = ^{
+        NSLog(@&quot;age = %d&quot;,age);
+    };
+    block();
+</code></pre>
+</li>
+<li>
+<p>block作为Cocoa API中方法名含有usingBlock的方法参数时</p>
+</li>
+<li>
+<p>block作为GCD API的方法参数时</p>
+</li>
+</ul>
+<h2 id="__block修饰符">__block修饰符</h2>
+<ul>
+<li>
+<p>作用：</p>
+<ol>
+<li>__block可以用于解决block内部无法修改auto变量值的问题</li>
+<li>__block不能修饰全局变量、静态变量</li>
+<li>编译器会将__block变量包装成一个对象</li>
+</ol>
+</li>
+<li>
+<p>内存管理：</p>
+<ol>
+<li>当block在栈上时，并不会对 <strong>__block</strong> 产生强引用</li>
+<li>当block被copy到堆时，会调用block内部的copy函数，其内部会对 <strong>__block</strong> 变量形成强引用</li>
+<li>当block从堆中移除时，会调用block内部的dispose函数，其内部会自动释放引用的 <strong>__block</strong> 变量（release）</li>
+</ol>
+</li>
+</ul>
+
+          <div class="toc-container"><ul class="markdownIt-TOC">
+<li>
+<ul>
+<li><a href="#%E6%9C%AC%E8%B4%A8">本质</a></li>
+<li><a href="#%E5%8F%98%E9%87%8F%E6%8D%95%E8%8E%B7">变量捕获</a></li>
+<li><a href="#block%E7%9A%84%E7%B1%BB%E5%9E%8B">block的类型</a></li>
+<li><a href="#block%E7%9A%84copy">block的copy</a></li>
+<li><a href="#__block%E4%BF%AE%E9%A5%B0%E7%AC%A6">__block修饰符</a></li>
+</ul>
+</li>
+</ul>
+</div>
+          
+          <hr />
+          <p class="next-post">下一篇：
+            <a href="https://daning.netlify.app/post/category-fen-lei/">
+              <span class="post-title">
+                Category分类&rarr;
+              </span>
+            </a>
+          </p>
+          
+          <div class="comment" style="text-align: center;">
+            
+            <span id="/post/block-de-ben-zhi/" class="leancloud_visitors"
+              data-flag-title="block的本质">
+              <em class="post-meta-item-text">阅读量 </em>
+              <i class="leancloud-visitors-count">loading...</i>
+            </span>
+            
+
+            
+            
+            <script src='https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js'></script>
+
+<style>
+	div#vcomments{
+		width:100%;
+		max-width: 1000px;
+		padding: 2.5%
+	}
+</style>
+
+
+	<div id="vcomments"></div>
+
+<script>
+	new Valine({
+		el: '#vcomments',
+		appId: 'MAAasDLv2NYMtEEAn4QnnU3l-gzGzoHsz',
+		appKey: 'dISXAmwDUYme6vJqsc5HgYw1',
+		avatar: 'robohash',
+		pageSize: 5,
+		recordIp: false,
+		placeholder: '来都来了，不留下点虎狼之词就走吗？',
+		visitor: true,
+	});
+</script>
+
+            
+          </div>
+        </div>
+      </div>
+  </article>
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+          <ul class="list-inline text-center">
+            
+            
+            <li class="list-inline-item">
+              <a href="https://github.com/NeedQuiet" target="_blank">
+                <span class="fa-stack fa-lg">
+                  <i class="fas fa-circle fa-stack-2x"></i>
+                  <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                </span>
+              </a>
+            </li>
+            
+              
+            
+              
+            
+              
+            
+            <li class="list-inline-item">
+              <a href="https://www.zhihu.com/people/da-ning-40" target="_blank">
+                <span class="fa-stack fa-lg">
+                  <i class="fas fa-circle fa-stack-2x"></i>
+                  <i class="fab fa-zhihu fa-stack-1x fa-inverse"></i>
+                </span>
+              </a>
+            </li>
+            
+              
+            
+              
+            
+              
+            
+              
+              <!-- <li class="list-inline-item">
+              <a href="https://daning.netlify.app/atom.xml" target="_blank">
+                <span class="fa-stack fa-lg">
+                  <i class="fas fa-circle fa-stack-2x"></i>
+                  <i class="fas fa-rss fa-stack-1x fa-inverse"></i>
+                </span>
+              </a>
+              </li> -->
+          </ul>
+          <p class="copyright text-muted">Copyright &copy;<span>鼓捣猫宁</span><br><a href="https://github.com/getgridea/gridea" class="Themeinfo">Powered by Gridea</a></p>
+        </div>
+      </div>
+    </div>
+   </footer>
+  <!-- Bootstrap core JavaScript -->
+  <script src="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+  <!-- <script src="https://daning.netlify.app/media/scripts/bootstrap.bundle.min.js"></script> -->
+  <!-- Bootstrap core JavaScript -->
+  <script src="https://cdn.jsdelivr.net/gh/Alanrk/clean-cdn@1.0/scripts/clean-blog.min.js"></script>
+  <!-- <script src="https://daning.netlify.app/media/scripts/clean-blog.min.js"></script> -->
+  <script src="//instant.page/3.0.0" type="module" defer integrity="sha384-OeDn4XE77tdHo8pGtE1apMPmAipjoxUQ++eeJa6EtJCfHlvijigWiJpD7VDPWXV1"></script>
+  <style type="text/css">a.back_to_top{text-decoration:none;position:fixed;bottom:40px;right:30px;background:#f0f0f0;height:40px;width:40px;border-radius:50%;line-height:36px;font-size:18px;text-align:center;transition-duration:.5s;transition-propety:background-color;display:none}a.back_to_top span{color:#888}a.back_to_top:hover{cursor:pointer;background:#dfdfdf}a.back_to_top:hover span{color:#555}@media print,screen and(max-width:580px){.back_to_top{display:none!important}}</style>
+<a id="back_to_top" href="#" class="back_to_top">
+  <span>▲</span></a>
+<script>$(document).ready((function(_this) {
+    return function() {
+      var bt;
+      bt = $('#back_to_top');
+      if ($(document).width() > 480) {
+        $(window).scroll(function() {
+          var st;
+          st = $(window).scrollTop();
+          if (st > 30) {
+            return bt.css('display', 'block')
+          } else {
+            return bt.css('display', 'none')
+          }
+        });
+        return bt.click(function() {
+          $('body,html').animate({
+            scrollTop: 0
+          },
+          800);
+          return false
+        })
+      }
+    }
+  })(this));</script>
+  
+  <div id="landlord-parent">
+    <div id="landlord">
+        <div class="message" style="opacity:0"></div>
+        <canvas id="live2d" width="240" height="250" class="live2d"></canvas>
+    </div>
+</div>
+
+<script type="text/javascript">
+    if (/(iPhone|iPad|iPod|iOS|Android)/i.test(navigator.userAgent)) {
+        //移动端
+        console.log("------ 移动端");
+    } else {
+        console.log("------ PC端 " + navigator.userAgent);
+
+        addScript("https://cdn.jsdelivr.net/gh/850552586/ericamcdn@0.1/js/live2d.js", () => {
+            // 加载完成后再loadlive2d
+            loadlive2d("live2d", "https://daning.netlify.app/media/live2d/assets/hijiki.model.json");
+        });
+
+        var home_Path = "https://daning.netlify.app/";
+        addScript("https://daning.netlify.app/media/live2d/js/message.js", () => { });
+    }
+
+    // 插入js文件，完成后callback
+    function addScript(jsfile, callback) {
+        var landlord_parent = document.getElementById("landlord-parent");
+        var script = document.createElement("script");
+        script.type = "text/javascript";
+        script.src = jsfile;
+        landlord_parent.appendChild(script);
+        script.onload = script.onreadystatechange = function () {
+            if (!this.readyState || this.readyState === "loaded" || this.readyState === "complete") {
+                script.onload = script.onreadystatechange = null;
+                if (callback && typeof callback == "function") {
+                    callback(); //window[callback]();如果传递字符串过来 调用window['函数名']() 调用方法
+                }
+            }
+        };
+    }
+</script>
+  
+  <script src="https://daning.netlify.app/media/scripts/tocScript.js"></script>
+</body>
+
+</html>
